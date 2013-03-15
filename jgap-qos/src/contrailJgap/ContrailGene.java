@@ -10,7 +10,8 @@ import org.jgap.RandomGenerator;
 import org.jgap.UnsupportedRepresentationException;
 import org.jgap.impl.IntegerGene;
 
-import contrailIFace.IProvider;
+import cProviderIface.ICProvider;
+
 
 public class ContrailGene extends BaseGene implements Gene, java.io.Serializable {
 	/**
@@ -20,7 +21,7 @@ public class ContrailGene extends BaseGene implements Gene, java.io.Serializable
 	
 	//int upperBound;
 	Integer allele;
-	private IProvider[] provider;
+	private ICProvider[] provider;
 /*
 	public myGene(Configuration arg0) throws InvalidConfigurationException {
 		super(arg0);
@@ -127,7 +128,7 @@ public class ContrailGene extends BaseGene implements Gene, java.io.Serializable
 	@Override
 	public void setApplicationData(Object arg0) {
 		// TODO Auto-generated method stub
-		provider = (IProvider[])arg0;
+		provider = (ICProvider[])arg0;
 		
 	}
 /*

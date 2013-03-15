@@ -3,9 +3,10 @@ package contrailJgap;
 import org.jgap.FitnessFunction;
 import org.jgap.IChromosome;
 
-import contrailIFace.IApplication;
-import contrailIFace.IProvider;
-import contrailObj.Application;
+import cApplication.CApplication;
+import cApplicationIface.ICApplication;
+import cProviderIface.ICProvider;
+
 
 public class Fitness extends FitnessFunction {
 
@@ -21,7 +22,7 @@ public class Fitness extends FitnessFunction {
 
 	
 	private static double judge(IChromosome ch){
-		IApplication[] app = (IApplication[]) ch.getApplicationData();
+		ICApplication[] app = (ICApplication[]) ch.getApplicationData();
 		for(int i=0; i<ch.size(); i++){
 			
 			
@@ -31,11 +32,11 @@ public class Fitness extends FitnessFunction {
 	/* return >0  wrong
 	 * return <0  ok
 	 */
-	private static double evaluateGene(Application app, ContrailGene gene){
+	private static double evaluateGene(CApplication app, ContrailGene gene){
 		double good =0;
 		double bad = 0;
 		double temp;
-		IProvider[] prov = (IProvider[])gene.getApplicationData();
+		ICProvider[] prov = (ICProvider[])gene.getApplicationData();
 		Integer index = (Integer) gene.getAllele();
 		double price = prov[index].getBandwidth()  * prov[index].getRatePrice();
 		if(app.getPlace().compareTo(prov[index].getPlace()) != 0)
