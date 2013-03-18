@@ -8,14 +8,14 @@ import cApplication.CApplicationStorage;
 
 public interface ICApplication extends IApplicationData {
 	
-	public void setBadget(double badget);
+	public void setBudget(double budget);
 	public void setPlace(String place);	
 	
 	public void setNetwork(CApplicationNetwork network);
 	public void setComputing(CApplicationComputing computing);
 	public void setStorage(CApplicationStorage storage);
 	
-	public double getBadget();
+	public double getBudget();
 	public String getPlace(); 
 	public int getID();
 	

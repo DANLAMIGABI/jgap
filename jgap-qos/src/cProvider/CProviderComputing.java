@@ -7,15 +7,17 @@ public class CProviderComputing implements ICProviderComputing {
 	private int ID;
 	private String place;
 	private double cost;
+	private int ramAmount;
 	
 	public CProviderComputing(){
-		new CProviderComputing(null, 0, -1);
+		new CProviderComputing(null, 0, -1, 0);
 	}
 	
-	public CProviderComputing(String place, double cost, int id){
+	public CProviderComputing(String place, double cost, int id, int ramAmount){
 		this.cost = cost;
 		this.place = place;
 		this.ID = id;
+		this.ramAmount = ramAmount;
 	}
 	
 	@Override
@@ -32,7 +34,7 @@ public class CProviderComputing implements ICProviderComputing {
 	}
 	
 	public Object clone(){
-		return new CProviderComputing(place, cost, ID);
+		return new CProviderComputing(place, cost, ID, ramAmount);
 	}
 
 	@Override
@@ -73,6 +75,20 @@ public class CProviderComputing implements ICProviderComputing {
 	public String getPlace() {
 		// TODO Auto-generated method stub
 		return place;
+	}
+
+	@Override
+	public void setRam(int size) {
+		// TODO Auto-generated method stub
+		if(size >0)
+			ramAmount = size;
+		
+	}
+
+	@Override
+	public int getRam() {
+		// TODO Auto-generated method stub
+		return ramAmount;
 	}
 
 }

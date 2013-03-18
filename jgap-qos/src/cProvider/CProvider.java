@@ -21,6 +21,7 @@ public class CProvider implements ICProvider {
 			CProviderStorage store, CProviderNetwork net ){
 		this.place = place;
 		this.ID = id;
+		this.cost = cost;
 		provCom = comp;
 		provNet = net;
 		provSto = store;

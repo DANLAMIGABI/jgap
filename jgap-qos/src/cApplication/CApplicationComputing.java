@@ -5,17 +5,19 @@ import cApplicationIface.ICAppComuting;
 public class CApplicationComputing implements ICAppComuting{
 	
 	private String place;
-	private double badget;
+	private double budget;
 	private int ID;
+	private int ramSize;
 	
 	public CApplicationComputing(){
-		new CApplicationComputing(null, 0,-1);
+		new CApplicationComputing(null, 0,-1,0);
 	}
 	
-	public CApplicationComputing(String place, double badget, int ID ){
-		this.badget =  badget;
+	public CApplicationComputing(String place, double badget, int ID, int ramSize ){
+		this.budget =  badget;
 		this.ID = ID;
 		this.place = place;
+		this.ramSize = ramSize;
 	}
 	
 
@@ -27,7 +29,7 @@ public class CApplicationComputing implements ICAppComuting{
 		CApplicationComputing appc = (CApplicationComputing)o;
 		if(ID == appc.ID 
 				&& place.equalsIgnoreCase(appc.place)
-				&& badget == appc.badget )
+				&& budget == appc.budget )
 			return 0;
 		return ID - appc.ID;
 	}
@@ -40,10 +42,10 @@ public class CApplicationComputing implements ICAppComuting{
 	}
 
 	@Override
-	public void setBadget(double badget) {
+	public void setBudget(double budget) {
 		// TODO Auto-generated method stub
-		if(badget >0 )
-			this.badget = badget;
+		if(budget >0 )
+			this.budget = budget;
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class CApplicationComputing implements ICAppComuting{
 	@Override
 	public double getBadget() {
 		// TODO Auto-generated method stub
-		return badget;
+		return budget;
 	}
 
 	@Override
@@ -71,8 +73,22 @@ public class CApplicationComputing implements ICAppComuting{
 		return ID;
 	}
 	public Object clone(){
-		CApplicationComputing appC = new CApplicationComputing(place, badget, ID);
+		CApplicationComputing appC = new CApplicationComputing(place, budget, ID, ramSize);
 		return appC ;
+	}
+
+	@Override
+	public void setRam(int size) {
+		// TODO Auto-generated method stub
+		if(size >0)
+			ramSize = size;
+		
+	}
+
+	@Override
+	public int getRam() {
+		// TODO Auto-generated method stub
+		return ramSize;
 	}
 
 }

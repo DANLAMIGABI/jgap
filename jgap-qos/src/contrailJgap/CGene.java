@@ -13,7 +13,7 @@ import org.jgap.impl.IntegerGene;
 import cProviderIface.ICProvider;
 
 
-public class ContrailGene extends BaseGene implements Gene, java.io.Serializable {
+public class CGene extends BaseGene implements Gene, java.io.Serializable {
 	/**
 	 * 
 	 */
@@ -28,7 +28,7 @@ public class ContrailGene extends BaseGene implements Gene, java.io.Serializable
 		// TODO Auto-generated constructor stub
 	}
 */	
-	public ContrailGene(Configuration arg0) throws InvalidConfigurationException {
+	public CGene(Configuration arg0) throws InvalidConfigurationException {
 		super(arg0);
 	}
 	
@@ -38,13 +38,13 @@ public class ContrailGene extends BaseGene implements Gene, java.io.Serializable
 		if(o == null)
 			return 1;
 		if(allele == null){
-			if(((ContrailGene)o).allele == null ){
+			if(((CGene)o).allele == null ){
 				return 0;
 			}
 			return -1;
 		}
 		System.out.println("dffffdasfa"); //+ (Integer)((MyIntegerGene)o).getAllele());
-		return allele.compareTo((Integer)((ContrailGene)o).allele);
+		return allele.compareTo((Integer)((CGene)o).allele);
 //		return Integer.compare(allele, (Integer)((MyIntegerGene)o).getAllele());
 	}
 
@@ -109,7 +109,7 @@ public class ContrailGene extends BaseGene implements Gene, java.io.Serializable
 	public Gene newGene() {
 		// TODO Auto-generated method stub
 		try{
-			ContrailGene ret = new ContrailGene(getConfiguration());
+			CGene ret = new CGene(getConfiguration());
 			ret.setApplicationData(this.provider);
 			return ret;
 		}catch (InvalidConfigurationException ex) {

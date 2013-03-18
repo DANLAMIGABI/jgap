@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.jgap.RandomGenerator;
 
-public class RandGenerator implements RandomGenerator {
+public class CRandGenerator implements RandomGenerator {
 	
 	/**
 	 * 
@@ -26,13 +26,11 @@ public class RandGenerator implements RandomGenerator {
 	
 	private static List<Integer> indexList;
 	
-	public RandGenerator(int size){
+	public CRandGenerator(int size){
 		listSize = size;
 		random = new Random(System.currentTimeMillis());
 		indexList =  new ArrayList<Integer>(listSize);
 		resetList();
-		
-//		randomInitMyGenerator();
 	}
 	
 	private void resetList(){

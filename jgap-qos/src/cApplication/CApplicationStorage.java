@@ -4,7 +4,7 @@ import cApplicationIface.ICAppStorage;
 
 public class CApplicationStorage implements ICAppStorage {
 	//private static int NEXT_ID = 1;
-	private double badget;
+	private double budget;
 	private String place;
 	private int amount;
 	private int ID;
@@ -17,7 +17,7 @@ public class CApplicationStorage implements ICAppStorage {
 	}
 	
 	public CApplicationStorage(double unitCost, int amount, int ID, String place){
-		this.badget = unitCost;
+		this.budget = unitCost;
 		this.amount = amount;
 		this.ID = ID;
 		this.place = place;
@@ -26,7 +26,7 @@ public class CApplicationStorage implements ICAppStorage {
 	
 	public void setBadget(double cost){
 		if(cost >0 )
-			badget = cost;
+			budget = cost;
 	}
 	
 	public void setAmount(int amount){
@@ -39,7 +39,7 @@ public class CApplicationStorage implements ICAppStorage {
 	}
 	
 	public double getBadget(){
-		return badget;
+		return budget;
 	}
 	
 	public int getAmount(){
@@ -61,14 +61,14 @@ public class CApplicationStorage implements ICAppStorage {
 		CApplicationStorage appStore = (CApplicationStorage)o;
 		if (ID == appStore.ID 
 				&& place.equalsIgnoreCase(appStore.place)
-				&& badget == appStore.badget 
+				&& budget == appStore.budget 
 				&& amount == appStore.getAmount())
 			return 0;
 		return ID - appStore.ID;
 	}
 	
 	public Object clone(){
-		CApplicationStorage appStore = new CApplicationStorage(badget, amount, ID, place);
+		CApplicationStorage appStore = new CApplicationStorage(budget, amount, ID, place);
 		return appStore;
 	}
 

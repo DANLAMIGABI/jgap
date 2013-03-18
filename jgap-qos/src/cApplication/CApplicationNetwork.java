@@ -8,7 +8,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 	
 	private int ID;
 	private int bandwidth;
-	private double badget;
+	private double budget;
 	private String place;
 	
 	
@@ -16,7 +16,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 		new CApplicationNetwork(0, 0, null,-1);
 	}
 	public CApplicationNetwork(int bandwidth, double badget, String place,int id){
-		this.badget = badget;
+		this.budget = badget;
 		this.bandwidth = bandwidth;
 		this.place = place;
 		this.ID = id;
@@ -31,7 +31,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 		if (ID == appN.ID 
 				&& place.equalsIgnoreCase(appN.place)
 				&& bandwidth == appN.bandwidth 
-				&& badget == appN.badget)
+				&& budget == appN.budget)
 			return 0;
 		return ID - appN.ID;
 		
@@ -49,7 +49,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 	public void setBadget(double badget) {
 		// TODO Auto-generated method stub
 		if(badget >0 )
-			this.badget = badget;
+			this.budget = badget;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 	@Override
 	public double getBadger() {
 		// TODO Auto-generated method stub
-		return badget;
+		return budget;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 		return place;
 	}
 	public Object clone(){
-		CApplicationNetwork appN = new CApplicationNetwork(bandwidth, badget, place, ID);
+		CApplicationNetwork appN = new CApplicationNetwork(bandwidth, budget, place, ID);
 		return appN;
 	}
 	@Override

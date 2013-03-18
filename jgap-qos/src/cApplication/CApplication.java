@@ -6,7 +6,7 @@ public class CApplication implements ICApplication {
 	
 	private int ID;
 	private String place;
-	private double badget;
+	private double budget;
 	
 	private CApplicationComputing appComp;
 	private CApplicationNetwork appNet;
@@ -20,7 +20,7 @@ public class CApplication implements ICApplication {
 			CApplicationNetwork appn, CApplicationStorage apps){
 		this.ID = ID;
 		this.place = place;
-		this.badget = badget;
+		this.budget = badget;
 		appComp = appc;
 		appNet = appn;
 		appSto = apps;
@@ -33,7 +33,7 @@ public class CApplication implements ICApplication {
 			return 1;
 		CApplication app = (CApplication)o;
 		if (ID == app.ID && place.equalsIgnoreCase(app.place)
-				&& badget == app.badget 
+				&& budget == app.budget 
 				&& appComp.compareTo(app.appComp) == 0
 				&& appNet.compareTo(app.appNet) == 0
 				&& appSto.compareTo(app.appSto) == 0)
@@ -42,14 +42,14 @@ public class CApplication implements ICApplication {
 	}
 	
 	public Object clone(){
-		return new CApplication(ID, place, badget, appComp, appNet, appSto);
+		return new CApplication(ID, place, budget, appComp, appNet, appSto);
 	}
 	
 	@Override
-	public void setBadget(double badget) {
+	public void setBudget(double badget) {
 		// TODO Auto-generated method stub
 		if(badget >0 )
-			this.badget = badget;
+			this.budget = badget;
 		
 	}
 	@Override
@@ -81,9 +81,9 @@ public class CApplication implements ICApplication {
 		
 	}
 	@Override
-	public double getBadget() {
+	public double getBudget() {
 		// TODO Auto-generated method stub
-		return badget;
+		return budget;
 	}
 	@Override
 	public String getPlace() {
