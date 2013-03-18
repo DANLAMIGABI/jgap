@@ -15,7 +15,7 @@ public interface ICAppComuting extends IApplicationData {
 	
 	public int getRam();
 	public String getPlace();
-	public double getBadget();
+	public double getBudget();
 	public int getID();
 	
 

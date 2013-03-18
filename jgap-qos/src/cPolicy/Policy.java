@@ -12,10 +12,19 @@ import cProviderIface.ICProviderStorage;
 
 public class Policy {
 	
+	// equal
 	public static boolean applicationPlacePolicy(ICApplication app, ICProvider prov){
-		return app.getPlace().equalsIgnoreCase(app.getPlace());
+		return app.getPlace().equalsIgnoreCase(prov.getPlace());
 	}
 	
+	// Ascendent
+	public static double applicationCost(ICApplication app, ICProvider prov){
+		
+		return prov.getCost() - app.getBudget();
+	}
+	
+	
+	// Discendent
 	public static double networkPolicy(ICApplication app, ICProvider prov){
 		ICAppNetwork  anet = app.getNetwork();
 		ICProviderNetwork  pnet = prov.getNetwork();
@@ -26,7 +35,6 @@ public class Policy {
 	public static double storagePolicy(ICApplication app, ICProvider prov){
 		ICAppStorage astore = app.getStorage();
 		ICProviderStorage pstore = prov.getStorage();
-		
 		return astore.getAmount() - pstore.getAmount();
 	}
 	

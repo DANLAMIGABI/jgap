@@ -13,8 +13,8 @@ public class CApplicationComputing implements ICAppComuting{
 		new CApplicationComputing(null, 0,-1,0);
 	}
 	
-	public CApplicationComputing(String place, double badget, int ID, int ramSize ){
-		this.budget =  badget;
+	public CApplicationComputing(String place, double budget, int ID, int ramSize ){
+		this.budget =  budget;
 		this.ID = ID;
 		this.place = place;
 		this.ramSize = ramSize;
@@ -62,7 +62,7 @@ public class CApplicationComputing implements ICAppComuting{
 	}
 
 	@Override
-	public double getBadget() {
+	public double getBudget() {
 		// TODO Auto-generated method stub
 		return budget;
 	}

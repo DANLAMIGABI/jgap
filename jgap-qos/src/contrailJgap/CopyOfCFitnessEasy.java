@@ -1,7 +1,6 @@
 package contrailJgap;
 
 import org.jgap.FitnessFunction;
-import org.jgap.IApplicationData;
 import org.jgap.IChromosome;
 
 import cApplication.CApplication;
@@ -11,14 +10,14 @@ import cProvider.CProvider;
 import cProviderIface.ICProvider;
 import cPolicy.*;
 
-public class CFitnessEasy extends FitnessFunction{
+public class CopyOfCFitnessEasy extends FitnessFunction{
 	
 	static private int target;
 	static private double tollerance;
 	
-	public CFitnessEasy(int target, double tollerance){
-		CFitnessEasy.target = target;
-		CFitnessEasy.tollerance = tollerance;
+	public CopyOfCFitnessEasy(int target, double tollerance){
+		CopyOfCFitnessEasy.target = target;
+		CopyOfCFitnessEasy.tollerance = tollerance;
 	}
 	
 	public void printInfo(double fit, IChromosome ch){
@@ -61,34 +60,6 @@ public class CFitnessEasy extends FitnessFunction{
 		}
 		return ret;
 	}
-	
-//	private double getDistance(IChromosome ch){
-//		double ret;
-//		ICApplication[] app = (ICApplication[])ch.getApplicationData();
-//		ret = getGlobablContraint(app, prov)
-//		for(int i=0; i<ch.size(); )
-//		
-//		
-//		
-//	}
-//	
-//	private double getGlobablContraint(ICApplication app, ICProvider prov){
-//		double ret = 0, temp;
-//		if( (temp = Policy.applicationCost(app, prov)) > 0) // violazione constrain
-//			ret += temp * 1; // 1 deve esser sostituito con il peso
-//		if( (ret = Math.abs(Policy.applicationPlacePolicy(app, prov))) - tollerance >0) //violazione constrain
-//			ret += temp * 1;
-//		return ret;
-//	}
-//	
-//	private double getLocalConstrain(ICApplication app, ICProvider prov){
-//		double ret =0, temp;
-//		if( (temp = Policy.storagePolicy(app, prov)) > 0) //violation
-//			ret += temp * 1;
-//		return ret;
-//	}
-	
-	
 	
 //	private double ecalutateEqualsConstrains(ICApplication app, ICProvider prov){
 //		return Math.abs(Policy.applicationPlacePolicy(app, prov)) - tollerance;
