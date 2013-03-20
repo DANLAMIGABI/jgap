@@ -3,6 +3,26 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="var" path="JGAP_LIB/jgap.jar"/>
-	<classpathentry kind="var" path="JGAP_LIB/lib"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/appframework-1.0.3.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/commons-lang-2.1.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/commons-math-2.0.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/jcgrid.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/jettison-1.3.1.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/junit-addons-1.4.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/junit3.8.1.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/jxl.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/log4j.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/swing-layout-1.0.3.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/swing-worker-1.1.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/TableLayout.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/trove-2.0.2.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/xpp3_min-1.1.3.4.O.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/xpp3_min-1.1.4c.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/xstream-1.2.2.jar"/>
+	<classpathentry kind="var" path="JGAP_LIB/lib/xstream-1.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

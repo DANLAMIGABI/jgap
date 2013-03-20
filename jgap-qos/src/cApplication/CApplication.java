@@ -8,41 +8,37 @@ public class CApplication implements ICApplication {
 	private String place;
 	private double budget;
 	
-	private CApplicationComputing appComp;
-	private CApplicationNetwork appNet;
-	private CApplicationStorage appSto;
+	private CApplicationNode[] nodes;
 	
 	public CApplication(){
-		new CApplication(-1, null, 0, null, null, null);
+		new CApplication(-1, null, 0, null);
 	}
 	
-	public CApplication(int ID, String place, double badget, CApplicationComputing appc, 
-			CApplicationNetwork appn, CApplicationStorage apps){
+	public CApplication(int ID, String place, double badget, CApplicationNode[] nodes){
 		this.ID = ID;
 		this.place = place;
 		this.budget = badget;
-		appComp = appc;
-		appNet = appn;
-		appSto = apps;
+		this.nodes = nodes;
+		
 	}
 	
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
+		/*
+		 * RIVEDERE!!!!!!
+		 */
 		if( o == null)
 			return 1;
 		CApplication app = (CApplication)o;
 		if (ID == app.ID && place.equalsIgnoreCase(app.place)
-				&& budget == app.budget 
-				&& appComp.compareTo(app.appComp) == 0
-				&& appNet.compareTo(app.appNet) == 0
-				&& appSto.compareTo(app.appSto) == 0)
+				&& budget == app.budget)
 			return 0;
 		return ID = app.ID;
 	}
 	
 	public Object clone(){
-		return new CApplication(ID, place, budget, appComp, appNet, appSto);
+		return new CApplication(ID, place, budget, nodes);
 	}
 	
 	@Override
@@ -59,27 +55,7 @@ public class CApplication implements ICApplication {
 			this.place = place;
 		
 	}
-	@Override
-	public void setNetwork(CApplicationNetwork network) {
-		// TODO Auto-generated method stub
-		if(network != null)
-			appNet = network;
-		
-	}
-	@Override
-	public void setComputing(CApplicationComputing computing) {
-		// TODO Auto-generated method stub
-		if(computing != null)
-			appComp = computing;
-		
-	}
-	@Override
-	public void setStorage(CApplicationStorage storage) {
-		// TODO Auto-generated method stub
-		if(storage != null)
-			appSto = storage;
-		
-	}
+	
 	@Override
 	public double getBudget() {
 		// TODO Auto-generated method stub
@@ -95,21 +71,20 @@ public class CApplication implements ICApplication {
 		// TODO Auto-generated method stub
 		return ID;
 	}
+
 	@Override
-	public CApplicationComputing getComputing() {
+	public void setNodes(CApplicationNode[] nodes) {
 		// TODO Auto-generated method stub
-		return appComp;
+		this.nodes = nodes;
+		
 	}
+
 	@Override
-	public CApplicationNetwork getNetwork() {
+	public CApplicationNode[] getNodes() {
 		// TODO Auto-generated method stub
-		return appNet;
+		return nodes ;
 	}
-	@Override
-	public CApplicationStorage getStorage() {
-		// TODO Auto-generated method stub
-		return appSto;
-	}
+	
 	
 	
 

@@ -78,10 +78,10 @@ public class CRandGenerator implements RandomGenerator {
 		// TODO Auto-generated method stub
 		if(indexList.isEmpty()){
 			resetList();
-//			System.out.println("resetList");
+			System.out.println("RESET_LIST");
 		}
 		int i = Math.abs(random.nextInt())%indexList.size();
-	//	System.out.println("ad;ksfjkafafjafjas   " +Math.abs(random.nextInt()));
+		System.out.println("ad;ksfjkafafjafjas   " + i);
 		int ret = indexList.get(i);
 		indexList.remove(i);
 		return ret;

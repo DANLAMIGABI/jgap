@@ -1,6 +1,8 @@
 package cPolicy;
 
+import cApplication.CApplication;
 import cApplication.CApplicationNetwork;
+import cApplication.CApplicationNode;
 import cApplicationIface.ICAppComuting;
 import cApplicationIface.ICAppNetwork;
 import cApplicationIface.ICAppStorage;
@@ -10,39 +12,46 @@ import cProviderIface.ICProviderComputing;
 import cProviderIface.ICProviderNetwork;
 import cProviderIface.ICProviderStorage;
 
-public class Policy {
-	
+public class TestPolicy {
+
+//GLOBAL_POLICY	
 	// equal
-	public static boolean applicationPlacePolicy(ICApplication app, ICProvider prov){
-		return app.getPlace().equalsIgnoreCase(prov.getPlace());
+	public static int applicationPlacePolicy(ICApplication app, ICProvider prov){
+		return app.getPlace().compareToIgnoreCase(prov.getPlace());
 	}
 	
+	public static int applicationAllocation(CApplicationNode node, ICProvider prov){
+		return 0;
+	}
+//END_GLOBAL
+	
+//LOCAL_POLICY
 	// Ascendent
 	public static double applicationCost(ICApplication app, ICProvider prov){
 		
 		return prov.getCost() - app.getBudget();
 	}
 	
-	
 	// Discendent
-	public static double networkPolicy(ICApplication app, ICProvider prov){
+	public static double networkPolicy(CApplicationNode app, ICProvider prov){
 		ICAppNetwork  anet = app.getNetwork();
 		ICProviderNetwork  pnet = prov.getNetwork();
 		
 		return anet.getBandwidth() - pnet.getBandwidth();
 	}
 	
-	public static double storagePolicy(ICApplication app, ICProvider prov){
+	public static double storagePolicy(CApplicationNode app, ICProvider prov){
 		ICAppStorage astore = app.getStorage();
 		ICProviderStorage pstore = prov.getStorage();
 		return astore.getAmount() - pstore.getAmount();
 	}
 	
-	public static double computingPolicy(ICApplication app, ICProvider prov){
+	public static double computingPolicy(CApplicationNode app, ICProvider prov){
 		ICAppComuting acomp = app.getComputing();
 		ICProviderComputing pcomp = prov.getComputing();
 		
 		return acomp.getRam() - pcomp.getRam();
 	}
+//END_LOCAL_POLICY
 
 }

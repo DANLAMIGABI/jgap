@@ -43,7 +43,7 @@ public class CGene extends BaseGene implements Gene, java.io.Serializable {
 			}
 			return -1;
 		}
-		System.out.println("dffffdasfa"); //+ (Integer)((MyIntegerGene)o).getAllele());
+		System.out.println("dffffdasfa"+ (Integer)((CGene)o).getAllele());
 		return allele.compareTo((Integer)((CGene)o).allele);
 //		return Integer.compare(allele, (Integer)((MyIntegerGene)o).getAllele());
 	}

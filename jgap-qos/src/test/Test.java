@@ -1,6 +1,12 @@
 package test;
 
 public class Test {
+	
+	
+	
+	private static void setTest(obj o){
+		o.abc = 25;
+	}
 
 	/**
 	 * @param args
@@ -8,8 +14,11 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		System.out.println(String.format("%-10s:%10s", "nome", "cognome"));
-		System.out.println(String.format("abc:%10s", "cognome"));
+		obj o = new obj();
+		
+		setTest(o);
+		System.out.println("abc: " + o.abc);
+		
 	}
 
 }
