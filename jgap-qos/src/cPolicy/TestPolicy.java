@@ -23,16 +23,15 @@ public class TestPolicy {
 	public static int applicationAllocation(CApplicationNode node, ICProvider prov){
 		return 0;
 	}
-//END_GLOBAL
-	
-//LOCAL_POLICY
-	// Ascendent
+	// Descendent
 	public static double applicationCost(ICApplication app, ICProvider prov){
 		
 		return prov.getCost() - app.getBudget();
 	}
+//END_GLOBAL
 	
-	// Discendent
+//LOCAL_POLICY
+	// Ascendent
 	public static double networkPolicy(CApplicationNode app, ICProvider prov){
 		ICAppNetwork  anet = app.getNetwork();
 		ICProviderNetwork  pnet = prov.getNetwork();

@@ -174,16 +174,7 @@ public class Main {
 	}
 	
 	
-	public static CPolicy makeCostPolicy(){
-		return new CPolicy(1, 'D') {
-
-			@Override
-			public double elaluatePolicy(ICApplication app, ICProvider prov) {
-				// TODO Auto-generated method stub
-				return (prov.getCost() - app.getBudget()) * getWeight();
-			}
-		};
-	}
+	
 	
 	/**
 	 * @param args
@@ -197,7 +188,8 @@ public class Main {
 		ICApplication app = new CApplication(555, "Italia", 100, nodes );
 		
 		Vector<CPolicy> policy = new  Vector<CPolicy>();
-		policy.add(makeCostPolicy());
+		policy.add(MakePolicy.makeCostPolicy());
+		//policy.add(MakePolicy.makePlacePolicy());
 		
 		
 		printProviderList(provList);
@@ -236,7 +228,7 @@ public class Main {
 		//evlolution
 		for(int i=0; i<Constant.EVOLUTION_SIZE; i++){
 			population.evolve();
-			printPop(population, app, provList);
+			//printPop(population, app, provList);
 			System.out.println("###### best evolve");
 			IChromosome bestSolutionSoFar = population.getFittestChromosome();
 			PrintChromosome((Chromosome)bestSolutionSoFar, app, provList);

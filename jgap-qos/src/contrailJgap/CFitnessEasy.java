@@ -38,14 +38,14 @@ public class CFitnessEasy extends FitnessFunction{
 		// TODO Auto-generated method stub
 		
 		double fitness=0;		
-		CFitParameter param = getDistance(arg0);
+		CFitParameter param = evaluatePolicy(arg0);
 		
 		if(param.distance == 0 && param.equal <=0 && param.validity){
 			fitness -= Math.abs(param.ascendent);
 			//System.out.println("goodAscendent: " + fitness);
 		}else{
 			double ret = 1/param.distance;
-			System.out.println("PENALITY " +ret );
+//			System.out.println("PENALITY " +ret );
 			return ret;
 		}
 			
@@ -55,43 +55,54 @@ public class CFitnessEasy extends FitnessFunction{
 	}
 	
 	
-	private CFitParameter getDistance(IChromosome ch){
+	private CFitParameter evaluatePolicy(IChromosome ch){
 		CFitParameter param =  new CFitParameter();
+		CApplicationNode[] nodes = app.getNodes();
+		double val;
 		for(int i=0; i<ch.size(); i++){
 			Integer index = (Integer) ch.getGene(i).getAllele();
 			if(param.firstAllele == -1)
 				param.firstAllele = index;
 			for( int j =0; j<policy.size(); j++){
-				setParameter(pList[index], policy.get(i), param);
+				if(policy.get(j).getGroup() == Constant.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
+					if( (val = policy.get(j).evaluateGlobalPolicy(app, pList[index])) > 0){ // violazione
+						param.distance += val;
+					}
+					System.out.println("GLOBLA CONSTRAIN " + val);
+				}
+				else{ //LOCAL CONSTRAIN
+					if ( (val = policy.get(j).evaluateLocalPolicy(nodes[i], pList[index])) >0 ){ //violazione
+						param.distance += val;
+					}
+				}
+				
+				updateParameter(policy.get(j).getType(), val, param);
+				
+				
 			}
 		}
 		return param;
 	}
 	
-	public void setParameter(ICProvider prov, CPolicy constrain, CFitParameter param){
-		double val;
-		if((val = constrain.elaluatePolicy(app, prov)) >0)
-			param.distance += val;
-		else{
-			switch (constrain.getType()) {
-			case Constant.ASCENDENT_TYPE:param.ascendent += val; break;
-			case Constant.DESCENDENT_TYPE: param.descendent += val;	break;
-			case Constant.EQUAL_TYPE:param.equal += val; break;
-			default:
-				break;
-			}
+	public void updateParameter(char constrainType, double val, CFitParameter param){
+		switch (constrainType) {
+		case Constant.ASCENDENT_TYPE: param.ascendent += val; break;
+		case Constant.DESCENDENT_TYPE: param.descendent += val; break;
+		case Constant.EQUAL_TYPE: param.equal += val; break;
+		default:
+			break;
 		}
 	}
 	
 	
-	public void evalutateValidity(CApplicationNode node, int pID, MyObj param){
-		if(param.firstAllele <0)
-			param.firstAllele = pID;
-		if(param.firstAllele != pID ){
-			param.validity = false;			
-			param.distance += 100;
-		}
-	}
+//	public void evalutateValidity(CApplicationNode node, int pID, MyObj param){
+//		if(param.firstAllele <0)
+//			param.firstAllele = pID;
+//		if(param.firstAllele != pID ){
+//			param.validity = false;			
+//			param.distance += 100;
+//		}
+//	}
 	
 	
 //	private void evalutateAscendent(CApplicationNode node, ICProvider prov, MyObj param){
