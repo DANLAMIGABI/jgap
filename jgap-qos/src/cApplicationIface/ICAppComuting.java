@@ -13,6 +13,8 @@ public interface ICAppComuting extends IApplicationData {
 	public void setID(int ID);
 	public void setRam(int size);
 	
+	public void merge(CApplicationComputing computing);
+	
 	public int getRam();
 	public String getPlace();
 	public double getBudget();

@@ -23,6 +23,13 @@ public class CApplicationNetwork implements ICAppNetwork {
 	}
 	
 	@Override
+	public void merge(CApplicationNetwork network) {
+		// TODO Auto-generated method stub
+		bandwidth += network.getBandwidth();
+//		budget += network.getBudget();
+	}
+	
+	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		if(o == null)
@@ -66,7 +73,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 	}
 
 	@Override
-	public double getBadger() {
+	public double getBudget() {
 		// TODO Auto-generated method stub
 		return budget;
 	}
@@ -90,6 +97,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 		// TODO Auto-generated method stub
 		this.ID = ID;
 	}
+	
 
 	
 }

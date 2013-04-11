@@ -24,6 +24,13 @@ public class CApplicationStorage implements ICAppStorage {
 		//ApplicationStorage.unit = unit;
 	}
 	
+	@Override
+	public void merge(CApplicationStorage store) {
+		// TODO Auto-generated method stub
+//		budget += store.getBadget();
+		amount += store.getAmount();
+	}
+	
 	public void setBadget(double cost){
 		if(cost >0 )
 			budget = cost;
@@ -89,6 +96,8 @@ public class CApplicationStorage implements ICAppStorage {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 
 }

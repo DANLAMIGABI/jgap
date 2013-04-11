@@ -8,6 +8,7 @@ public class CFitParameter {
 	public  double equal;
 	public  boolean validity;
 	public  int firstAllele;
+	public  int tmpCounter;
 	
 	public CFitParameter(){
 		// TODO Auto-generated constructor stub
@@ -17,6 +18,7 @@ public class CFitParameter {
 		equal =0;
 		validity = true;
 		firstAllele = -1;
+		tmpCounter =0;
 	}
 	
 }

@@ -70,8 +70,9 @@ public class CGene extends BaseGene implements Gene, java.io.Serializable {
 	@Override
 	public void applyMutation(int arg0, double arg1) {
 		// TODO Auto-generated method stub
-		System.out.println("$$ applyMutation");
-		
+//		System.out.println("                                 Mutation odl " 
+//		+ getAllele() + " new: " + arg0);
+		setAllele(arg0);
 	}
 
 	@Override

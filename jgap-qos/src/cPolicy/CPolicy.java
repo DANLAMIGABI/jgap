@@ -6,14 +6,14 @@ import cProviderIface.ICProvider;
 
 public abstract class CPolicy  {
 	
-	private static double weight;
-	private static char type;
-	private static char group;
+	private double weight;
+	private char type;
+	private char group;
 	
 	public CPolicy(double weight, char type, char group){
-		CPolicy.weight = weight;
-		CPolicy.type = type;
-		CPolicy.group = group;
+		this.weight = weight;
+		this.type = type;
+		this.group = group;
 	}
 
 	public abstract double evaluateGlobalPolicy(ICApplication app, ICProvider prov);

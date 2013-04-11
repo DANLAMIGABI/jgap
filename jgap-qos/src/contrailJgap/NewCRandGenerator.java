@@ -63,6 +63,7 @@ public class NewCRandGenerator implements RandomGenerator {
 	@Override
 	public long nextLong() {
 		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 

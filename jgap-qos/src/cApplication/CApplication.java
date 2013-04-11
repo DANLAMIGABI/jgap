@@ -31,8 +31,7 @@ public class CApplication implements ICApplication {
 		if( o == null)
 			return 1;
 		CApplication app = (CApplication)o;
-		if (ID == app.ID && place.equalsIgnoreCase(app.place)
-				&& budget == app.budget)
+		if (ID == app.ID && place.equalsIgnoreCase(app.place))
 			return 0;
 		return ID = app.ID;
 	}
@@ -40,7 +39,7 @@ public class CApplication implements ICApplication {
 	public Object clone(){
 		return new CApplication(ID, place, budget, nodes);
 	}
-	
+	/* moved to applicatio node
 	@Override
 	public void setBudget(double badget) {
 		// TODO Auto-generated method stub
@@ -48,6 +47,7 @@ public class CApplication implements ICApplication {
 			this.budget = badget;
 		
 	}
+	*/
 	@Override
 	public void setPlace(String place) {
 		// TODO Auto-generated method stub
@@ -55,12 +55,13 @@ public class CApplication implements ICApplication {
 			this.place = place;
 		
 	}
-	
+	/* moved to application node 
 	@Override
 	public double getBudget() {
 		// TODO Auto-generated method stub
 		return budget;
 	}
+	*/
 	@Override
 	public String getPlace() {
 		// TODO Auto-generated method stub

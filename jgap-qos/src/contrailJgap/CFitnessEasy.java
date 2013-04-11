@@ -1,8 +1,12 @@
 package contrailJgap;
 
 import java.security.Policy;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Vector;
 
+import org.jgap.Chromosome;
 import org.jgap.FitnessFunction;
 import org.jgap.IApplicationData;
 import org.jgap.IChromosome;
@@ -12,7 +16,6 @@ import test.Constant;
 import cApplication.CApplication;
 import cApplication.CApplicationNode;
 import cApplicationIface.ICApplication;
-import cPolicy.TestPolicy;
 import cProvider.CProvider;
 import cProviderIface.ICProvider;
 import cPolicy.*;
@@ -20,7 +23,7 @@ import cPolicy.*;
 public class CFitnessEasy extends FitnessFunction{
 	
 	static private double tollerance;
-	static private int penality =100;
+	static private int penalty =10;
 	
 	static private ICApplication app;
 	static private ICProvider[] pList;
@@ -33,56 +36,109 @@ public class CFitnessEasy extends FitnessFunction{
 		CFitnessEasy.policy = policy;
 	}
 	
+//	@Override
+//	protected double evaluate(IChromosome arg0) {
+//		// TODO Auto-generated method stub
+//		
+//		double fitness=0;		
+//		CFitParameter param = evaluatePolicy(arg0);
+//		
+//		if(param.distance != 0){
+//			double ret = 1/param.distance;
+////			System.out.println("PENALITY " +ret + " count: " + param.tmpCounter);
+//			return ret;
+//		}
+//		// if more one node is allocated at the same provider 
+//		// the chromosome is not valid but it is accepted whit penalty 
+//		
+//		
+//		//Respect Equal 
+//		fitness += Math.abs(param.equal);
+//		
+//		//Maximize ascendent
+//		fitness += Math.abs(param.ascendent);
+//		
+//		//Minimize descendent
+//		fitness += Math.abs(param.descendent );
+//		
+//		if( !param.validity )
+//			fitness /= param.tmpCounter * penalty;
+//		
+////		fitness += Math.abs(penality * param.tmpCounter);
+//		System.out.println("FITNESS: " + fitness + "                          Ascendent: " + param.ascendent + " Descendent: " + param.descendent + " Equal: " + param.equal + " Count: " + param.tmpCounter);
+//		return Math.abs(fitness);
+//	}
+	
+	public static void printHashMap(HashMap< Integer, CApplicationNode> appNode){
+		Iterator<Integer> keys = appNode.keySet().iterator();
+		Integer index;
+		System.out.println("HASH SIZE: " + appNode.size());
+		while(keys.hasNext()){
+			index = keys.next();
+			System.out.println("provID: " + pList[index].getID() + " appID: " + ((CApplicationNode) appNode.get(index)).getID() 
+					+ " dudget: " + ((CApplicationNode) appNode.get(index)).getNodeBudget());
+		}
+	}
+	
+	
 	@Override
 	protected double evaluate(IChromosome arg0) {
 		// TODO Auto-generated method stub
 		
-		double fitness=0;		
-		CFitParameter param = evaluatePolicy(arg0);
-		
-		if(param.distance == 0 && param.equal <=0 && param.validity){
-			fitness -= Math.abs(param.ascendent);
-			//System.out.println("goodAscendent: " + fitness);
-		}else{
-			double ret = 1/param.distance;
-//			System.out.println("PENALITY " +ret );
+		double fitness=0;
+		HashMap<Integer, CApplicationNode> applicationMap = getApplicationMap(arg0);
+		CFitParameter param = new_evaluatePolicy(applicationMap);
+
+		if (param.distance != 0) {
+			double ret = 1 / param.distance;
+			 System.out.println("PENALITY " +ret);// + " count: " + param.tmpCounter);
 			return ret;
 		}
-			
+		printHashMap(applicationMap);
+		// Respect Equal
+		fitness += Math.abs(param.equal);
+
+		// Maximize ascendent
+		fitness += Math.abs(param.ascendent);
+
+		// Minimize descendent
 		fitness += Math.abs(param.descendent);
-		System.out.println("FITNESS: " + fitness);
+
+		// fitness += Math.abs(penality * param.tmpCounter);
+		System.out.println("FITNESS: " + fitness
+				+ "                          Ascendent: " + param.ascendent
+				+ " Descendent: " + param.descendent + " Equal: " + param.equal
+				+ " Count: " + param.tmpCounter);
 		return Math.abs(fitness);
 	}
 	
-	
-	private CFitParameter evaluatePolicy(IChromosome ch){
-		CFitParameter param =  new CFitParameter();
-		CApplicationNode[] nodes = app.getNodes();
-		double val;
-		for(int i=0; i<ch.size(); i++){
-			Integer index = (Integer) ch.getGene(i).getAllele();
-			if(param.firstAllele == -1)
-				param.firstAllele = index;
-			for( int j =0; j<policy.size(); j++){
-				if(policy.get(j).getGroup() == Constant.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
-					if( (val = policy.get(j).evaluateGlobalPolicy(app, pList[index])) > 0){ // violazione
-						param.distance += val;
-					}
-					System.out.println("GLOBLA CONSTRAIN " + val);
-				}
-				else{ //LOCAL CONSTRAIN
-					if ( (val = policy.get(j).evaluateLocalPolicy(nodes[i], pList[index])) >0 ){ //violazione
-						param.distance += val;
-					}
-				}
-				
-				updateParameter(policy.get(j).getType(), val, param);
-				
-				
-			}
-		}
-		return param;
-	}
+//	private CFitParameter evaluatePolicy(IChromosome ch){
+//		CFitParameter param =  new CFitParameter();
+//		CApplicationNode[] nodes = app.getNodes();
+//		double val;
+//		for(int i=0; i<ch.size(); i++){
+//			Integer index = (Integer) ch.getGene(i).getAllele();
+//			evalutateValidity(nodes[i], pList[index].getID(), param);
+//			for( int j =0; j<policy.size(); j++){
+//				if(policy.get(j).getGroup() == Constant.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
+//					if( (val = policy.get(j).evaluateGlobalPolicy(app, pList[index])) > 0){ // violazione
+//						param.distance += val;
+//					}
+//					//System.out.println("GLOBLA CONSTRAIN counter" + param.tmpCounter );
+//				}
+//				else{ //LOCAL CONSTRAIN
+//					if ( (val = policy.get(j).evaluateLocalPolicy(nodes[i], pList[index])) >0 ){ //violazione
+//						param.distance += val;
+//					}
+//				}
+//				if(val <0 )
+//					updateParameter(policy.get(j).getType(), val, param);
+//				
+//				
+//			}
+//		}
+//		return param;
+//	}
 	
 	public void updateParameter(char constrainType, double val, CFitParameter param){
 		switch (constrainType) {
@@ -95,185 +151,71 @@ public class CFitnessEasy extends FitnessFunction{
 	}
 	
 	
-//	public void evalutateValidity(CApplicationNode node, int pID, MyObj param){
-//		if(param.firstAllele <0)
-//			param.firstAllele = pID;
-//		if(param.firstAllele != pID ){
+//	public void evalutateValidity(CApplicationNode node, int pID, CFitParameter param){
+//		if(param.firstAllele >0 && param.firstAllele == pID){
 //			param.validity = false;			
-//			param.distance += 100;
-//		}
-//	}
-	
-	
-//	private void evalutateAscendent(CApplicationNode node, ICProvider prov, MyObj param){
-//		double temp;
-//		if( (temp = TestPolicy.storagePolicy(node, prov)) > 0){ //violation
-//			param.distance += temp * 1;
-//		}else{
-//			param.ascendent += temp;
-//		}
-//		
-//	}
-//	
-//	private void evalutateDescendent(ICApplication app, ICProvider prov, MyObj param){
-//		double temp;
-//		if( (temp = TestPolicy.applicationCost(app, prov)) > 0){ // violazione constrain
-//			param.distance += temp * 1; // 1 deve esser sostituito con il peso
-//		}else{
-//			param.descendent +=temp;
-//		}
-//	}
-//	
-//	private void evalutateEqualAttribute(ICApplication app, ICProvider prov, MyObj param){
-//		double temp;
-//		if( (temp = Math.abs(TestPolicy.applicationPlacePolicy(app, prov))) - tollerance >0){ //violazione constrain
-//			param.distance += temp * 1;
-//			param.equal = temp;
-//		}
-//		
-//	}
-//	evalutateValidity(app.getNodes()[i], pList[i].getID(), param);
-//	evalutateEqualAttribute(app, pList[index], param);
-//	evalutateDescendent(app, pList[index], param);
-//	evalutateAscendent(app.getNodes()[i], pList[index], param);
-//	System.out.println(" DistanceINFO: \n   A.ID " + app[i].getID() + " P.ID " + prov[index].getID() 
-//			+ " ret: " + temp);
-	
-	
-	
-	
-	
-//	private double getGlobablContraint(ICApplication app, ICProvider prov){
-//		double ret = 0, temp;
-//		if( (temp = Policy.applicationCost(app, prov)) > 0) // violazione constrain
-//			ret += temp * 1; // 1 deve esser sostituito con il peso
-////		if( (temp = Math.abs(Policy.applicationPlacePolicy(app, prov))) - tollerance >0) //violazione constrain
-////			ret += temp * 1;
-//		return ret;
-//	}
-	
-//	private double getLocalConstrain(ICApplication app, ICProvider prov){
-//		double ret =0, temp;
-//		if( (temp = Policy.storagePolicy(app, prov)) > 0) //violation
-//			ret += temp * 1;
-//		return ret;
-//	}
-	
-	
-	
-	private double evalutatePolicy(ICApplication app, ICProvider prov){
-	double good=0, bad =0, temp=0;
-	/* Se una policy e` = 0 vuol dire che e` accettabile,
-	 * quindi valutare se dare un peso < 0
-	 */
-//	if( Policy.applicationPlacePolicy(app, prov)==0){
-		if( (temp=  TestPolicy.applicationCost(app, prov)) <0 )
-			good += temp;
-		else
-			bad += temp;
-//		if((temp = Policy.applicationCost(app, prov)) <0)
-//			good += temp;
-//		else 
-//			bad += temp;
-//		if((temp = Policy.computingPolicy(app, prov)) <0 )
-//			good += temp;
-//		bad += temp;
-//		if((temp = Policy.storagePolicy(app, prov)) <0)
-//			good += temp;
-//		else 
-//			bad += temp;
-//		if((temp = Policy.networkPolicy(app, prov)) <0)
-//			good +=temp;
-//		bad += temp;
-//	}else
-//		bad += 1000;
-	
-	return bad >0 ? bad : good;
-}
-	
-	
-	private double evalutateCromosome(IChromosome ch){
-		double ret=-1;
-		ICApplication[] app = (ICApplication[])ch.getApplicationData();
-		
-		for(int i =0; i< ch.size(); i++){
-			ICProvider[] prov = (ICProvider[])ch.getGene(i).getApplicationData();
-			Integer provIndex = (Integer)ch.getGene(i).getAllele();
-//			System.out.println("#### " + provIndex);
-			ret = evalutatePolicy(app[i], prov[provIndex]);
-			System.out.println("INFO: \n   A.ID " + app[i].getID() + " P.ID " + prov[provIndex].getID() 
-					+ " ret: " + ret);
-			
-		}
-		return ret;
-	}
-	
-	
-//	protected double evaluate(IChromosome arg0) {
-//		// TODO Auto-generated method stub
-//		
-//		double distance;
-//		distance = getDistance(arg0);
-//		System.out.println("distance: " + distance);
-//		double valute = evalutateCromosome(arg0);
-//		if(distance > 0){
-//			//penalizzazione
-//			System.out.println("# PENALITY " +distance	);
-//			return Math.abs(1/(distance+penality));
-//		}
-//		
-//		double fitness = 1+ penality * distance;//Math.abs(valute) + penality * distance;
-//		System.out.println("FITNESS: " + fitness);
-//		return fitness;
-//	}
-	
-	
-	
-	
-	
-	
-//	private double ecalutateEqualsConstrains(ICApplication app, ICProvider prov){
-//		return Math.abs(Policy.applicationPlacePolicy(app, prov)) - tollerance;
-//	}
-	
-//	private double evalutatePolicy(ICApplication app, ICProvider prov){
-//		double good=0, bad =0, temp=0;
-//		/* Se una policy e` = 0 vuol dire che e` accettabile,
-//		 * quindi valutare se dare un peso < 0
-//		 */
-//		if( Policy.applicationPlacePolicy(app, prov) && Policy.applicationCost(app, prov)<0 ){
-////			if((temp = Policy.applicationCost(app, prov)) <0)
-////				good += temp;
-////			else 
-////				bad += temp;
-////			if((temp = Policy.computingPolicy(app, prov)) <0 )
-////				good += temp;
-////			bad += temp;
-//			if((temp = Policy.storagePolicy(app, prov)) <0)
-//				good += temp;
-//			else 
-//				bad += temp;
-////			if((temp = Policy.networkPolicy(app, prov)) <0)
-////				good +=temp;
-////			bad += temp;
+//			param.tmpCounter ++;
+//			return;
 //		}else
-//			bad += 1000;
-//		
-//		return bad >0 ? bad : good;
-//	}
-	
-	
-//	private double getWeight(CApplication app, CProvider prov){
-//		double good=0, bad=0, temp;
-//		if((temp =  prov.getCost() - app.getBudget()) < 0)
-//			good += temp;
-//		else
-//			bad += temp;
-//		if(good <0 )
-//			return good;
-//		return bad;
-//		
+//			param.firstAllele = pID;
 //	}
 	
 
+	private void updateHashMap(HashMap<Integer, CApplicationNode> tab, CApplicationNode node, Integer key ){
+		CApplicationNode newNode;
+		if( !tab.containsKey(key) ){
+			newNode = node.clone();
+			tab.put(key, newNode);
+			return;
+		}
+		newNode = (CApplicationNode)tab.get(key);
+		newNode.merge(node);
+	}
+	
+	public HashMap<Integer, CApplicationNode> getApplicationMap(IChromosome ch){
+		CFitParameter param =  new CFitParameter();
+		HashMap<Integer, CApplicationNode> tab = new HashMap<Integer, CApplicationNode>();
+		CApplicationNode[] nodes = app.getNodes();
+		for(int i=0; i<ch.size(); i++){
+			Integer index = (Integer) ch.getGene(i).getAllele();
+			updateHashMap(tab, nodes[i], index);
+		}
+		return tab;
+	}
+	
+	public CFitParameter new_evaluatePolicy(HashMap<Integer, CApplicationNode> applicationMap){
+		CFitParameter param = new CFitParameter();
+		Iterator<Integer> keys = applicationMap.keySet().iterator();
+		CApplicationNode node;
+		while(keys.hasNext()){
+			int providerId = keys.next();
+			node = applicationMap.get(providerId);
+			// valutazione policy per ogni nodo
+			
+			double val;
+			for( int j =0; j<policy.size(); j++){
+				if(policy.get(j).getGroup() == Constant.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
+					if( (val = policy.get(j).evaluateGlobalPolicy(app, pList[providerId])) > 0){ // violazione
+						param.distance += val;
+					}
+					//System.out.println("GLOBLA CONSTRAIN counter" + param.tmpCounter );
+				}
+				else{ //LOCAL CONSTRAIN
+					if ( (val = policy.get(j).evaluateLocalPolicy(node, pList[providerId])) >0 ){ //violazione
+						param.distance += val;
+						System.out.println("PORCOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO " + val);
+					}
+				}
+				if(val <0 )
+					updateParameter(policy.get(j).getType(), val, param);
+			}
+		}
+		return param;
+	}
+
+	
+	
+	
+	
+	
 }

@@ -2,27 +2,25 @@ package test;
 
 import static java.lang.System.out;
 
-import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.jgap.Chromosome;
 import org.jgap.Configuration;
 import org.jgap.DefaultFitnessEvaluator;
-import org.jgap.FitnessFunction;
 import org.jgap.Gene;
 import org.jgap.Genotype;
 import org.jgap.IChromosome;
 import org.jgap.InvalidConfigurationException;
+import org.jgap.Population;
 import org.jgap.event.EventManager;
 import org.jgap.impl.BestChromosomesSelector;
 import org.jgap.impl.CrossoverOperator;
 import org.jgap.impl.DefaultConfiguration;
-import org.jgap.impl.MutationOperator;
-import org.jgap.impl.WeightedRouletteSelector;
 
 import contrailJgap.CFitnessEasy;
 import contrailJgap.CGene;
-import contrailJgap.CRandGenerator;
 import contrailJgap.NewCRandGenerator;
 
 import cApplication.CApplication;
@@ -38,18 +36,10 @@ import cProvider.CProviderNetwork;
 import cProvider.CProviderStorage;
 import cProviderIface.ICProvider;
 
-/**
- * @author peppe
- *
- */
-/**
- * @author peppe
- *
- */
-public class Main {
+public class OLD2_CFitnessEasyTest {
 	
 	static String[] provPlaces = new String[]{
-		"Svezia","Svezia","Svezia","Svezia","Svezia","Italia"
+		"Italia","Svezia","Italia","Italia","Svezia","Italia"
 	};
 	static Integer[] costs = new Integer[]{
 		85,65,150,80,120,75
@@ -73,14 +63,13 @@ public class Main {
 		75,85,85
 	};
 	
-	public static CApplicationNode[] makeNodes(int size, String place){
+	public static CApplicationNode[] makeNodes(int size){
 		
 		CApplicationNode[] nodes = new CApplicationNode[size];
 		
 		for(int i=0; i< nodes.length; i++){
 			nodes[i] = new CApplicationNode();
 			nodes[i].setID(i);
-			nodes[i].setNodePlace(place);
 			nodes[i].setNodeBudget(budgets[i%size]);
 			nodes[i].setComputing(new CApplicationComputing(null, 0, -1, ram[i%size]));
 			nodes[i].setNetwork(new CApplicationNetwork(bandwidth[i%size], 0, null, -1));
@@ -108,14 +97,6 @@ public class Main {
 		return provlist;	
 	}
 	
-//	public static Gene[] makeGeneList(int size,Configuration conf) throws InvalidConfigurationException{
-//		Gene[] gene = new Gene[size];
-//		for(int i=0; i<gene.length; i++){
-//			gene[i] = new CGene(conf);
-//			gene[i].setApplicationData(arg0)
-//		}
-//	}
-	
 	public static void PrintChromosome(Chromosome chrom, ICApplication app, ICProvider[] provList){
 		CApplicationNode[] nodes = app.getNodes();
 		for(int i=0; i< chrom.size(); i++){
@@ -123,10 +104,6 @@ public class Main {
 				out.println(String.format("%7s%d.%d -> %3s%d %3s %3.2f %3s %3.2f", 
 						"A.", app.getID(), nodes[i].getID(), "P.", provList[index].getID(), 
 						"B:", nodes[i].getNodeBudget(), "C:", provList[index].getCost() ));
-				
-//			System.out.println(String.format("%7s%d.%d -> %3s%d %3s %3.2f %3s %3.2f", 
-//					"A.", app.getID(),  "P.", provList[index].getID(), 
-//					"B:", app.getBudget(), "C:", provList[index].getCost() ));
 			}
 	}
 	
@@ -147,9 +124,6 @@ public class Main {
 			System.out.println(String.format("App.%d.%-7d %-10s %-10.2f %-10d %-10d",
 					app.getID(), nodes[i].getID(), app.getPlace(), nodes[i].getNodeBudget(), 
 					nodes[i].getStorage().getAmount(), nodes[i].getComputing().getRam()));
-//			System.out.println("App." + app[i].getID()  + 
-//					"\t\t" + app[i].getPlace() + 
-//					"\t" + app[i].getBudget());
 		}
 		System.out.println();
 	}
@@ -159,9 +133,6 @@ public class Main {
 		for(int i=0; i<prov.length; i++){
 			System.out.println(String.format("P.%-10d%-10s%-10.2f%-10d%-10d%-10d", prov[i].getID(), prov[i].getPlace(), prov[i].getCost(),
 					prov[i].getNetwork().getBandwidth(),prov[i].getStorage().getAmount(),prov[i].getComputing().getRam()));
-//			System.out.println("P."+prov[i].getID() + 
-//					"\t\t" + prov[i].getPlace() +
-//					"\t\t" + prov[i].getCost());
 		}
 		System.out.println();
 	}
@@ -181,20 +152,31 @@ public class Main {
 		conf.setFitnessEvaluator(new DefaultFitnessEvaluator());
 		return conf;
 	}
+
+	public static void printHashMap(HashMap< Integer, CApplicationNode> appNode){
+		Iterator<Integer> keys = appNode.keySet().iterator();
+		Integer index;
+		while(keys.hasNext()){
+			index = keys.next();
+			System.out.println("provID: " + index + " appID: " + ((CApplicationNode) appNode.get(index)).getID() 
+					+ " dudget: " + ((CApplicationNode) appNode.get(index)).getNodeBudget());
+		}
+	}
 	
 	/**
 	 * @param args
-	 * @throws Exception
+	 * @throws InvalidConfigurationException 
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws InvalidConfigurationException {
+		// TODO Auto-generated method stub
 		
 		ICProvider[] provList = (ICProvider[])makeProviderList(Constant.PROV_SIZE);
 		/* only one application */
-		CApplicationNode[] nodes = makeNodes(Constant.APP_SIZE, "italia");
+		CApplicationNode[] nodes = makeNodes(Constant.APP_SIZE);
 		ICApplication app = new CApplication(555, "Italia", 100, nodes );
 		
 		Vector<CPolicy> policy = new  Vector<CPolicy>();
-		//policy.add(MakePolicy.makeCostPolicy());
+		policy.add(MakePolicy.makeCostPolicy());
 		policy.add(MakePolicy.makePlacePolicy());
 		
 		printProviderList(provList);
@@ -216,7 +198,6 @@ public class Main {
 		
 		// chromosome configuration
 		Chromosome sampleCh = new Chromosome(conf, gene);
-		
 		conf.setSampleChromosome(sampleCh);
 		conf.setPopulationSize(Constant.POP_SIZE);
 		CFitnessEasy fitFunz = new CFitnessEasy(0.9, app, provList, policy);
@@ -225,31 +206,15 @@ public class Main {
 		Genotype.setStaticConfiguration(conf);
 		Genotype population = Genotype.randomInitialGenotype(conf);
 		
-//		// <CFitnessEasyTest>
-//		PrintChromosome((Chromosome) population.getPopulation().getChromosome(0), app, provList);
-//		CFitnessEasyTest.getApplicationMapTest((Chromosome) population.getPopulation().getChromosome(0), fitFunz);
-//		// </CFitnessEasyTest>
 		
 		
-		printPop(population, app, provList);
+		HashMap<Integer, CApplicationNode> appMap = fitFunz.getApplicationMap(population.getPopulation().getChromosome(0));
+		IChromosome newCh = population.getPopulation().getChromosome(0);
+		PrintChromosome((Chromosome)newCh, app, provList);
+		System.out.println("chromosoma size: " + population.getPopulation().getChromosome(0).size() );
+		printHashMap(appMap);
 		
-		//evlolution
-		for(int i=0; i<Constant.EVOLUTION_SIZE; i++){
-			population.evolve();
-			//printPop(population, app, provList);
-			System.out.println("###### best evolve");
-			IChromosome bestSolutionSoFar = population.getFittestChromosome();
-			PrintChromosome((Chromosome)bestSolutionSoFar, app, provList);
-			System.out.println("\tfit: " + bestSolutionSoFar.getFitnessValue());
-			System.out.println("####### end best");
-			//printPop(population, app, provList);
-		}
-////		
-		
-		
-		
-		
-		
+
 	}
 
 }

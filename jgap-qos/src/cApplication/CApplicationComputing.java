@@ -20,6 +20,14 @@ public class CApplicationComputing implements ICAppComuting{
 		this.ramSize = ramSize;
 	}
 	
+	
+	@Override
+	public void merge(CApplicationComputing computing) {
+		// TODO Auto-generated method stub
+//		budget += computing.getBudget();
+		ramSize += computing.getRam();
+		
+	}
 
 	@Override
 	public int compareTo(Object o) {
@@ -90,5 +98,7 @@ public class CApplicationComputing implements ICAppComuting{
 		// TODO Auto-generated method stub
 		return ramSize;
 	}
+
+	
 
 }

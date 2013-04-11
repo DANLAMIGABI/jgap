@@ -8,12 +8,14 @@ import cApplication.CApplicationNode;
 import cApplication.CApplicationStorage;
 
 public interface ICApplication extends IApplicationData {
-	
-	public void setBudget(double budget);
+	/* moved to application node
+		public void setBudget(double budget);
+		public double getBudget();
+	*/
 	public void setPlace(String place);
 	public void setNodes(CApplicationNode[] nodes);
 	
-	public double getBudget();
+
 	public String getPlace(); 
 	public int getID();
 	public CApplicationNode[] getNodes();
