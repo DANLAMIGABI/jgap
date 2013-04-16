@@ -1,27 +1,30 @@
 package cApplication;
 
+import java.util.HashMap;
+
 import cApplicationIface.ICAppStorage;
 
 public class CApplicationStorage implements ICAppStorage {
 	//private static int NEXT_ID = 1;
+	/* disabled
 	private double budget;
 	private String place;
 	private int amount;
-	private int ID;
-	/* not used */
 	private char unit;
+	*/
+	private int ID;
+	
+	//testing
+	HashMap<String, String> characteristic;
 	
 	
 	public CApplicationStorage(){
-		new CApplicationStorage(0,0,-1,null);
+		new CApplicationStorage(-1, new HashMap<String, String>());
 	}
 	
-	public CApplicationStorage(double unitCost, int amount, int ID, String place){
-		this.budget = unitCost;
-		this.amount = amount;
+	public CApplicationStorage(int ID, HashMap<String, String> characteristic){
 		this.ID = ID;
-		this.place = place;
-		//ApplicationStorage.unit = unit;
+		this.characteristic = characteristic;
 	}
 	
 	@Override
@@ -31,31 +34,7 @@ public class CApplicationStorage implements ICAppStorage {
 		amount += store.getAmount();
 	}
 	
-	public void setBadget(double cost){
-		if(cost >0 )
-			budget = cost;
-	}
 	
-	public void setAmount(int amount){
-		if(amount >0)
-			this.amount = amount;
-	}
-	
-	public void setUnit(char unit){
-		this.unit = unit;
-	}
-	
-	public double getBadget(){
-		return budget;
-	}
-	
-	public int getAmount(){
-		return amount;
-	}
-	
-	public char getUnit(){
-		return unit;
-	}
 	public int getID(){
 		return ID;
 	}
@@ -63,19 +42,16 @@ public class CApplicationStorage implements ICAppStorage {
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
+		/* compare solo sull'ID */
 		if( o == null)
 			return 1;
 		CApplicationStorage appStore = (CApplicationStorage)o;
-		if (ID == appStore.ID 
-				&& place.equalsIgnoreCase(appStore.place)
-				&& budget == appStore.budget 
-				&& amount == appStore.getAmount())
-			return 0;
-		return ID - appStore.ID;
+		
+		return ID - appStore.getID();
 	}
 	
 	public Object clone(){
-		CApplicationStorage appStore = new CApplicationStorage(budget, amount, ID, place);
+		CApplicationStorage appStore = new CApplicationStorage(ID, characteristic);
 		return appStore;
 	}
 
@@ -84,7 +60,18 @@ public class CApplicationStorage implements ICAppStorage {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void setCharacteristic(HashMap<String, String> characteristic) {
+		// TODO Auto-generated method stub
+		this.characteristic = characteristic;
+	}
 
+	@Override
+	public HashMap<String, String> getCharacteristic() {
+		// TODO Auto-generated method stub
+		return characteristic;
+	}
+/* disabled
 	@Override
 	public void setPlace(String place) {
 		// TODO Auto-generated method stub
@@ -96,6 +83,8 @@ public class CApplicationStorage implements ICAppStorage {
 		// TODO Auto-generated method stub
 		return null;
 	}
+*/
+	
 
 	
 

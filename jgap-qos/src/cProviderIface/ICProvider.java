@@ -1,5 +1,7 @@
 package cProviderIface;
 
+import java.util.HashMap;
+
 import org.jgap.IApplicationData;
 
 import cProvider.CProviderNetwork;
@@ -8,17 +10,23 @@ import cProvider.CProviderStorage;
 
 public interface ICProvider extends IApplicationData{
 
+	/* disabled
 	public void setCost(double cost);
 	public void setPlace(String place);	
-	public void setID(int id);
+	public double getCost();
+	public String getPlace(); 
+	*/
 	
+	public void setID(int id);
+	public int getID();
+
+	//testing
+	public void setCharacteristic(HashMap<String, String> characteristic);
+	public HashMap<String, String> getCharacteristic();
+		
 	public void setNetwork(CProviderNetwork network);
 	public void setComputing(CProviderComputing computing);
 	public void setStorage(CProviderStorage storage);
-	
-	public int getID();
-	public double getCost();
-	public String getPlace(); 
 	
 	public CProviderComputing getComputing();
 	public CProviderStorage getStorage();

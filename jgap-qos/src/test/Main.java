@@ -32,6 +32,7 @@ import cApplication.CApplicationNode;
 import cApplication.CApplicationStorage;
 import cApplicationIface.ICApplication;
 import cPolicy.CPolicy;
+import cPolicy.MakePolicy;
 import cProvider.CProvider;
 import cProvider.CProviderComputing;
 import cProvider.CProviderNetwork;
@@ -194,8 +195,8 @@ public class Main {
 		ICApplication app = new CApplication(555, "Italia", 100, nodes );
 		
 		Vector<CPolicy> policy = new  Vector<CPolicy>();
-		//policy.add(MakePolicy.makeCostPolicy());
-		policy.add(MakePolicy.makePlacePolicy());
+		//policy.add(MakePolicy.makeCostPolicy(1));
+		policy.add(MakePolicy.makePlacePolicy(6));
 		
 		printProviderList(provList);
 		printApp(app);

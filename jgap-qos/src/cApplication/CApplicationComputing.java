@@ -1,31 +1,45 @@
 package cApplication;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.management.InstanceAlreadyExistsException;
+
+import org.omg.CosNaming.IstringHelper;
+
 import cApplicationIface.ICAppComuting;
 
 public class CApplicationComputing implements ICAppComuting{
-	
+	/*
 	private String place;
 	private double budget;
-	private int ID;
 	private int ramSize;
+	*/
+	private int ID;
+	
+	//testing
+	HashMap<String, String> characteristic;
+	List<String> characteristicToMerge;
 	
 	public CApplicationComputing(){
-		new CApplicationComputing(null, 0,-1,0);
+		new CApplicationComputing(-1, new HashMap<String, String>());
 	}
 	
-	public CApplicationComputing(String place, double budget, int ID, int ramSize ){
-		this.budget =  budget;
+	public CApplicationComputing( int ID,HashMap<String, String> characteristic ){
 		this.ID = ID;
-		this.place = place;
-		this.ramSize = ramSize;
+		this.characteristic = characteristic;		
 	}
 	
 	
 	@Override
 	public void merge(CApplicationComputing computing) {
 		// TODO Auto-generated method stub
-//		budget += computing.getBudget();
-		ramSize += computing.getRam();
+		for(int i=0; i<characteristicToMerge.size(); i++){
+			String key = characteristicToMerge.get(i);
+			String value = this.characteristic.get(key);
+	 obj = computing.getCharacteristic().get(key);
+			
+		}
 		
 	}
 
@@ -35,26 +49,10 @@ public class CApplicationComputing implements ICAppComuting{
 		if(o == null)
 			return 1;
 		CApplicationComputing appc = (CApplicationComputing)o;
-		if(ID == appc.ID 
-				&& place.equalsIgnoreCase(appc.place)
-				&& budget == appc.budget )
-			return 0;
 		return ID - appc.ID;
 	}
 
-	@Override
-	public void setPlace(String place) {
-		// TODO Auto-generated method stub
-		if(place != null && place.length() >0)
-			this.place = place;
-	}
-
-	@Override
-	public void setBudget(double budget) {
-		// TODO Auto-generated method stub
-		if(budget >0 )
-			this.budget = budget;
-	}
+	
 
 	@Override
 	public void setID(int ID) {
@@ -63,6 +61,29 @@ public class CApplicationComputing implements ICAppComuting{
 		
 	}
 
+	
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
+	}
+	public Object clone(){
+		CApplicationComputing appC = new CApplicationComputing(ID, characteristic);
+		return appC ;
+	}
+	@Override
+	public void setCharacteristic(HashMap<String, String> characteristic) {
+		// TODO Auto-generated method stub
+		this.characteristic = characteristic;
+	}
+
+	@Override
+	public HashMap<String, String> getCharacteristic() {
+		// TODO Auto-generated method stub
+		return characteristic;
+	}
+/* disabled
 	@Override
 	public String getPlace() {
 		// TODO Auto-generated method stub
@@ -74,17 +95,7 @@ public class CApplicationComputing implements ICAppComuting{
 		// TODO Auto-generated method stub
 		return budget;
 	}
-
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return ID;
-	}
-	public Object clone(){
-		CApplicationComputing appC = new CApplicationComputing(place, budget, ID, ramSize);
-		return appC ;
-	}
-
+	
 	@Override
 	public void setRam(int size) {
 		// TODO Auto-generated method stub
@@ -98,7 +109,21 @@ public class CApplicationComputing implements ICAppComuting{
 		// TODO Auto-generated method stub
 		return ramSize;
 	}
+	@Override
+	public void setPlace(String place) {
+		// TODO Auto-generated method stub
+		if(place != null && place.length() >0)
+			this.place = place;
+	}
 
+	@Override
+	public void setBudget(double budget) {
+		// TODO Auto-generated method stub
+		if(budget >0 )
+			this.budget = budget;
+	}
+*/
+	
 	
 
 }

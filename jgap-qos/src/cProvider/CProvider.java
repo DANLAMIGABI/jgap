@@ -1,5 +1,7 @@
 package cProvider;
 
+import java.util.HashMap;
+
 import cProviderIface.ICProvider;
 
 public class CProvider implements ICProvider {
@@ -13,8 +15,13 @@ public class CProvider implements ICProvider {
 	private CProviderStorage provSto;
 	private CProviderNetwork provNet;
 	
+	private HashMap<String, String> characteristic;
+	
 	public CProvider(){
-		new CProvider(null, 0, -1, null, null, null);
+		CProviderComputing comp =  new CProviderComputing();
+		CProviderNetwork net = new CProviderNetwork();
+		CProviderStorage store = new CProviderStorage();
+		new CProvider(null, 0, -1, comp ,store , net);
 	}
 	
 	public CProvider(String place, double cost, int id, CProviderComputing comp, 
@@ -22,9 +29,9 @@ public class CProvider implements ICProvider {
 		this.place = place;
 		this.ID = id;
 		this.cost = cost;
-		provCom = comp;
-		provNet = net;
-		provSto = store;
+		this.provCom = comp;
+		this.provNet = net;
+		this.provSto = store;
 		
 	}
 	@Override
@@ -45,19 +52,9 @@ public class CProvider implements ICProvider {
 	public Object clone(){
 		return new CProvider(place, cost, ID, provCom, provSto, provNet);
 	}
-	@Override
-	public void setCost(double cost) {
-		// TODO Auto-generated method stub
-		if(cost > 0)
-			this.cost = cost;
-		
-	}
-	@Override
-	public void setPlace(String place) {
-		// TODO Auto-generated method stub
-		if(place != null && place.length() >0)
-			this.place = place;
-	}
+	
+	
+	
 	@Override
 	public void setID(int id) {
 		// TODO Auto-generated method stub
@@ -91,16 +88,7 @@ public class CProvider implements ICProvider {
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	@Override
-	public double getCost() {
-		// TODO Auto-generated method stub
-		return cost;
-	}
-	@Override
-	public String getPlace() {
-		// TODO Auto-generated method stub
-		return place;
-	}
+
 	@Override
 	public CProviderComputing getComputing() {
 		// TODO Auto-generated method stub
@@ -117,6 +105,40 @@ public class CProvider implements ICProvider {
 		return provNet;
 	}
 
-	
+	@Override
+	public void setCharacteristic(HashMap<String, String> characteristic) {
+		// TODO Auto-generated method stub
+		this.characteristic = characteristic;
+	}
 
+	@Override
+	public HashMap<String, String> getCharacteristic() {
+		// TODO Auto-generated method stub
+		return characteristic;
+	}
+/* disabled 
+	@Override
+	public void setCost(double cost) {
+		// TODO Auto-generated method stub
+		if(cost > 0)
+			this.cost = cost;
+		
+	}
+	@Override
+	public void setPlace(String place) {
+		// TODO Auto-generated method stub
+		if(place != null && place.length() >0)
+			this.place = place;
+	}
+	@Override
+	public double getCost() {
+		// TODO Auto-generated method stub
+		return cost;
+	}
+	@Override
+	public String getPlace() {
+		// TODO Auto-generated method stub
+		return place;
+	}
+*/
 }

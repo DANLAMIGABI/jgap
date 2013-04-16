@@ -1,17 +1,30 @@
 package cProviderIface;
 
+import java.util.HashMap;
+
 import org.jgap.IApplicationData;
 
 public interface ICProviderComputing extends IApplicationData {
 	
+	/*disabled
 	public void setPlace(String place);
-	public void setID(int id);
 	public void setCost(double cost);
+	public void setMips(double mips);
 	public void setRam(int size);
-	
 	public int getRam();
-	public int getID();
+	public double getMips();
 	public double getCost();
 	public String getPlace();
+	*/
+	
+	public void setID(int id);
+	
+	//testing
+	public void setCharacteristic(HashMap<String, String> characteristic);
+	public HashMap<String, String> getCharacteristic();
+	
+
+	public int getID();
+	
 
 }

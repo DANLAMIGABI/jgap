@@ -1,5 +1,7 @@
 package cProvider;
 
+import java.util.HashMap;
+
 import cProviderIface.ICProviderComputing;
 
 public class CProviderComputing implements ICProviderComputing {
@@ -8,6 +10,10 @@ public class CProviderComputing implements ICProviderComputing {
 	private String place;
 	private double cost;
 	private int ramAmount;
+	private double mips;
+	
+	//testing
+	HashMap<String, String> characteristic;
 	
 	public CProviderComputing(){
 		new CProviderComputing(null, 0, -1, 0);
@@ -36,13 +42,17 @@ public class CProviderComputing implements ICProviderComputing {
 	public Object clone(){
 		return new CProviderComputing(place, cost, ID, ramAmount);
 	}
+	
+	@Override
+	public void setCharacteristic(HashMap<String, String> characteristic) {
+		// TODO Auto-generated method stub
+		this.characteristic = characteristic;
+	}
 
 	@Override
-	public void setPlace(String place) {
+	public HashMap<String, String> getCharacteristic() {
 		// TODO Auto-generated method stub
-		if(place != null && place.length() >0 )
-			this.place = place;
-		
+		return characteristic;
 	}
 
 	@Override
@@ -51,7 +61,20 @@ public class CProviderComputing implements ICProviderComputing {
 		this.ID = id;
 		
 	}
-
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
+	}
+	
+/*
+	@Override
+	public void setPlace(String place) {
+		// TODO Auto-generated method stub
+		if(place != null && place.length() >0 )
+			this.place = place;
+		
+	}
 	@Override
 	public void setCost(double cost) {
 		// TODO Auto-generated method stub
@@ -90,5 +113,22 @@ public class CProviderComputing implements ICProviderComputing {
 		// TODO Auto-generated method stub
 		return ramAmount;
 	}
+
+	@Override
+	public void setMips(double mips) {
+		// TODO Auto-generated method stub
+		this.mips = mips;
+		
+	}
+
+	@Override
+	public double getMips() {
+		// TODO Auto-generated method stub
+		return mips;
+	}
+*/
+
+	
+
 
 }

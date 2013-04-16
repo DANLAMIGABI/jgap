@@ -1,5 +1,7 @@
 package cApplication;
 
+import java.util.HashMap;
+
 import cApplicationIface.ICAppNetwork;
 
 public class CApplicationNetwork implements ICAppNetwork {
@@ -7,18 +9,19 @@ public class CApplicationNetwork implements ICAppNetwork {
 	//private static int NEXT_ID=0;
 	
 	private int ID;
+	/*
 	private int bandwidth;
 	private double budget;
 	private String place;
-	
+	*/
+	//testing
+	HashMap<String, String> characteristic;
 	
 	public CApplicationNetwork(){
-		new CApplicationNetwork(0, 0, null,-1);
+		new CApplicationNetwork(-1, new HashMap<String, String>());
 	}
-	public CApplicationNetwork(int bandwidth, double badget, String place,int id){
-		this.budget = badget;
-		this.bandwidth = bandwidth;
-		this.place = place;
+	public CApplicationNetwork(int id, HashMap<String, String> characteristic){
+		this.characteristic = characteristic;
 		this.ID = id;
 	}
 	
@@ -35,15 +38,35 @@ public class CApplicationNetwork implements ICAppNetwork {
 		if(o == null)
 			return 1;
 		CApplicationNetwork appN = (CApplicationNetwork)o;
-		if (ID == appN.ID 
-				&& place.equalsIgnoreCase(appN.place)
-				&& bandwidth == appN.bandwidth 
-				&& budget == appN.budget)
-			return 0;
 		return ID - appN.ID;
 		
 	}
-
+	
+	public Object clone(){
+		CApplicationNetwork appN = new CApplicationNetwork(ID,characteristic);
+		return appN;
+	}
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
+	}
+	@Override
+	public void setID(int ID) {
+		// TODO Auto-generated method stub
+		this.ID = ID;
+	}
+	@Override
+	public void setCharacteristic(HashMap<String, String> characteristic) {
+		// TODO Auto-generated method stub
+		this.characteristic = characteristic;
+	}
+	@Override
+	public HashMap<String, String> getCharacteristic() {
+		// TODO Auto-generated method stub
+		return characteristic;
+	}
+/* disabled
 	@Override
 	public void setBandwidth(int bandwidth) {
 		// TODO Auto-generated method stub
@@ -83,20 +106,7 @@ public class CApplicationNetwork implements ICAppNetwork {
 		// TODO Auto-generated method stub
 		return place;
 	}
-	public Object clone(){
-		CApplicationNetwork appN = new CApplicationNetwork(bandwidth, budget, place, ID);
-		return appN;
-	}
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return ID;
-	}
-	@Override
-	public void setID(int ID) {
-		// TODO Auto-generated method stub
-		this.ID = ID;
-	}
+	*/
 	
 
 	

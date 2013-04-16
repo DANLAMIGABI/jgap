@@ -2,7 +2,7 @@ package contrailJgap;
 
 public class CFitParameter {
 
-	public  double distance;
+	public  double violation;
 	public  double ascendent;
 	public  double descendent;
 	public  double equal;
@@ -14,7 +14,7 @@ public class CFitParameter {
 		// TODO Auto-generated constructor stub
 		descendent =0;
 		ascendent = 0;
-		distance = 0;
+		violation = 0;
 		equal =0;
 		validity = true;
 		firstAllele = -1;

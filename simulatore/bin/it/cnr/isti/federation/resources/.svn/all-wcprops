@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/resources
+END
+HostProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/21/trunk/src/it/cnr/isti/federation/resources/HostProvider.java
+END
+FederationDatacenter.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/22/trunk/src/it/cnr/isti/federation/resources/FederationDatacenter.java
+END
+FederationDatacenterProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/16/trunk/src/it/cnr/isti/federation/resources/FederationDatacenterProfile.java
+END
+VmProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/resources/VmProvider.java
+END
+HostProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/21/trunk/src/it/cnr/isti/federation/resources/HostProfile.java
+END
+StorageProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/StorageProvider.java
+END
+StorageProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/StorageProfile.java
+END
+FederationDatacenterProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/FederationDatacenterProvider.java
+END

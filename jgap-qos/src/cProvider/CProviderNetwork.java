@@ -1,5 +1,7 @@
 package cProvider;
 
+import java.util.HashMap;
+
 import cProviderIface.ICProviderNetwork;
 
 public class CProviderNetwork implements ICProviderNetwork {
@@ -8,6 +10,8 @@ public class CProviderNetwork implements ICProviderNetwork {
 	private double unitCost;
 	private int bandwidth;
 	
+	//testing
+	HashMap<String, String> characteristic;
 	
 	public CProviderNetwork(){
 		new CProviderNetwork(null, 0, 0, -1);
@@ -37,7 +41,19 @@ public class CProviderNetwork implements ICProviderNetwork {
 	public Object clone(){
 		return new CProviderNetwork(place, bandwidth, unitCost, ID);
 	}
+	@Override
+	public void setCharacteristic(HashMap<String, String> characteristic) {
+		// TODO Auto-generated method stub
+		this.characteristic = characteristic;
+	}
+
+	@Override
+	public HashMap<String, String> getCharacteristic() {
+		// TODO Auto-generated method stub
+		return characteristic;
+	}
 	
+/* disabled 	
 	@Override
 	public void setBandwidth(int bandwidth) {
 		// TODO Auto-generated method stub
@@ -63,7 +79,7 @@ public class CProviderNetwork implements ICProviderNetwork {
 	}
 
 	@Override
-	public int getBandwidth() {
+	public long getBandwidth() {
 		// TODO Auto-generated method stub
 		return bandwidth;
 	}
@@ -79,5 +95,7 @@ public class CProviderNetwork implements ICProviderNetwork {
 		// TODO Auto-generated method stub
 		return place;
 	}
+
+*/
 
 }

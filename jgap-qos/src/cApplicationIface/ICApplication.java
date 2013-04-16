@@ -1,5 +1,8 @@
 package cApplicationIface;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.jgap.IApplicationData;
 
 import cApplication.CApplicationComputing;
@@ -12,13 +15,22 @@ public interface ICApplication extends IApplicationData {
 		public void setBudget(double budget);
 		public double getBudget();
 	*/
-	public void setPlace(String place);
-	public void setNodes(CApplicationNode[] nodes);
 	
+	/*disabled
+	 public void setPlace(String place);
+	 public String getPlace();
+	 
+	 */
+	
+	public void setNodes(List<CApplicationNode> nodes);
+	
+	//testing
+	public void setCharacteristic(HashMap<String, String> characteristic);
+	public HashMap<String, String> getCharacteristic();
 
-	public String getPlace(); 
+	public void setID(int id);
 	public int getID();
-	public CApplicationNode[] getNodes();
+	public List<CApplicationNode> getNodes();
 
 
 }
