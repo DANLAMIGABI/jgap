@@ -7,23 +7,22 @@ import cProviderIface.ICProviderComputing;
 public class CProviderComputing implements ICProviderComputing {
 
 	private int ID;
+	/*
 	private String place;
 	private double cost;
 	private int ramAmount;
 	private double mips;
-	
+	*/
 	//testing
-	HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 	
 	public CProviderComputing(){
-		new CProviderComputing(null, 0, -1, 0);
+		new CProviderComputing(-1, new HashMap<String, Object>());
 	}
 	
-	public CProviderComputing(String place, double cost, int id, int ramAmount){
-		this.cost = cost;
-		this.place = place;
+	public CProviderComputing(int id, HashMap<String, Object> characteristic){
 		this.ID = id;
-		this.ramAmount = ramAmount;
+		this.characteristic = characteristic;
 	}
 	
 	@Override
@@ -32,25 +31,21 @@ public class CProviderComputing implements ICProviderComputing {
 		if(o ==null)
 			return 1;
 		CProviderComputing provC = (CProviderComputing) o;
-		if (ID == provC.ID 
-				&& place.equalsIgnoreCase(provC.place)
-				&& cost == provC.cost)
-			return 0;
 		return ID - provC.ID;
 	}
 	
 	public Object clone(){
-		return new CProviderComputing(place, cost, ID, ramAmount);
+		return new CProviderComputing(ID, characteristic);
 	}
 	
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

@@ -25,8 +25,8 @@ public interface ICApplication extends IApplicationData {
 	public void setNodes(List<CApplicationNode> nodes);
 	
 	//testing
-	public void setCharacteristic(HashMap<String, String> characteristic);
-	public HashMap<String, String> getCharacteristic();
+	public void setCharacteristic(HashMap<String, Object> characteristic);
+	public HashMap<String, Object> getCharacteristic();
 
 	public void setID(int id);
 	public int getID();

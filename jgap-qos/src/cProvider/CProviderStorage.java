@@ -5,23 +5,23 @@ import java.util.HashMap;
 import cProviderIface.ICProviderStorage;
 
 public class CProviderStorage implements ICProviderStorage {
-	private String place;
+	
 	private int ID;
+	/*
+	private String place;
 	private int amount;
 	private double unitCost;
-	
+	*/
 	//testing
-	HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 	
 	public CProviderStorage(){
-		new CProviderStorage(null, 0, 0, -1);
+		new CProviderStorage(-1, new HashMap<String, Object>());
 	}
 	
-	public CProviderStorage(String place, int amount, double unitCost, int ID){
-		this.amount = amount;
-		this.place = place;
-		this.unitCost = unitCost;
+	public CProviderStorage(int ID, HashMap<String, Object> characteristic){
 		this.ID = ID;
+		this.characteristic = characteristic;
 	}
 	
 
@@ -31,11 +31,6 @@ public class CProviderStorage implements ICProviderStorage {
 		if(o == null)
 			return 1;
 		CProviderStorage provS = (CProviderStorage)o;
-		if (ID == provS.ID 
-				&& place.equalsIgnoreCase(provS.place)
-				&& amount == provS.amount 
-				&& unitCost == provS.unitCost)
-			return 0;
 		return ID - provS.ID;
 	}
 	@Override
@@ -45,17 +40,17 @@ public class CProviderStorage implements ICProviderStorage {
 	}
 	
 	public Object clone(){
-		return new CProviderStorage(place, amount, unitCost, ID);
+		return new CProviderStorage(ID,characteristic);
 	}
 	
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

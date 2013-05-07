@@ -7,28 +7,29 @@ import cProviderIface.ICProvider;
 public class CProvider implements ICProvider {
 	//private static int NEXT_ID=1;
 	
-	private String place;
-	private int ID;
-	private double cost;
 	
+	private int ID;
+	/*
+	private double cost;
+	private String place;
+	*/
 	private CProviderComputing provCom;
 	private CProviderStorage provSto;
 	private CProviderNetwork provNet;
 	
-	private HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 	
 	public CProvider(){
 		CProviderComputing comp =  new CProviderComputing();
 		CProviderNetwork net = new CProviderNetwork();
 		CProviderStorage store = new CProviderStorage();
-		new CProvider(null, 0, -1, comp ,store , net);
+		new CProvider(-1, new HashMap<String, Object>(), comp ,store , net);
 	}
 	
-	public CProvider(String place, double cost, int id, CProviderComputing comp, 
+	public CProvider(int id, HashMap<String, Object> characteristic, CProviderComputing comp, 
 			CProviderStorage store, CProviderNetwork net ){
-		this.place = place;
 		this.ID = id;
-		this.cost = cost;
+		this.characteristic = characteristic;
 		this.provCom = comp;
 		this.provNet = net;
 		this.provSto = store;
@@ -40,17 +41,10 @@ public class CProvider implements ICProvider {
 		if( o == null)
 			return 1;
 		CProvider prov = (CProvider)o;
-		if(ID == prov.ID
-				&& place.equalsIgnoreCase(prov.place) 
-				&& cost == prov.cost
-				&& provCom.compareTo(prov.provCom)==0
-				&& provNet.compareTo(prov.provNet) ==0
-				&& provSto.compareTo(prov.provSto) == 0)
-			return 0;
 		return ID -  prov.ID;
 	}
 	public Object clone(){
-		return new CProvider(place, cost, ID, provCom, provSto, provNet);
+		return new CProvider(ID, characteristic, provCom, provSto, provNet);
 	}
 	
 	
@@ -106,13 +100,13 @@ public class CProvider implements ICProvider {
 	}
 
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

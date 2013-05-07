@@ -5,23 +5,23 @@ import java.util.HashMap;
 import cProviderIface.ICProviderNetwork;
 
 public class CProviderNetwork implements ICProviderNetwork {
-	private String place;
+	
 	private int ID;
+	/*
 	private double unitCost;
 	private int bandwidth;
-	
+	private String place;
+	*/
 	//testing
-	HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 	
 	public CProviderNetwork(){
-		new CProviderNetwork(null, 0, 0, -1);
+		new CProviderNetwork(-1, new HashMap<String, Object>());
 	}
 	
-	public CProviderNetwork(String place, int bandwidth, double unitCost, int ID){
-		this.bandwidth = bandwidth;
-		this.place = place;
+	public CProviderNetwork(int ID, HashMap<String, Object> characteristic){
 		this.ID = ID;
-		this.unitCost = unitCost;
+		this.characteristic = characteristic;
 	}
 	
 	@Override
@@ -30,25 +30,20 @@ public class CProviderNetwork implements ICProviderNetwork {
 		if(o ==null)
 			return -1;
 		CProviderNetwork provN = (CProviderNetwork)o;
-		if (ID == provN.ID 
-				&& place.equalsIgnoreCase(provN.place)
-				&& unitCost == provN.unitCost 
-				&& bandwidth == provN.bandwidth)
-			return 0;
 		return ID - provN.ID;
 	}
 	
 	public Object clone(){
-		return new CProviderNetwork(place, bandwidth, unitCost, ID);
+		return new CProviderNetwork(ID, characteristic);
 	}
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

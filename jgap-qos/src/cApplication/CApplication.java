@@ -14,7 +14,7 @@ public class CApplication implements ICApplication {
 	private List<CApplicationNode> nodes;
 
 	// testing
-	private HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 
 	public CApplication() {
 		new CApplication(-1, null, 0, null);
@@ -70,13 +70,13 @@ public class CApplication implements ICApplication {
 	}
 
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

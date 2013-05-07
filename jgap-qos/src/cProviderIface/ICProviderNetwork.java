@@ -17,8 +17,8 @@ public interface ICProviderNetwork extends IApplicationData{
 	*/
 		
 	//testing
-	public void setCharacteristic(HashMap<String, String> characteristic);
-	public HashMap<String, String> getCharacteristic();
+	public void setCharacteristic(HashMap<String, Object> characteristic);
+	public HashMap<String, Object> getCharacteristic();
 	
 	
 	

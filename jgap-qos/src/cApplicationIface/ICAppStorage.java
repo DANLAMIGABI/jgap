@@ -15,16 +15,17 @@ public interface ICAppStorage extends IApplicationData {
 	public int getAmount();
 	public double getBadget();
 	public String getPlace();
+	public void merge(CApplicationStorage store);
 	*/
 	
 	public void setID(int ID);
 	public int getID();
 	
-	public void merge(CApplicationStorage store);
+	
 
 	//testing
-	public void setCharacteristic(HashMap<String, String> characteristic);
-	public HashMap<String, String> getCharacteristic();
+	public void setCharacteristic(HashMap<String, Object> characteristic);
+	public HashMap<String, Object> getCharacteristic();
 
 	
 }

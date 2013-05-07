@@ -18,19 +18,18 @@ public class CApplicationComputing implements ICAppComuting{
 	private int ID;
 	
 	//testing
-	HashMap<String, String> characteristic;
-	List<String> characteristicToMerge;
+	private HashMap<String, Object> characteristic;
 	
 	public CApplicationComputing(){
-		new CApplicationComputing(-1, new HashMap<String, String>());
+		new CApplicationComputing(-1, new HashMap<String, Object>());
 	}
 	
-	public CApplicationComputing( int ID,HashMap<String, String> characteristic ){
+	public CApplicationComputing( int ID,HashMap<String, Object> characteristic ){
 		this.ID = ID;
 		this.characteristic = characteristic;		
 	}
 	
-	
+	/*
 	@Override
 	public void merge(CApplicationComputing computing) {
 		// TODO Auto-generated method stub
@@ -42,7 +41,7 @@ public class CApplicationComputing implements ICAppComuting{
 		}
 		
 	}
-
+*/
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
@@ -73,13 +72,13 @@ public class CApplicationComputing implements ICAppComuting{
 		return appC ;
 	}
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

@@ -50,7 +50,7 @@ public class NewCRandGenerator implements RandomGenerator {
 	public int nextInt() {
 		// TODO Auto-generated method stub
 		int ret = Math.abs(random.nextInt()%n_range);
-		//System.out.println(String.format("%100d", ret));
+//		System.out.println("########################### "+ ret);
 		return ret;
 	}
 

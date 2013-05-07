@@ -15,23 +15,23 @@ public class CApplicationNetwork implements ICAppNetwork {
 	private String place;
 	*/
 	//testing
-	HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 	
 	public CApplicationNetwork(){
-		new CApplicationNetwork(-1, new HashMap<String, String>());
+		new CApplicationNetwork(-1, new HashMap<String, Object>());
 	}
-	public CApplicationNetwork(int id, HashMap<String, String> characteristic){
+	public CApplicationNetwork(int id, HashMap<String, Object> characteristic){
 		this.characteristic = characteristic;
 		this.ID = id;
 	}
-	
+	/*
 	@Override
 	public void merge(CApplicationNetwork network) {
 		// TODO Auto-generated method stub
 		bandwidth += network.getBandwidth();
 //		budget += network.getBudget();
 	}
-	
+	*/
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
@@ -57,12 +57,12 @@ public class CApplicationNetwork implements ICAppNetwork {
 		this.ID = ID;
 	}
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

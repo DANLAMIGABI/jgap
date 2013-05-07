@@ -15,25 +15,25 @@ public class CApplicationStorage implements ICAppStorage {
 	private int ID;
 	
 	//testing
-	HashMap<String, String> characteristic;
+	private HashMap<String, Object> characteristic;
 	
 	
 	public CApplicationStorage(){
-		new CApplicationStorage(-1, new HashMap<String, String>());
+		new CApplicationStorage(-1, new HashMap<String, Object>());
 	}
 	
-	public CApplicationStorage(int ID, HashMap<String, String> characteristic){
+	public CApplicationStorage(int ID, HashMap<String, Object> characteristic){
 		this.ID = ID;
 		this.characteristic = characteristic;
 	}
-	
+	/*
 	@Override
 	public void merge(CApplicationStorage store) {
 		// TODO Auto-generated method stub
 //		budget += store.getBadget();
 		amount += store.getAmount();
 	}
-	
+	*/
 	
 	public int getID(){
 		return ID;
@@ -61,13 +61,13 @@ public class CApplicationStorage implements ICAppStorage {
 		
 	}
 	@Override
-	public void setCharacteristic(HashMap<String, String> characteristic) {
+	public void setCharacteristic(HashMap<String, Object> characteristic) {
 		// TODO Auto-generated method stub
 		this.characteristic = characteristic;
 	}
 
 	@Override
-	public HashMap<String, String> getCharacteristic() {
+	public HashMap<String, Object> getCharacteristic() {
 		// TODO Auto-generated method stub
 		return characteristic;
 	}

@@ -17,16 +17,17 @@ public interface ICAppComuting extends IApplicationData {
 	public int getRam();
 	public String getPlace();
 	public double getBudget();
+	public void merge(CApplicationComputing computing);
 	*/
 	
 	public void setID(int ID);
 	public int getID();
 	
-	public void merge(CApplicationComputing computing);
+	
 	
 	//testing
-	public void setCharacteristic(HashMap<String, String> characteristic);
-	public HashMap<String, String> getCharacteristic();
+	public void setCharacteristic(HashMap<String, Object> characteristic);
+	public HashMap<String, Object> getCharacteristic();
 
 
 }
