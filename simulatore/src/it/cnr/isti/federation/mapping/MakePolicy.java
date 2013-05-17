@@ -2,32 +2,34 @@ package it.cnr.isti.federation.mapping;
 
 import java.util.HashMap;
 
+
+import metaschedulerJgap.MSPolicy;
+import msProviderIface.*;
+import msApplication.*;
+import msApplicationIface.*;
+
+
 import com.sun.org.apache.xpath.internal.axes.HasPositionalPredChecker;
 
-import cApplication.CApplicationNode;
-import cApplicationIface.ICAppStorage;
-import cApplicationIface.ICApplication;
-import cPolicy.CPolicy;
-import cProviderIface.ICProvider;
-import cProviderIface.ICProviderStorage;
+
 
 public class MakePolicy {
 	
-	public static CPolicy makeCostPolicy(double weight){
+	public static MSPolicy makeCostPolicy(double weight){
 		if( weight < 0 )
 			return null;
-		return new CPolicy(weight, Constant.DESCENDENT_TYPE, Constant.LOCAL_CONSTRAIN) {
+		return new MSPolicy(weight, Constant.DESCENDENT_TYPE, Constant.LOCAL_CONSTRAIN) {
 
 			@Override
-			public double evaluateGlobalPolicy(ICApplication app, ICProvider prov) {
+			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
 				// TODO Auto-generated method stub
 				
 				return 0;
 			}
 
 			@Override
-			public double evaluateLocalPolicy(CApplicationNode node,
-					ICProvider prov) {
+			public double evaluateLocalPolicy(MSApplicationNode node,
+					IMSProvider prov) {
 				// TODO Auto-generated method stub
 				HashMap<String ,Object> nodeTratis = node.getCharacteristic();
 				HashMap<String, Object> providerTraits = prov.getCharacteristic();
@@ -40,21 +42,21 @@ public class MakePolicy {
 		};
 	}
 	
-	public static CPolicy makePlacePolicy(double weight){
+	public static MSPolicy makePlacePolicy(double weight){
 		if( weight < 0 )
 			return null;
-		return new CPolicy(weight,Constant.EQUAL_TYPE, Constant.LOCAL_CONSTRAIN) {
+		return new MSPolicy(weight,Constant.EQUAL_TYPE, Constant.LOCAL_CONSTRAIN) {
 			
 			@Override
-			public double evaluateGlobalPolicy(ICApplication app, ICProvider prov) {
+			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
 				// TODO Auto-generated method stub
 				
 				return 0;
 			}
 
 			@Override
-			public double evaluateLocalPolicy(CApplicationNode node,
-					ICProvider prov) {
+			public double evaluateLocalPolicy(MSApplicationNode node,
+					IMSProvider prov) {
 				// TODO Auto-generated method stub
 				HashMap<String ,Object> nodeTratis = node.getCharacteristic();
 				HashMap<String, Object> providerTraits = prov.getCharacteristic();
@@ -72,23 +74,23 @@ public class MakePolicy {
 		};
 	}
 	/*
-	public static CPolicy makeStoragePolicy(double weight){
+	public static MSPolicy makeStoragePolicy(double weight){
 		if( weight < 0 )
 			return null;
-		return new CPolicy(weight,Constant.ASCENDENT_TYPE,Constant.LOCAL_CONSTRAIN) {
+		return new MSPolicy(weight,Constant.ASCENDENT_TYPE,Constant.LOCAL_CONSTRAIN) {
 			
 			@Override
-			public double evaluateLocalPolicy(CApplicationNode node, ICProvider prov) {
+			public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
 				// TODO Auto-generated method stub
 				ICAppStorage astore = node.getStorage();
-				ICProviderStorage pstore = prov.getStorage();
+				IMSProviderStorage pstore = prov.getStorage();
 				double constrain = astore.getAmount() - pstore.getAmount();
 				return constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
 				
 			}
 			
 			@Override
-			public double evaluateGlobalPolicy(ICApplication app, ICProvider prov) {
+			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
 				// TODO Auto-generated method stub
 				return 0;
 			}

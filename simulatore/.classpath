@@ -13,5 +13,6 @@
 	<classpathentry kind="var" path="JGAP-QoS-LIB/jgap-qos-lib.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_HOME"/>
 	<classpathentry kind="var" path="JGAP-QoS-LIB"/>
+	<classpathentry kind="var" path="JGAP-QoS-LIB/metascheduler-jgaplib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

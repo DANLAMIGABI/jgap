@@ -30,6 +30,7 @@ public class ApplicationVertex
 		for (Cloudlet c : cloudlets)
 		{
 			Vm cloned = VmProvider.getVm(vmtype);
+			c.setVmId(cloned.getId());
 			this.vms.add(cloned);
 			this.cloudletMap.put(c, cloned);
 			this.vmMap.put(cloned, c);

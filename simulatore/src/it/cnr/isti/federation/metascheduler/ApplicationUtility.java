@@ -3,6 +3,7 @@ package it.cnr.isti.federation.metascheduler;
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.application.ApplicationEdge;
 import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.test.ThreeTierBusinessApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,6 +117,19 @@ public class ApplicationUtility {
 		newApp.setCharacteristic(appCharacteristic);
 		
 		return newApp;
+	}
+	
+	public static Application getApplication(int userID, int numberOfCloudlets)
+	{
+		Double number = new Double(numberOfCloudlets);
+		if (number < 3)
+			number = 3d;
+		
+		int frontend = 1;//new Double(Math.ceil(number * 20 / 100)).intValue();
+		int database = 1;//new Double(Math.ceil(number * 20 / 100)).intValue();
+		int appserver = 1;//number.intValue() - frontend - database;
+		
+		return new ThreeTierBusinessApplication(userID,frontend, appserver, database);
 	}
 	
 

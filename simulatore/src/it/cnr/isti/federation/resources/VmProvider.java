@@ -57,13 +57,14 @@ public class VmProvider
 	{		
 		Vm vm = new Vm(VM_COUNTER++, 
 				userId, 
-				6502.18, 
+				1000, 
 				1, 
 				new Double(1.7 * 1024 ).intValue(), // RAM: 1.7 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
 				new Long(160 * 1024), // DISK: 160 GB
 				"Xen", 
 				new CloudletSchedulerTimeShared());
+		//Vm vm = new Vm(VM_COUNTER++, userId, 1000, 1, 2048, 1000, 70000, "Xen", new CloudletSchedulerTimeShared());
 		
 		return vm;
 	}
@@ -72,7 +73,7 @@ public class VmProvider
 	{		
 		Vm vm = new Vm(VM_COUNTER++, 
 				userId, 
-				6502.18, // data not available, i assume as small instances
+				1000, // data not available, i assume as small instances
 				1, 
 				new Double(3.75 * 1024).intValue(), // 3.75 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
@@ -87,8 +88,8 @@ public class VmProvider
 	{		
 		Vm vm = new Vm(VM_COUNTER++, 
 				userId, 
-				8022, 
-				2, 
+				1000, 
+				1, 
 				new Double(7.5 * 1024).intValue(), // 7.5 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
 				new Long(850 * 1024), // 850 GB

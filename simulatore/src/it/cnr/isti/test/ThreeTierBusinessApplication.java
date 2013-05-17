@@ -21,7 +21,7 @@ import org.cloudbus.cloudsim.Cloudlet;
  */
 public class ThreeTierBusinessApplication extends Application
 {
-	public ThreeTierBusinessApplication(int frontendNumber, int backendNumber, int databaseNumber)
+	public ThreeTierBusinessApplication(int userID,  int frontendNumber, int backendNumber, int databaseNumber)
 	{
 		
 		// cloudlet profiles definition
@@ -35,6 +35,7 @@ public class ThreeTierBusinessApplication extends Application
 		for (int i=0; i<frontendNumber; i++)
 		{
 			Cloudlet c = CloudletProvider.get(profileFronted);
+			c.setUserId(userID);
 			frontendList.add(c);
 		}
 		ApplicationVertex vertexFrontend = new ApplicationVertex(frontendList, VmType.SMALL);
@@ -45,6 +46,7 @@ public class ThreeTierBusinessApplication extends Application
 		for (int i=0; i<backendNumber; i++)
 		{
 			Cloudlet c = CloudletProvider.get(profileBackend);
+			c.setUserId(userID);
 			backendList.add(c);
 		}	
 		ApplicationVertex vertexBackend = new ApplicationVertex(backendList, VmType.MEDIUM);
@@ -55,6 +57,7 @@ public class ThreeTierBusinessApplication extends Application
 		for (int i=0; i<databaseNumber; i++)
 		{
 			Cloudlet c = CloudletProvider.get(profileDatabase);
+			c.setUserId(userID);
 			databaseList.add(c);
 		}	
 		ApplicationVertex vertexDatabase = new ApplicationVertex(databaseList, VmType.LARGE);

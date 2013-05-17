@@ -2,7 +2,9 @@ package it.cnr.isti.federation.metascheduler;
 
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.resources.VmProvider;
 import it.cnr.isti.test.ThreeTierBusinessApplication;
+import it.cnr.it.giuseppe.SimulationCloudletUtility;
 import it.cnr.it.giuseppe.SimulationUtility;
 import it.cnr.it.giuseppe.SimulationVmUtility;
 
@@ -26,9 +28,10 @@ public class MetaTestSimulation {
         /** The cloudlet list. */
         private static List<Cloudlet> cloudletList;
         private static List<FederationPowerDatacenter> dcList;
+        private static DatacenterBroker broker;
 
         /** The vmlist. */
-        private static List<Vm> vmlist;
+        private static List<Vm> vmList;
 
         /**
          * Creates main() to run this example.
@@ -49,7 +52,46 @@ public class MetaTestSimulation {
                     // Initialize the CloudSim library
                     CloudSim.init(num_user, calendar, trace_flag);
                     
-                    testProvider();
+                    try{
+                        
+                		dcList = makeDatacenter();
+
+                		DatacenterUtility.printFederationDataCenter(dcList);
+                        // Third step: Create Broker
+                        broker = createBroker();
+                        int brokerId = broker.getId();
+                
+                      //Creazione applicazione 
+                        VmProvider.userId = brokerId;
+                        Application app = ApplicationUtility.getApplication(brokerId,1);
+                        List<Application> appList = new ArrayList<Application>();
+                        appList.add(app);
+                      //Conversione Applicazione in GAapplication
+                        ICApplication testApplication = ApplicationUtility.applicationToCApplication(app,"italia", "1000.02");
+                        System.out.println(ApplicationUtility.toStringCApplication(testApplication));
+                        
+                        //submit application to cloudsim
+                        submitApplication(app);
+                        
+                        //submit events cloudsim
+                        CloudSim.terminateSimulation(100);
+                        for(int i=0; i< dcList.size(); i++){
+                        	CloudSim.send(brokerId, dcList.get(i).getId(), 3, 10, dcList.get(i) );
+                        }
+                        // Starts the simulation
+                        CloudSim.startSimulation();
+
+                        CloudSim.stopSimulation();
+
+                        //Final step: Print results when simulation is over
+                        List<Cloudlet> newList = broker.getCloudletReceivedList();
+                        SimulationUtility.printCloudletList(newList);
+                        
+                        Log.printLine("CloudSimExample1 finished!");
+                        } catch (Exception e) {
+                        	e.printStackTrace();
+                        	Log.printLine("Unwanted errors happen");
+                        }
                     
                     
                     
@@ -87,89 +129,39 @@ public class MetaTestSimulation {
             for(int i=0; i<bumberDatacenters; i++){
             	paramDatacenter.put(Constant.ID, i+101+"");
                 paramDatacenter.put(Constant.PLACE, "italia");
-                datacenter.add(DatacenterUtility.getDatacenter(paramDatacenter, 2, 0));
+                datacenter.add(DatacenterUtility.getDatacenter(paramDatacenter, 5, 20));
+//                datacenter.add(DatacenterUtility.getDatacenter(paramDatacenter, 2, 4));
+//                datacenter.add(DatacenterUtility.getDatacenter(paramDatacenter, 2, 10));
             }
             return datacenter;
         }
         
-        private static void testProvider(){
-        	try{
-               
-        		dcList = makeDatacenter();
-
-        		DatacenterUtility.printFederationDataCenter(dcList);
-                // Third step: Create Broker
-                DatacenterBroker broker = createBroker();
-                int brokerId = broker.getId();
-                
-//                // Fourth step: Create one virtual machine
-//                vmlist = new ArrayList<Vm>();
-//
-//                // add the VM to the vmList
-//                vmlist.add(SimulationVmUtility.getDefaultVm(brokerId));
-//
-//                // submit vm list to the broker
-//                broker.submitVmList(vmlist);
-//                
-//
-//                // Fifth step: Create one Cloudlet
-//                cloudletList = new ArrayList<Cloudlet>();
-//                
-//                // add the cloudlet to the list
-//                int pesNumber = 1;
-//                cloudletList.add(SimulationCloudletUtility.getDefautlCloudlet(brokerId, pesNumber, vmlist.get(0).getId()));
-                        
-              //Creazione applicazione 
-                List<Application> applications = new ArrayList<Application>();
-                applications.add(getApplication(1));
-              //Conversione Applicazione in GAapplication
-                ICApplication testApplication = ApplicationUtility.applicationToCApplication(applications.get(0),"italia", "1000.02");
-                System.out.println(ApplicationUtility.toStringCApplication(testApplication));
-                
-                
-                List<Vm> vmList = new ArrayList<>();
-                vmList.add(applications.get(0).getAllVms().get(0));
-                broker.submitVmList(vmList);
-                // add the cloudlet to the list
-                cloudletList = new ArrayList<>();
-                cloudletList.add(applications.get(0).getAllCloudlets().get(0));
-                
-                System.out.println("###### ST: " + applications.get(0).getAllVms().get(0).getMips());
-                
-                
-                // submit cloudlet list to the broker
-                broker.submitCloudletList(cloudletList);
-                CloudSim.terminateSimulation(100);
-                CloudSim.send(brokerId, dcList.get(0).getId(), 3, 10, dcList.get(0) );
-                // Sixth step: Starts the simulation
-                CloudSim.startSimulation();
-
-                CloudSim.stopSimulation();
-
-                //Final step: Print results when simulation is over
-                List<Cloudlet> newList = broker.getCloudletReceivedList();
-                SimulationUtility.printCloudletList(newList);
-                
-                PowerHost dynamicData = (PowerHost)dcList.get(0).getHostList().get(0);
-                System.out.println(dynamicData.getRam());
-
-                Log.printLine("CloudSimExample1 finished!");
-                } catch (Exception e) {
-                	e.printStackTrace();
-                	Log.printLine("Unwanted errors happen");
-                }
-        	}
+        private static void submitApplication(Application application){
+        	// Vm List
+            vmList = new ArrayList<>();
+            for(int i=0; i<application.getAllVms().size(); i++){
+            	vmList.add(application.getAllVms().get(i));
+            }
+            broker.submitVmList(vmList);
+            // add the cloudlet to the list
+            cloudletList = new ArrayList<>();
+            for( int i=0; i< application.getAllCloudlets().size(); i++){
+            	cloudletList.add(application.getAllCloudlets().get(i));
+            }
+            
+            // submit cloudlet list to the broker
+            broker.submitCloudletList(cloudletList);
+        	
+        }
         
-        private static Application getApplication(int numberOfCloudlets)
-    	{
-    		Double number = new Double(numberOfCloudlets);
-    		if (number < 3)
-    			number = 3d;
-    		
-    		int frontend = new Double(Math.ceil(number * 20 / 100)).intValue();
-    		int database = new Double(Math.ceil(number * 20 / 100)).intValue();
-    		int appserver = number.intValue() - frontend - database;
-    		
-    		return new ThreeTierBusinessApplication(frontend, appserver, database);
-    	}
+        
+        
+        private static void printAppInfo(Application app, int brokerId){
+        	System.out.println("INFO:");
+            System.out.println("  Vm size: " + app.getAllVms().size());
+            System.out.println("     VmUser ID: " + app.getAllVms().get(0).getUserId());
+            System.out.println("  Cloudlet size: " + app.getAllCloudlets().size());
+            System.out.println("  uID: " + app.getAllVms().get(0).getUserId() + " brokerId: " + brokerId);
+            System.out.println("  Cloudlet UID: " + app.getAllCloudlets().get(0).getUserId());
+        }
 }

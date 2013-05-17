@@ -34,7 +34,7 @@ public class FederationPowerDatacenter extends PowerDatacenterNonPowerAware
 		List<HostDynamicWorkload> hostlist = getHostList();
 		for(int i = 0; i<hostlist.size(); i++){
 			ram += hostlist.get(i).getRam() - hostlist.get(i).getUtilizationOfRam();
-			net += hostlist.get(i).getRam() - hostlist.get(i).getUtilizationOfBw();
+			net += hostlist.get(i).getBw() - hostlist.get(i).getUtilizationOfBw();
 			storage += hostlist.get(i).getStorage() ;
 			mips += hostlist.get(i).getRam() - hostlist.get(i).getUtilizationMips();
 			

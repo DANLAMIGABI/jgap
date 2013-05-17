@@ -4,16 +4,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import msApplication.MSApplicationNode;
+import msApplicationIface.IMSAppComuting;
+import msApplicationIface.IMSAppNetwork;
+import msApplicationIface.IMSApplication;
+import msProviderIface.IMSProvider;
+import msProviderIface.IMSProviderComputing;
+import msProviderIface.IMSProviderNetwork;
+import msProviderIface.IMSProviderStorage;
+
 import org.jgap.IChromosome;
 
-import cApplication.CApplicationNode;
-import cApplicationIface.ICAppComuting;
-import cApplicationIface.ICAppNetwork;
-import cApplicationIface.ICApplication;
-import cProviderIface.ICProvider;
-import cProviderIface.ICProviderComputing;
-import cProviderIface.ICProviderNetwork;
-import cProviderIface.ICProviderStorage;
 
 public class UtilityJGAP {
 	
@@ -40,7 +41,7 @@ public class UtilityJGAP {
 		return ret;
 	}
 	
-	public static String printChromosome(IChromosome arg, List<ICProvider> plist, ICApplication app){
+	public static String printChromosome(IChromosome arg, List<IMSProvider> plist, IMSApplication app){
 		Integer id;
 		String ret="";
 		for(int i=0; i<arg.size(); i++){
@@ -50,11 +51,11 @@ public class UtilityJGAP {
 		return ret;
 	}
 	
-	public static void printProviders(List<ICProvider> plist){
+	public static void printProviders(List<IMSProvider> plist){
 		for(int i =0; i<plist.size(); i++){
-			ICProviderComputing comp = plist.get(i).getComputing();
-			ICProviderNetwork net = plist.get(i).getNetwork();
-			ICProviderStorage store = plist.get(i).getStorage();
+			IMSProviderComputing comp = plist.get(i).getComputing();
+			IMSProviderNetwork net = plist.get(i).getNetwork();
+			IMSProviderStorage store = plist.get(i).getStorage();
 			System.out.println("pID: " + plist.get(i).getID());
 			System.out.println(characteristicToString(plist.get(i).getCharacteristic(), "      "));
 			System.out.println("  comp");
@@ -66,8 +67,8 @@ public class UtilityJGAP {
 			
 		}
 	}
-	public static void printICApplication(ICApplication app){
-		List<CApplicationNode> nodes = app.getNodes();
+	public static void printICApplication(IMSApplication app){
+		List<MSApplicationNode> nodes = app.getNodes();
 		for(int i=0; i<nodes.size(); i++){
 			System.out.println("AppID: " + app.getID() +"."+i );
 			System.out.println("   vklja;dsf " + characteristicToString(nodes.get(i).getCharacteristic(), "    "));

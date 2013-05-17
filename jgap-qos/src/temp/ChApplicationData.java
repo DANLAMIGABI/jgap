@@ -1,34 +1,35 @@
 package temp;
 
+import msApplication.MSApplication;
+import msProvider.MSProvider;
+
 import org.jgap.IApplicationData;
 
-import cApplication.CApplication;
-import cProvider.CProvider;
 
 public class ChApplicationData implements IApplicationData {
-	private CApplication[] appList;
-	private CProvider[] provList;
+	private MSApplication[] appList;
+	private MSProvider[] provList;
 
 	public ChApplicationData() {
 		new ChApplicationData(null, null);
 	}
 
-	public ChApplicationData(CApplication[] appList, CProvider[] provList) {
+	public ChApplicationData(MSApplication[] appList, MSProvider[] provList) {
 		this.appList = appList;
 		this.provList = provList;
 	}
 	
-	public void setAppList(CApplication[] applist){
+	public void setAppList(MSApplication[] applist){
 		this.appList = applist;
 	}
-	public void setProvList(CProvider[] provList){
+	public void setProvList(MSProvider[] provList){
 		this.provList =  provList;
 	}
 	
-	public CApplication[] getAppList(){
+	public MSApplication[] getAppList(){
 		return appList;
 	}
-	public CProvider[] getProvList(){
+	public MSProvider[] getProvList(){
 		return provList;
 	}
 
