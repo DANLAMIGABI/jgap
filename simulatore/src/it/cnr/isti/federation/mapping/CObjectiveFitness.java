@@ -37,7 +37,7 @@ public class CObjectiveFitness extends FitnessFunction{
 	@Override
 	protected double evaluate(IChromosome arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("                     " + arg0.getGene(0).getAllele());
+		System.out.println("   Chromosme size " + arg0.size());
 		double fitness=0;
 		HashMap<Integer, CApplicationNode> applicationMap = getApplicationMapping(arg0);
 		CFitParameter param = evaluatePolicy(applicationMap);
@@ -77,6 +77,7 @@ public class CObjectiveFitness extends FitnessFunction{
 	}
 	
 	private void aggregateNode(HashMap<Integer, CApplicationNode> applicationTab, CApplicationNode node, Integer key){
+		System.out.println("## LOG: aggregazione nodi fit");
 		CApplicationNode tempNode;
 		if( !applicationTab.containsKey(key) ){
 			tempNode = node.clone();

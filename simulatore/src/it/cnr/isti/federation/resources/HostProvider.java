@@ -5,6 +5,7 @@ import it.cnr.isti.federation.resources.HostProfile.HostParams;
 import java.util.List;
 
 import org.cloudbus.cloudsim.Host;
+import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.VmScheduler;
 import org.cloudbus.cloudsim.provisioners.BwProvisioner;
@@ -14,7 +15,7 @@ public class HostProvider
 {
 	private static int ID_COUNTER = 0;
 	
-	private static Host createHost(HostProfile profile, List<Pe> pes)
+	private static HostDynamicWorkload createHost(HostProfile profile, List<Pe> pes)
 	{
 		RamProvisioner ramP = null;
 		BwProvisioner bwP = null;
@@ -40,7 +41,7 @@ public class HostProvider
 		}
 
 		
-		Host host = new Host(ID_COUNTER++, 
+		HostDynamicWorkload host = new HostDynamicWorkload(ID_COUNTER++, 
 				ramP, bwP, 
 				Long.parseLong(profile.get(HostParams.STORAGE_MB)),
 				pes, 
@@ -49,12 +50,12 @@ public class HostProvider
 		return host;
 	}
 	
-	public static Host getDefault(List<Pe> pes)
+	public static HostDynamicWorkload getDefault(List<Pe> pes)
 	{
 		return createHost(HostProfile.getDefault(), pes);
 	}
 	
-	public static Host get(HostProfile profile, List<Pe> pes)
+	public static HostDynamicWorkload get(HostProfile profile, List<Pe> pes)
 	{
 		return createHost(profile, pes);
 	}

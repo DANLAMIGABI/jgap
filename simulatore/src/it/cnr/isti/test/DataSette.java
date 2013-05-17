@@ -15,6 +15,7 @@ import java.util.Random;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.cloudbus.cloudsim.Host;
+import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
@@ -60,7 +61,7 @@ public class DataSette
 			
 
 			// create the hosts
-			List<Host> hostList = new ArrayList<Host>();
+			List<HostDynamicWorkload> hostList = new ArrayList<HostDynamicWorkload>();
 			HostProfile prof = HostProfile.getDefault();
 			prof.set(HostParams.RAM_AMOUNT_MB, 16*1024+"");
 
@@ -113,7 +114,7 @@ public class DataSette
 			
 
 			// create the hosts
-			List<Host> hostList = new ArrayList<Host>();
+			List<HostDynamicWorkload> hostList = new ArrayList<HostDynamicWorkload>();
 			HostProfile prof = HostProfile.getDefault();
 			prof.set(HostParams.RAM_AMOUNT_MB, 16*1024+"");
 

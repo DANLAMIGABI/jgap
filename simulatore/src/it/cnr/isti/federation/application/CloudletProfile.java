@@ -7,10 +7,10 @@ public class CloudletProfile
 {
 	public enum CloudletParams
 	{
-		LENGTH("40000"),
+		LENGTH("4000"),
 		PES_NUM("1"),
-		FILE_SIZE("100"),
-		OUTPUT_SIZE("100"),
+		FILE_SIZE("300"),
+		OUTPUT_SIZE("300"),
 		CPU_MODEL("org.cloudbus.cloudsim.UtilizationModelFull"),
 		RAM_MODEL("org.cloudbus.cloudsim.UtilizationModelFull"),
 		BW_MODEL("org.cloudbus.cloudsim.UtilizationModelFull");

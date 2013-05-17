@@ -6,15 +6,17 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
 import org.cloudbus.cloudsim.Host;
+import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
+import org.cloudbus.cloudsim.power.PowerHost;
 
 public class FederationDatacenterProvider 
 {
 
 	private static int DC_COUNTER = 0;
 	
-	private static FederationDatacenter createFederationDatacenter(FederationDatacenterProfile profile, List<Host> hosts, List<Storage> storages)
+	private static FederationDatacenter createFederationDatacenter(FederationDatacenterProfile profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		// create the datacenter characteristics
 		DatacenterCharacteristics dc = new DatacenterCharacteristics(profile.get(DatacenterParams.ARCHITECTURE),
@@ -60,12 +62,12 @@ public class FederationDatacenterProvider
 	}
 
 
-	public static FederationDatacenter getDefault(List<Host> hosts, List<Storage> storages)
+	public static FederationDatacenter getDefault(List<PowerHost> hosts, List<Storage> storages)
 	{
 		return createFederationDatacenter(FederationDatacenterProfile.getDefault(), hosts, storages);
 	}
 	
-	public static FederationDatacenter get(FederationDatacenterProfile profile, List<Host> hosts, List<Storage> storages)
+	public static FederationDatacenter get(FederationDatacenterProfile profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		return createFederationDatacenter(profile, hosts, storages);
 	}

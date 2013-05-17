@@ -15,6 +15,7 @@ public class BestSolution {
 //	private ICApplication application;
 //	private List<ICProvider> providers;
 	private HashMap<Integer, Integer> associationMap;
+	private double fit;
 	
 	public BestSolution(){
 		associationMap = new HashMap<Integer, Integer>();
@@ -40,6 +41,12 @@ public class BestSolution {
 	}
 	public HashMap<Integer, Integer> getBest(){
 		return associationMap;
+	}
+	public void setFit(double fit){
+		this.fit = fit;
+	}
+	public double getFit(){
+		return this.fit;
 	}
 	
 	

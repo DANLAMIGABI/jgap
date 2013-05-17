@@ -33,23 +33,11 @@ public class JGAPMapping {
 	
 	public static BestSolution startMapping(){
 		
-		UtilityJGAP.printProviders(providers);
-		UtilityJGAP.printICApplication(app);
+//		UtilityJGAP.printProviders(providers);
+//		UtilityJGAP.printICApplication(app);
 		
 		Genotype.setStaticConfiguration(jgapConf);
 		BestSolution sol = new BestSolution();
-		try {
-			Genotype population = Genotype.randomInitialGenotype(jgapConf);
-			//TEST
-			//System.out.println(UtilityJGAP.printChromosome(population.getPopulation().getChromosome(0),providers,app));
-		} catch (InvalidConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		
 		try {
 			Genotype population = Genotype.randomInitialGenotype(jgapConf);
 			for(int i=0; i<qosConf.getEvolutionSize(); i++){
@@ -63,11 +51,13 @@ public class JGAPMapping {
 				//printPop(population, app, provList);
 			}
 			IChromosome bestSolutionSoFar = population.getFittestChromosome();
-			System.out.println("###### BEST SOLO JGAP.MAPPING #####");
-			System.out.println("FIT: " + bestSolutionSoFar.getFitnessValue());
-			System.out.println(UtilityJGAP.printChromosome(bestSolutionSoFar,providers,app));
-			System.out.println("###################################");
+//			System.out.println("###### BEST SOLO JGAP.MAPPING #####");
+//			System.out.println("FIT: " + bestSolutionSoFar.getFitnessValue());
+//			System.out.println(UtilityJGAP.printChromosome(bestSolutionSoFar,providers,app));
+//			System.out.println("###################################");
+			
 			sol.setSolution(bestSolutionSoFar);
+			sol.setFit(bestSolutionSoFar.getFitnessValue());
 			
 			
 		} catch (InvalidConfigurationException e) {

@@ -99,10 +99,10 @@ public class TestJgapExampleUtility {
 	}
 	
 	public static void printHostInfo(Host host){
-		Log.printLine("  hostid:"+ host.getId());
-		Log.printLine("  host ram: " + host.getRam());
-		Log.printLine("  host store: " + host.getStorage());
-		Log.printLine("  host mips: " +host.getTotalMips());
+		Log.printLine("  hostid:           "+ host.getId());
+		Log.printLine("  host ram:         " + host.getRam());
+		Log.printLine("  host store:       " + host.getStorage());
+		Log.printLine("  host mips:        " + host.getTotalMips());
 		Log.printLine("  host pelist size: " + host.getPeList().size());
 		Log.printLine();
 	}

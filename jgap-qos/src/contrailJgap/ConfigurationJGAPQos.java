@@ -13,6 +13,7 @@ import org.jgap.event.EventManager;
 import org.jgap.impl.BestChromosomesSelector;
 import org.jgap.impl.CrossoverOperator;
 import org.jgap.impl.IntegerGene;
+import org.jgap.impl.WeightedRouletteSelector;
 
 import test.UtilityJGAP;
 
@@ -80,6 +81,7 @@ public class ConfigurationJGAPQos {
 		Chromosome sampleCh = new Chromosome(jgapConfiguration, genes);
 //		System.out.println("LOG: setConfiguration test pringChromosome \n   " + UtilityJGAP.printChromosome(sampleCh,providers,application));
 		
+		//jgapConfiguration.addNaturalSelector(new WeightedRouletteSelector(), true);
 		jgapConfiguration.setSampleChromosome(sampleCh);
 		jgapConfiguration.setPopulationSize(populationSize);
 		jgapConfiguration.setFitnessFunction(objectiveFunction);
