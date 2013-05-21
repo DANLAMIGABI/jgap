@@ -13,12 +13,8 @@ import java.util.Set;
 
 import org.cloudbus.cloudsim.Vm;
 
-import cApplication.CApplication;
-import cApplication.CApplicationComputing;
-import cApplication.CApplicationNetwork;
-import cApplication.CApplicationNode;
-import cApplication.CApplicationStorage;
-import cApplicationIface.ICApplication;
+import msApplication.*;
+import msApplicationIface.*;
 
 public class ApplicationUtility {
 	public static String hashToString(HashMap<String, Object> map, String indent){
@@ -40,12 +36,12 @@ public class ApplicationUtility {
 		return ret;
 	}
 	
-	public static String toStringCApplication(ICApplication app){
+	public static String toStringMSApplication(IMSApplication app){
 		HashMap<String, Object> map = app.getCharacteristic();
 		String ret = "";
 		ret += map.get(Constant.PLACE);
 		ret += hashToString(map, "   ");
-		List<CApplicationNode> nodes = app.getNodes();
+		List<MSApplicationNode> nodes = app.getNodes();
 		for(int i=0; i<nodes.size(); i++){
 			ret +=hashToString( nodes.get(i).getComputing().getCharacteristic(),"    ");
 			ret += hashToString(nodes.get(i).getNetwork().getCharacteristic(), "   ");
@@ -66,8 +62,8 @@ public class ApplicationUtility {
 	    
 	}
 	
-	private static CApplicationNode vmToCApplicationNode(Vm vm, Set<ApplicationEdge> edges, String budger, String place){
-		CApplicationNode appNode = new CApplicationNode();
+	private static MSApplicationNode vmToMSApplicationNode(Vm vm, Set<ApplicationEdge> edges, String budger, String place){
+		MSApplicationNode appNode = new MSApplicationNode();
 //		HashMap<String, Object> appNodeCharacteristic = new HashMap<>();
 //		appNodeCharacteristic.put(Constant.PLACE, place);
 //		appNode.setCharacteristic(appNodeCharacteristic);
@@ -75,9 +71,9 @@ public class ApplicationUtility {
 		HashMap<String, Object> netParam = new HashMap<>();
 		HashMap<String, Object> storeParam = new HashMap<>();
 		
-		CApplicationComputing computing = new CApplicationComputing();
-		CApplicationNetwork network = new CApplicationNetwork();
-		CApplicationStorage storage = new CApplicationStorage();
+		MSApplicationComputing computing = new MSApplicationComputing();
+		MSApplicationNetwork network = new MSApplicationNetwork();
+		MSApplicationStorage storage = new MSApplicationStorage();
 		
 		compParam.put(Constant.MIPS, vm.getMips());
 		compParam.put(Constant.RAM, vm.getRam());
@@ -100,14 +96,14 @@ public class ApplicationUtility {
 	}
 	
 	
-	public static ICApplication applicationToCApplication(Application app, String place, String budget){
-		CApplication newApp = new CApplication();
+	public static IMSApplication applicationToMSApplication(Application app, String place, String budget){
+		MSApplication newApp = new MSApplication();
 		HashMap<String, Object> appCharacteristic = new HashMap<>();
 		List<Vm> vmList = app.getAllVms();
 		
-		List<CApplicationNode> nodeList = new ArrayList<>();
+		List<MSApplicationNode> nodeList = new ArrayList<>();
 		for(int i=0; i<vmList.size(); i++){
-			nodeList.add(vmToCApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), budget, place));
+			nodeList.add(vmToMSApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), budget, place));
 			
 		}
 		appCharacteristic.put(Constant.PLACE, place);

@@ -3,22 +3,18 @@ package it.cnr.isti.federation.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jgap.FitnessFunction;
-
-import sun.net.InetAddressCachePolicy;
-
-import cApplicationIface.ICApplication;
-import cPolicy.CPolicy;
-import cProviderIface.ICProvider;
+import metaschedulerJgap.MSPolicy;
+import msApplicationIface.*;
+import msProviderIface.*;
 
 public class ConfigurationFitness {
 	
 	String name;
 	String id;
 	
-	private List<ICProvider> providers;
-	private ICApplication application;
-	private List<CPolicy> constrains;
+	private List<IMSProvider> providers;
+	private IMSApplication application;
+	private List<MSPolicy> constrains;
 	private List<String> aggregationParams;
 	
 	public ConfigurationFitness(){
@@ -29,23 +25,23 @@ public class ConfigurationFitness {
 		this.name = name;
 		this.id = id;
 		providers = new ArrayList<>();
-		constrains = new ArrayList<CPolicy>();
+		constrains = new ArrayList<MSPolicy>();
 		aggregationParams = new ArrayList<>();
 		application = null;
 	}
 	
-	public void setApplication(ICApplication application){
+	public void setApplication(IMSApplication application){
 		if(application != null)
 			this.application = application;
 	}
 	/*
-	public boolean addProvider(ICProvider provider){
+	public boolean addProvider(IMSProvider provider){
 		if(provider != null)
 			return false;
 		return providers.add(provider);
 	}
 	*/
-	public boolean addConstrain(CPolicy constrain){
+	public boolean addConstrain(MSPolicy constrain){
 		if(constrain != null){
 			System.out.println("cafkajfjdsf;fdasj");
 			return false;
@@ -55,28 +51,28 @@ public class ConfigurationFitness {
 		return this.constrains.add(constrain);
 	}
 	
-	public ICApplication getApplication(){
+	public IMSApplication getApplication(){
 		return application;
 	}
-	public List<ICProvider> getProviders(){
+	public List<IMSProvider> getProviders(){
 		return providers;
 	}
 	
-	public List<CPolicy> getConstrains(){
+	public List<MSPolicy> getConstrains(){
 		return constrains;
 	}
 	
 	public void addAggregationParams(String param){
 		aggregationParams.add(param);
 	}
-	public void setProviders(List<ICProvider> providerList){
+	public void setProviders(List<IMSProvider> providerList){
 		this.providers = providerList;
 	}
 	public List<String> getAggregationParams(){
 		return aggregationParams;
 	}
 	
-	public void setConstrains(List<CPolicy> constrains){
+	public void setConstrains(List<MSPolicy> constrains){
 		this.constrains = constrains;
 	}
 	

@@ -29,18 +29,15 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.jgap.InvalidConfigurationException;
 
-import contrailJgap.BestSolution;
-import contrailJgap.ConfigurationJGAPQos;
-import contrailJgap.JGAPMapping;
-
-import cApplicationIface.ICApplication;
-import cPolicy.CPolicy;
-import cProviderIface.ICProvider;
+import msApplication.*;
+import msApplicationIface.*;
+import msProvider.*;
+import msProviderIface.*;
 
 public class TestMapping {
 	
 	private static List<FederationPowerDatacenter> dcList;
-	private static List<ICProvider> providerList;
+	private static List<IMSProvider> providerList;
 	private static List<Cloudlet> cloudletList;
 	
 	public static void main (String[] args) throws InvalidConfigurationException
@@ -81,8 +78,8 @@ public class TestMapping {
 //        System.out.println(applications.get(0).getAllCloudlets().get(0).get);
         
         //Conversione Applicazione in GAapplication
-        ICApplication testApplication = ApplicationUtility.applicationToCApplication(applications.get(0),"italia", "1000.02");
-        System.out.println(ApplicationUtility.toStringCApplication(testApplication));
+        IMSApplication testApplication = ApplicationUtility.applicationToMSApplication(applications.get(0),"italia", "1000.02");
+        System.out.println(ApplicationUtility.toStringMSApplication(testApplication));
         
         
         // TEST MAPPING 

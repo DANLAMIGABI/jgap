@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import msProvider.*;
+import msProviderIface.*;
+
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Pe;
@@ -19,11 +22,6 @@ import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 
-import cProvider.CProvider;
-import cProvider.CProviderComputing;
-import cProvider.CProviderNetwork;
-import cProvider.CProviderStorage;
-import cProviderIface.ICProvider;
 
 public class DatacenterUtility {
 	
@@ -95,8 +93,8 @@ public class DatacenterUtility {
 		return map;
 	}
 	
-	private static CProvider datacenterToCProvider(HashMap<String, Object> datacenterParam, List<HashMap<String, Object>> hostListParam){
-		CProvider provider = new CProvider();
+	private static MSProvider datacenterToMSProvider(HashMap<String, Object> datacenterParam, List<HashMap<String, Object>> hostListParam){
+		MSProvider provider = new MSProvider();
 		HashMap<String, Object> providerCharacteristic = new HashMap<>();
 		HashMap<String, Object> networkCharacteristic = new HashMap<>();
 		HashMap<String, Object> computingCharacteristic = new HashMap<>();
@@ -128,9 +126,9 @@ public class DatacenterUtility {
 		
 		provider.setID(Integer.parseInt((String)datacenterParam.get(Constant.ID)));
 		provider.setCharacteristic(providerCharacteristic);
-		provider.setComputing(new CProviderComputing());
-		provider.setNetwork(new CProviderNetwork());
-		provider.setStorage(new CProviderStorage());
+		provider.setComputing(new MSProviderComputing());
+		provider.setNetwork(new MSProviderNetwork());
+		provider.setStorage(new MSProviderStorage());
 		provider.getComputing().setCharacteristic(computingCharacteristic);
 		provider.getStorage().setCharacteristic(storageCharacteristic);
 		provider.getNetwork().setCharacteristic(networkCharacteristic);
@@ -169,7 +167,7 @@ public class DatacenterUtility {
 		}
 	}
 	
-	public static void printProviderList(List<ICProvider> list){
+	public static void printProviderList(List<IMSProvider> list){
 		String ret = "";
 		for(int i=0; i<list.size(); i++){
 			ret += hashToString(list.get(i).getCharacteristic(), "");
@@ -195,10 +193,10 @@ public class DatacenterUtility {
 		return param;
 	}
 	
-	public static ICProvider getProvider(HashMap<String, Object> param,int provdierSize, int raiseFactor){
+	public static IMSProvider getProvider(HashMap<String, Object> param,int provdierSize, int raiseFactor){
 		List<HashMap<String, Object>> hostsConf = getHostConfigurations(provdierSize,raiseFactor); 
 		
-		return datacenterToCProvider(param, hostsConf);
+		return datacenterToMSProvider(param, hostsConf);
 	}
 	
 	

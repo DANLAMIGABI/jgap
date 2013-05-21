@@ -2,8 +2,12 @@ package it.cnr.isti.federation.mapping;
 
 import java.util.HashMap;
 
+import org.jgap.xml.ImproperXMLException;
+
 
 import metaschedulerJgap.MSPolicy;
+import msProvider.MSProvider;
+import msProvider.MSProviderStorage;
 import msProviderIface.*;
 import msApplication.*;
 import msApplicationIface.*;
@@ -73,7 +77,8 @@ public class MakePolicy {
 			}
 		};
 	}
-	/*
+	
+	
 	public static MSPolicy makeStoragePolicy(double weight){
 		if( weight < 0 )
 			return null;
@@ -82,9 +87,17 @@ public class MakePolicy {
 			@Override
 			public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
 				// TODO Auto-generated method stub
-				ICAppStorage astore = node.getStorage();
-				IMSProviderStorage pstore = prov.getStorage();
-				double constrain = astore.getAmount() - pstore.getAmount();
+				
+				MSApplicationStorage nodeStorage = node.getStorage();
+				MSProviderStorage provStorage = prov.getStorage();
+				HashMap<String ,Object> storageTratis = nodeStorage.getCharacteristic();
+				HashMap<String, Object> providerTraits = provStorage.getCharacteristic();
+				
+				long nodeStore = (long)storageTratis.get(Constant.STORE);
+				long provStore = (long) providerTraits.get(Constant.STORE);
+				double constrain =  nodeStore - provStore;
+				System.out.println("                                            node: " + nodeStore + "   prov: " + provStore) ;
+				System.out.println("                                             " + constrain);
 				return constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
 				
 			}
@@ -96,5 +109,5 @@ public class MakePolicy {
 			}
 		};
 	}
-*/
+
 }

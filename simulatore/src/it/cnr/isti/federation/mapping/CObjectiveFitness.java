@@ -6,21 +6,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import metaschedulerJgap.MSPolicy;
+import msApplication.MSApplicationNode;
+import msApplicationIface.IMSApplication;
+import msProviderIface.IMSProvider;
+
 import org.jgap.FitnessFunction;
 import org.jgap.IChromosome;
 
-import contrailJgap.ConfigurationJGAPQos;
-
-import cApplication.CApplicationNode;
-import cApplicationIface.ICApplication;
-import cPolicy.CPolicy;
-import cProviderIface.ICProvider;
 
 public class CObjectiveFitness extends FitnessFunction{
 	
-	static private ICApplication application;
-	static private List<ICProvider> providerList;
-	static private List<CPolicy> policy;
+	static private IMSApplication application;
+	static private List<IMSProvider> providerList;
+	static private List<MSPolicy> policy;
 	
 	static private List<String> aggregationParam;
 	
@@ -39,12 +38,14 @@ public class CObjectiveFitness extends FitnessFunction{
 		// TODO Auto-generated method stub
 		System.out.println("   Chromosme size " + arg0.size());
 		double fitness=0;
-		HashMap<Integer, CApplicationNode> applicationMap = getApplicationMapping(arg0);
+		HashMap<Integer, MSApplicationNode> applicationMap = getApplicationMapping(arg0);
 		CFitParameter param = evaluatePolicy(applicationMap);
 
 		if (param.violation != 0) {
 			double ret = 1 / param.violation;
-			 System.out.println("PENALITY " +ret);// + " count: " + param.tmpCounter);
+			 System.out.println("PENALITY " +ret + " param.violation: " + param.violation);
+			 if(ret <1 )
+				 System.out.println("kfjdkffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 			return ret;
 		}
 //		 printHashMap(applicationMap); 
@@ -65,10 +66,10 @@ public class CObjectiveFitness extends FitnessFunction{
 		return Math.abs(fitness);
 	}
 	
-	private HashMap<Integer, CApplicationNode> getApplicationMapping(IChromosome ch){
+	private HashMap<Integer, MSApplicationNode> getApplicationMapping(IChromosome ch){
 		CFitParameter param =  new CFitParameter();
-		HashMap<Integer, CApplicationNode> applicationTable = new HashMap<Integer, CApplicationNode>();
-		List<CApplicationNode> nodes = application.getNodes();
+		HashMap<Integer, MSApplicationNode> applicationTable = new HashMap<Integer, MSApplicationNode>();
+		List<MSApplicationNode> nodes = application.getNodes();
 		for(int i=0; i<ch.size(); i++){
 			Integer index = (Integer) ch.getGene(i).getAllele();
 			aggregateNode(applicationTable, nodes.get(i), index);
@@ -76,15 +77,15 @@ public class CObjectiveFitness extends FitnessFunction{
 		return applicationTable;
 	}
 	
-	private void aggregateNode(HashMap<Integer, CApplicationNode> applicationTab, CApplicationNode node, Integer key){
+	private void aggregateNode(HashMap<Integer, MSApplicationNode> applicationTab, MSApplicationNode node, Integer key){
 		System.out.println("## LOG: aggregazione nodi fit");
-		CApplicationNode tempNode;
+		MSApplicationNode tempNode;
 		if( !applicationTab.containsKey(key) ){
 			tempNode = node.clone();
 			applicationTab.put(key, tempNode);
 			return;
 		}
-		tempNode = (CApplicationNode)applicationTab.get(key);
+		tempNode = (MSApplicationNode)applicationTab.get(key);
 		for(int i=0; i<aggregationParam.size(); i++){
 			aggregateCharacteristic(aggregationParam.get(i), tempNode.getComputing().getCharacteristic(), node.getComputing().getCharacteristic());
 			aggregateCharacteristic(aggregationParam.get(i), tempNode.getNetwork().getCharacteristic(), node.getNetwork().getCharacteristic());
@@ -110,10 +111,10 @@ public class CObjectiveFitness extends FitnessFunction{
 		
 	}
 	
-	private CFitParameter evaluatePolicy(HashMap<Integer, CApplicationNode> applicationMap){
+	private CFitParameter evaluatePolicy(HashMap<Integer, MSApplicationNode> applicationMap){
 		CFitParameter param = new CFitParameter();
 		Iterator<Integer> keys = applicationMap.keySet().iterator();
-		CApplicationNode node;
+		MSApplicationNode node;
 		while(keys.hasNext()){
 			int providerId = keys.next();
 			node = applicationMap.get(providerId);
@@ -149,14 +150,14 @@ public class CObjectiveFitness extends FitnessFunction{
 		}
 	}
 /*
-	private void updateHashMap(HashMap<Integer, CApplicationNode> tab, CApplicationNode node, Integer key ){
-		CApplicationNode newNode;
+	private void updateHashMap(HashMap<Integer, MSApplicationNode> tab, MSApplicationNode node, Integer key ){
+		MSApplicationNode newNode;
 		if( !tab.containsKey(key) ){
 			newNode = node.clone();
 			tab.put(key, newNode);
 			return;
 		}
-		newNode = (CApplicationNode)tab.get(key);
+		newNode = (MSApplicationNode)tab.get(key);
 		newNode.merge(node);
 	}
 	
