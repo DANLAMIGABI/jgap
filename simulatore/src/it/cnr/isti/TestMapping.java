@@ -3,7 +3,7 @@ package it.cnr.isti;
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.mapping.CObjectiveFitness;
 import it.cnr.isti.federation.mapping.ConfigurationFitness;
-import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.mapping.ConstantMapping;
 import it.cnr.isti.federation.mapping.MakePolicy;
 import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.test.DataSette;
@@ -57,16 +57,16 @@ public class TestMapping {
         												// id, place, costSec,  costMem,  costStore,  costBw
         HashMap<String , Object> paramDatacenter = DatacenterUtility.getDatacenterParam();
         for(int i = 0; i<bumberDatacenters; i++){
-        	paramDatacenter.put(Constant.ID, i+101+"");
-            paramDatacenter.put(Constant.PLACE, places[i%places.length]);
+        	paramDatacenter.put(ConstantMapping.ID, i+101+"");
+            paramDatacenter.put(ConstantMapping.PLACE, places[i%places.length]);
             providerList.add (DatacenterUtility.getProvider(paramDatacenter, 1, i*10000));
         }
         DatacenterUtility.printProviderList(providerList);
         
         dcList = new ArrayList<>();
         for(int i=0; i<bumberDatacenters; i++){
-        	paramDatacenter.put(Constant.ID, i+101+"");
-            paramDatacenter.put(Constant.PLACE, places[0]);
+        	paramDatacenter.put(ConstantMapping.ID, i+101+"");
+            paramDatacenter.put(ConstantMapping.PLACE, places[0]);
             dcList.add(DatacenterUtility.getDatacenter(paramDatacenter, 1, i*1));
         }
 //        DatacenterUtility.printFederationDataCenter(dcList);

@@ -1,6 +1,6 @@
 package it.cnr.isti.federation.mapping;
 
-public class Constant {
+public class ConstantMapping {
 	public static final String BW = "BW_AMOUNT";
 	public static final String STORE = "STORAGE_MB";
 	public static final String RAM = "RAM_AMOUNT_MB";
@@ -30,5 +30,7 @@ public class Constant {
 	
 	public static final char GLOBAL_CONSTRAIN ='G';
 	public static final char LOCAL_CONSTRAIN = 'L';
+	
+	
 	
 }

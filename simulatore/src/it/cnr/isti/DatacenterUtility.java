@@ -1,6 +1,6 @@
 package it.cnr.isti;
 
-import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.mapping.ConstantMapping;
 import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.FederationDatacenterProfile;
 import it.cnr.isti.federation.resources.FederationDatacenterProvider;
@@ -43,10 +43,10 @@ public class DatacenterUtility {
 	
 	private static HashMap<String, Object> setHashHostParam(int raiseFactor,String storage, String ram, String bw, String mips ){
 		HashMap<String, Object> param = new HashMap<>();
-		param.put(Constant.BW, raiseFactor+ Long.parseLong(bw));
-		param.put(Constant.MIPS, raiseFactor+ Double.parseDouble(mips));
-		param.put(Constant.RAM, raiseFactor+ Integer.parseInt(ram));
-		param.put(Constant.STORE, raiseFactor+ Long.parseLong(storage));
+		param.put(ConstantMapping.BW, raiseFactor+ Long.parseLong(bw));
+		param.put(ConstantMapping.MIPS, raiseFactor+ Double.parseDouble(mips));
+		param.put(ConstantMapping.RAM, raiseFactor+ Integer.parseInt(ram));
+		param.put(ConstantMapping.STORE, raiseFactor+ Long.parseLong(storage));
 		return param;
 	}
 	
@@ -69,11 +69,11 @@ public class DatacenterUtility {
 	private static PowerHost createHost(HashMap<String, Object> param){
 		
 		List<Pe> peList = new ArrayList<Pe>();
-		peList.add(new Pe(0, new PeProvisionerSimple((Double)param.get(Constant.MIPS))));
+		peList.add(new Pe(0, new PeProvisionerSimple((Double)param.get(ConstantMapping.MIPS))));
 		HostProfile prof = HostProfile.getDefault();
-		prof.set(HostParams.STORAGE_MB, (Long)param.get(Constant.STORE)+"");
-		prof.set(HostParams.RAM_AMOUNT_MB,(Integer)param.get(Constant.RAM)+"");
-		prof.set(HostParams.BW_AMOUNT, (Long)param.get(Constant.BW)+"");
+		prof.set(HostParams.STORAGE_MB, (Long)param.get(ConstantMapping.STORE)+"");
+		prof.set(HostParams.RAM_AMOUNT_MB,(Integer)param.get(ConstantMapping.RAM)+"");
+		prof.set(HostParams.BW_AMOUNT, (Long)param.get(ConstantMapping.BW)+"");
 		//DAM MODIFICARE CON HOSTDYNAMIWORKLOAD
 //		return GiuseppeHostProvider.get(prof, peList);
 		return HostProvider.get(prof, peList);
@@ -87,15 +87,15 @@ public class DatacenterUtility {
 		double mips =0;
 		for(int i=0; i<hostListParam.size(); i++){
 			HashMap<String, Object> hostParam = hostListParam.get(i);
-			storage += (Long)hostParam.get(Constant.STORE);
-			ram += (Integer)hostParam.get(Constant.RAM);
-			bw += (Long)hostParam.get(Constant.BW);
-			mips += (Double)hostParam.get(Constant.MIPS);
+			storage += (Long)hostParam.get(ConstantMapping.STORE);
+			ram += (Integer)hostParam.get(ConstantMapping.RAM);
+			bw += (Long)hostParam.get(ConstantMapping.BW);
+			mips += (Double)hostParam.get(ConstantMapping.MIPS);
 		}
-		map.put(Constant.STORE, storage);
-		map.put(Constant.MIPS, mips);
-		map.put(Constant.RAM, ram);
-		map.put(Constant.BW, bw);
+		map.put(ConstantMapping.STORE, storage);
+		map.put(ConstantMapping.MIPS, mips);
+		map.put(ConstantMapping.RAM, ram);
+		map.put(ConstantMapping.BW, bw);
 		return map;
 	}
 	
@@ -113,24 +113,24 @@ public class DatacenterUtility {
 //		Log.printLine("###################");
 		
 		//computing
-		computingCharacteristic.put(Constant.RAM, aggregateHost.get(Constant.RAM));
-		computingCharacteristic.put(Constant.MIPS, aggregateHost.get(Constant.MIPS));
-		computingCharacteristic.put(Constant.COST_MEM, datacenterParam.get(Constant.COST_MEM) );
+		computingCharacteristic.put(ConstantMapping.RAM, aggregateHost.get(ConstantMapping.RAM));
+		computingCharacteristic.put(ConstantMapping.MIPS, aggregateHost.get(ConstantMapping.MIPS));
+		computingCharacteristic.put(ConstantMapping.COST_MEM, datacenterParam.get(ConstantMapping.COST_MEM) );
 		
 		//network
-		networkCharacteristic.put(Constant.BW, aggregateHost.get(Constant.BW));
-		networkCharacteristic.put(Constant.COST_BW, datacenterParam.get(Constant.COST_BW));
+		networkCharacteristic.put(ConstantMapping.BW, aggregateHost.get(ConstantMapping.BW));
+		networkCharacteristic.put(ConstantMapping.COST_BW, datacenterParam.get(ConstantMapping.COST_BW));
 		
 		//storage
-		storageCharacteristic.put(Constant.STORE, aggregateHost.get(Constant.STORE));
-		storageCharacteristic.put(Constant.COST_STORAGE, datacenterParam.get(Constant.COST_STORAGE));
+		storageCharacteristic.put(ConstantMapping.STORE, aggregateHost.get(ConstantMapping.STORE));
+		storageCharacteristic.put(ConstantMapping.COST_STORAGE, datacenterParam.get(ConstantMapping.COST_STORAGE));
 		
 		//provider
-		providerCharacteristic.put(Constant.ID, datacenterParam.get(Constant.ID));
-		providerCharacteristic.put(Constant.COST_SEC, datacenterParam.get(Constant.COST_SEC));
-		providerCharacteristic.put(Constant.PLACE, datacenterParam.get(Constant.PLACE));
+		providerCharacteristic.put(ConstantMapping.ID, datacenterParam.get(ConstantMapping.ID));
+		providerCharacteristic.put(ConstantMapping.COST_SEC, datacenterParam.get(ConstantMapping.COST_SEC));
+		providerCharacteristic.put(ConstantMapping.PLACE, datacenterParam.get(ConstantMapping.PLACE));
 		
-		provider.setID(Integer.parseInt((String)datacenterParam.get(Constant.ID)));
+		provider.setID(Integer.parseInt((String)datacenterParam.get(ConstantMapping.ID)));
 		provider.setCharacteristic(providerCharacteristic);
 		provider.setComputing(new CProviderComputing());
 		provider.setNetwork(new CProviderNetwork());
@@ -190,12 +190,12 @@ public class DatacenterUtility {
 	 */
 	public static HashMap<String, Object> getDatacenterParam(){
 		HashMap<String, Object> param = new HashMap<>();
-		param.put(Constant.COST_BW, 1.0);
-		param.put(Constant.COST_MEM, 1.0);
-		param.put(Constant.COST_SEC, 1.0);
-		param.put(Constant.COST_STORAGE, 1.0);
-		param.put(Constant.PLACE, null);
-		param.put(Constant.ID, null);
+		param.put(ConstantMapping.COST_BW, 1.0);
+		param.put(ConstantMapping.COST_MEM, 1.0);
+		param.put(ConstantMapping.COST_SEC, 1.0);
+		param.put(ConstantMapping.COST_STORAGE, 1.0);
+		param.put(ConstantMapping.PLACE, null);
+		param.put(ConstantMapping.ID, null);
 		return param;
 	}
 	
@@ -208,10 +208,10 @@ public class DatacenterUtility {
 	
 	public static FederationDatacenter getDatacenter(HashMap<String, Object> param, int datacenterSize, int raiseFactor){
 		FederationDatacenterProfile prof = FederationDatacenterProfile.getDefault();
-		prof.set(DatacenterParams.COST_PER_BW, (Double)param.get(Constant.COST_BW)+"");
-		prof.set(DatacenterParams.COST_PER_MEM, (Double)param.get(Constant.COST_MEM)+"");
-		prof.set(DatacenterParams.COST_PER_SEC, (Double)param.get(Constant.COST_SEC)+"");
-		prof.set(DatacenterParams.COST_PER_STORAGE, (Double)param.get(Constant.COST_STORAGE)+"");
+		prof.set(DatacenterParams.COST_PER_BW, (Double)param.get(ConstantMapping.COST_BW)+"");
+		prof.set(DatacenterParams.COST_PER_MEM, (Double)param.get(ConstantMapping.COST_MEM)+"");
+		prof.set(DatacenterParams.COST_PER_SEC, (Double)param.get(ConstantMapping.COST_SEC)+"");
+		prof.set(DatacenterParams.COST_PER_STORAGE, (Double)param.get(ConstantMapping.COST_STORAGE)+"");
 		
 		//make datacenter
 		List<HashMap<String, Object>> hostsDatacenter = getHostConfigurations(datacenterSize, raiseFactor);

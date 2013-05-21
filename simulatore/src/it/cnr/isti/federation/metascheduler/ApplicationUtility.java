@@ -2,7 +2,7 @@ package it.cnr.isti.federation.metascheduler;
 
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.application.ApplicationEdge;
-import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.mapping.ConstantMapping;
 import it.cnr.isti.test.ThreeTierBusinessApplication;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class ApplicationUtility {
 	public static String toStringMSApplication(IMSApplication app){
 		HashMap<String, Object> map = app.getCharacteristic();
 		String ret = "";
-		ret += map.get(Constant.PLACE);
+		ret += map.get(ConstantMapping.PLACE);
 		ret += hashToString(map, "   ");
 		List<MSApplicationNode> nodes = app.getNodes();
 		for(int i=0; i<nodes.size(); i++){
@@ -75,22 +75,22 @@ public class ApplicationUtility {
 		MSApplicationNetwork network = new MSApplicationNetwork();
 		MSApplicationStorage storage = new MSApplicationStorage();
 		
-		compParam.put(Constant.MIPS, vm.getMips());
-		compParam.put(Constant.RAM, vm.getRam());
-		storeParam.put(Constant.STORE, vm.getSize());
+		compParam.put(ConstantMapping.MIPS, vm.getMips());
+		compParam.put(ConstantMapping.RAM, vm.getRam());
+		storeParam.put(ConstantMapping.STORE, vm.getSize());
 		
 		computing.setCharacteristic(compParam);
 		storage.setCharacteristic(storeParam);
 		
-		netParam.put(Constant.BW, aggregateEdgesBW(edges)+"");
+		netParam.put(ConstantMapping.BW, aggregateEdgesBW(edges)+"");
 		network.setCharacteristic(netParam);
 		
 		appNode.setComputing(computing);
 		appNode.setNetwork(network);
 		appNode.setStorage(storage);
 		HashMap<String, Object> nodeCar = new HashMap<>();
-		nodeCar.put(Constant.BUDGET, Double.parseDouble(budger));
-		nodeCar.put(Constant.PLACE,place);
+		nodeCar.put(ConstantMapping.BUDGET, Double.parseDouble(budger));
+		nodeCar.put(ConstantMapping.PLACE,place);
 		appNode.setCharacteristic(nodeCar);
 		return appNode;
 	}
@@ -106,8 +106,8 @@ public class ApplicationUtility {
 			nodeList.add(vmToMSApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), budget, place));
 			
 		}
-		appCharacteristic.put(Constant.PLACE, place);
-		appCharacteristic.put(Constant.BUDGET, Double.parseDouble(budget));
+		appCharacteristic.put(ConstantMapping.PLACE, place);
+		appCharacteristic.put(ConstantMapping.BUDGET, Double.parseDouble(budget));
 		
 		newApp.setNodes(nodeList);
 		newApp.setCharacteristic(appCharacteristic);

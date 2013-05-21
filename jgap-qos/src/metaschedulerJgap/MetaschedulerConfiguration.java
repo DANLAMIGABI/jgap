@@ -23,7 +23,7 @@ import org.jgap.impl.WeightedRouletteSelector;
 import test.UtilityJGAP;
 
 
-public class ConfigurationJGAPQos {
+public class MetaschedulerConfiguration {
 	
 	private String ID;
 	private String name;
@@ -40,11 +40,11 @@ public class ConfigurationJGAPQos {
 	
 	
 	
-	public ConfigurationJGAPQos(){
+	public MetaschedulerConfiguration(){
 		this("", "");
 	}
 	
-	public ConfigurationJGAPQos(String id, String name){
+	public MetaschedulerConfiguration(String id, String name){
 		ID = id;
 		this. name = name;
 		evolutionSize =0;

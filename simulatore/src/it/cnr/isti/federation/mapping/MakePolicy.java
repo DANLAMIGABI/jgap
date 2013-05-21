@@ -22,7 +22,7 @@ public class MakePolicy {
 	public static MSPolicy makeCostPolicy(double weight){
 		if( weight < 0 )
 			return null;
-		return new MSPolicy(weight, Constant.DESCENDENT_TYPE, Constant.LOCAL_CONSTRAIN) {
+		return new MSPolicy(weight, ConstantMapping.DESCENDENT_TYPE, ConstantMapping.LOCAL_CONSTRAIN) {
 
 			@Override
 			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
@@ -37,8 +37,8 @@ public class MakePolicy {
 				// TODO Auto-generated method stub
 				HashMap<String ,Object> nodeTratis = node.getCharacteristic();
 				HashMap<String, Object> providerTraits = prov.getCharacteristic();
-				Double budget = (Double) nodeTratis.get(Constant.BUDGET);
-				Double cost = (Double) providerTraits.get(Constant.COST_SEC);
+				Double budget = (Double) nodeTratis.get(ConstantMapping.BUDGET);
+				Double cost = (Double) providerTraits.get(ConstantMapping.COST_SEC);
 
 				double constrain = cost - budget;
 				return (constrain >0) ? (constrain +1)*getWeight() : (constrain -1)*getWeight();
@@ -49,7 +49,7 @@ public class MakePolicy {
 	public static MSPolicy makePlacePolicy(double weight){
 		if( weight < 0 )
 			return null;
-		return new MSPolicy(weight,Constant.EQUAL_TYPE, Constant.LOCAL_CONSTRAIN) {
+		return new MSPolicy(weight,ConstantMapping.EQUAL_TYPE, ConstantMapping.LOCAL_CONSTRAIN) {
 			
 			@Override
 			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
@@ -65,8 +65,8 @@ public class MakePolicy {
 				HashMap<String ,Object> nodeTratis = node.getCharacteristic();
 				HashMap<String, Object> providerTraits = prov.getCharacteristic();
 				
-				String nodePlace = (String) nodeTratis.get(Constant.PLACE);
-				String providerPlace = (String) providerTraits.get(Constant.PLACE);
+				String nodePlace = (String) nodeTratis.get(ConstantMapping.PLACE);
+				String providerPlace = (String) providerTraits.get(ConstantMapping.PLACE);
 				
 				double constrain = Math.abs(nodePlace.compareToIgnoreCase(providerPlace));
 				
@@ -82,7 +82,7 @@ public class MakePolicy {
 	public static MSPolicy makeStoragePolicy(double weight){
 		if( weight < 0 )
 			return null;
-		return new MSPolicy(weight,Constant.ASCENDENT_TYPE,Constant.LOCAL_CONSTRAIN) {
+		return new MSPolicy(weight,ConstantMapping.ASCENDENT_TYPE,ConstantMapping.LOCAL_CONSTRAIN) {
 			
 			@Override
 			public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
@@ -93,8 +93,8 @@ public class MakePolicy {
 				HashMap<String ,Object> storageTratis = nodeStorage.getCharacteristic();
 				HashMap<String, Object> providerTraits = provStorage.getCharacteristic();
 				
-				long nodeStore = (long)storageTratis.get(Constant.STORE);
-				long provStore = (long) providerTraits.get(Constant.STORE);
+				long nodeStore = (long)storageTratis.get(ConstantMapping.STORE);
+				long provStore = (long) providerTraits.get(ConstantMapping.STORE);
 				double constrain =  nodeStore - provStore;
 				System.out.println("                                            node: " + nodeStore + "   prov: " + provStore) ;
 				System.out.println("                                             " + constrain);

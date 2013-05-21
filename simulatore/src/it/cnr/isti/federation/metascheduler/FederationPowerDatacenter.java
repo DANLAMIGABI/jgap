@@ -20,12 +20,14 @@ import org.cloudbus.cloudsim.power.PowerDatacenterNonPowerAware;
 
 public class FederationPowerDatacenter extends PowerDatacenterNonPowerAware
 {
-
+//	private DatacenterCharacteristics datacenterCh;
+	
 	public FederationPowerDatacenter(String name, DatacenterCharacteristics characteristics, 
 			VmAllocationPolicy vmAllocationPolicy, List<Storage> storageList, double schedulingInterval)
 			throws Exception 
 	{
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
+//		datacenterCh = characteristics;
 	}
 	
 	@Override
@@ -64,6 +66,11 @@ public class FederationPowerDatacenter extends PowerDatacenterNonPowerAware
 		else
 			processStats(ev);
 		
+	}
+	
+	@Override
+	protected DatacenterCharacteristics getCharacteristics(){
+		return super.getCharacteristics();
 	}
 	
 	protected void processVmCreate(SimEvent ev)
@@ -111,7 +118,6 @@ public class FederationPowerDatacenter extends PowerDatacenterNonPowerAware
 		Application app = allocation.getApplication();
 		for (Vm vm: app.getAllVms())
 		{
-			System.out.println("boooooooooooooooooooooooooooooooooooooooooooooooo");
 			Cloudlet cloudlet = app.getVertexForVm(vm).getAssociatedcloudlet(vm);
 			cloudlet.setVmId(vm.getId());
 			cloudlet.setUserId(this.getId());		

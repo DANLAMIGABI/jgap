@@ -5,7 +5,7 @@ import it.cnr.isti.federation.application.ApplicationEdge;
 import it.cnr.isti.federation.application.ApplicationVertex;
 import it.cnr.isti.federation.mapping.CObjectiveFitness;
 import it.cnr.isti.federation.mapping.ConfigurationFitness;
-import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.mapping.ConstantMapping;
 import it.cnr.isti.federation.mapping.MakePolicy;
 import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.HostProfile.HostParams;
@@ -45,21 +45,21 @@ public class OLD_TestMapping {
 	
 	private static HashMap<String, Object> setHashHostParam(String storage, String ram, String bw, String mips ){
 		HashMap<String, Object> param = new HashMap<>();
-		param.put(Constant.BW, Long.parseLong(bw));
-		param.put(Constant.MIPS, Double.parseDouble(mips));
-		param.put(Constant.RAM, Integer.parseInt(ram));
-		param.put(Constant.STORE, Long.parseLong(storage));
+		param.put(ConstantMapping.BW, Long.parseLong(bw));
+		param.put(ConstantMapping.MIPS, Double.parseDouble(mips));
+		param.put(ConstantMapping.RAM, Integer.parseInt(ram));
+		param.put(ConstantMapping.STORE, Long.parseLong(storage));
 		return param;
 	}
 	
 	private static HashMap<String, Object> setHashDataCenterParam(String id,String place,String costSec, String costMem, String costStore, String costBw){
 		HashMap<String, Object> param = new HashMap<>();
-		param.put(Constant.COST_BW, Double.parseDouble(costBw));
-		param.put(Constant.COST_MEM, Double.parseDouble(costMem));
-		param.put(Constant.COST_SEC, Double.parseDouble(costSec));
-		param.put(Constant.COST_STORAGE, Double.parseDouble(costStore));
-		param.put(Constant.PLACE, place);
-		param.put(Constant.ID, id);
+		param.put(ConstantMapping.COST_BW, Double.parseDouble(costBw));
+		param.put(ConstantMapping.COST_MEM, Double.parseDouble(costMem));
+		param.put(ConstantMapping.COST_SEC, Double.parseDouble(costSec));
+		param.put(ConstantMapping.COST_STORAGE, Double.parseDouble(costStore));
+		param.put(ConstantMapping.PLACE, place);
+		param.put(ConstantMapping.ID, id);
 		return param;
 	}
 	
@@ -152,9 +152,9 @@ public class OLD_TestMapping {
         
 /* Tert JGAP */
         ConfigurationFitness fitConf = new ConfigurationFitness();
-        fitConf.addAggregationParams(Constant.RAM);
-        fitConf.addAggregationParams(Constant.BW);
-        fitConf.addAggregationParams(Constant.STORE);
+        fitConf.addAggregationParams(ConstantMapping.RAM);
+        fitConf.addAggregationParams(ConstantMapping.BW);
+        fitConf.addAggregationParams(ConstantMapping.STORE);
         fitConf.setApplication(testApplication);
         fitConf.setProviders(providerList);
         List<CPolicy> test = new ArrayList<>();
@@ -167,8 +167,8 @@ public class OLD_TestMapping {
         
         ConfigurationJGAPQos conf = new ConfigurationJGAPQos();
         conf.setFitnessFunction(new CObjectiveFitness(fitConf));
-        conf.setPopulationSize(Constant.POP_SIZE);
-        conf.setEvolutionSize(Constant.EVOLUTION_SIZE);
+        conf.setPopulationSize(ConstantMapping.POP_SIZE);
+        conf.setEvolutionSize(ConstantMapping.EVOLUTION_SIZE);
         conf.setConfiguration(testApplication, providerList.size());
         
         //TEST

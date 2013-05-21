@@ -16,10 +16,13 @@ public class FederationDatacenterProviderMeta
 
 	private static int DC_COUNTER = 0;
 	
+//	//added by Giuseppe
+//	private static DatacenterCharacteristics datacenterCh;
+	
 	private static FederationPowerDatacenter createFederationDatacenter(FederationDatacenterProfileMeta profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		// create the datacenter characteristics
-		DatacenterCharacteristics dc = new DatacenterCharacteristics(profile.get(DatacenterParams.ARCHITECTURE),
+		DatacenterCharacteristics datacenterCh = new DatacenterCharacteristics(profile.get(DatacenterParams.ARCHITECTURE),
 				profile.get(DatacenterParams.OS),
 				profile.get(DatacenterParams.VMM),
 				hosts,
@@ -48,7 +51,7 @@ public class FederationDatacenterProviderMeta
 		FederationPowerDatacenter fc = null;
 		try
 		{
-			fc = new FederationPowerDatacenter("datacenter_"+DC_COUNTER++, dc, vmAllocationPolicy, storages, 
+			fc = new FederationPowerDatacenter("datacenter_"+DC_COUNTER++, datacenterCh, vmAllocationPolicy, storages, 
 					Double.parseDouble(profile.get(DatacenterParams.SCHEDULING_INTERNAL)));
 		}
 		catch (Exception e)

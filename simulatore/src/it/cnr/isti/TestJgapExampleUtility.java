@@ -3,7 +3,7 @@ package it.cnr.isti;
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.application.ApplicationEdge;
 import it.cnr.isti.federation.application.ApplicationVertex;
-import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.mapping.ConstantMapping;
 import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.FederationDatacenterProfile;
 import it.cnr.isti.federation.resources.FederationDatacenterProfile.DatacenterParams;
@@ -55,7 +55,7 @@ public class TestJgapExampleUtility {
 	public static String toStringCApplication(ICApplication app){
 		HashMap<String, Object> map = app.getCharacteristic();
 		String ret = "";
-		ret += map.get(Constant.PLACE);
+		ret += map.get(ConstantMapping.PLACE);
 		ret += hashToString(map, "   ");
 //		List<CApplicationNode> nodes = app.getNodes();
 //		for(int i=0; i<nodes.size(); i++){
@@ -121,21 +121,21 @@ public class TestJgapExampleUtility {
 	public static Host createHost(HashMap<String, Object> param){
 		
 		List<Pe> peList = new ArrayList<Pe>();
-		peList.add(new Pe(0, new PeProvisionerSimple((Double)param.get(Constant.MIPS))));
+		peList.add(new Pe(0, new PeProvisionerSimple((Double)param.get(ConstantMapping.MIPS))));
 		HostProfile prof = HostProfile.getDefault();
-		prof.set(HostParams.STORAGE_MB, (Long)param.get(Constant.STORE)+"");
-		prof.set(HostParams.RAM_AMOUNT_MB,(Integer)param.get(Constant.RAM)+"");
-		prof.set(HostParams.BW_AMOUNT, (Long)param.get(Constant.BW)+"");
+		prof.set(HostParams.STORAGE_MB, (Long)param.get(ConstantMapping.STORE)+"");
+		prof.set(HostParams.RAM_AMOUNT_MB,(Integer)param.get(ConstantMapping.RAM)+"");
+		prof.set(HostParams.BW_AMOUNT, (Long)param.get(ConstantMapping.BW)+"");
 		return HostProvider.get(prof, peList);
 	}
 	
 	public static FederationDatacenter createDatacenter(HashMap<String, Object> param, List<Host> hostList){
 		
 		FederationDatacenterProfile prof = FederationDatacenterProfile.getDefault();
-		prof.set(DatacenterParams.COST_PER_BW, (Double)param.get(Constant.COST_BW)+"");
-		prof.set(DatacenterParams.COST_PER_MEM, (Double)param.get(Constant.COST_MEM)+"");
-		prof.set(DatacenterParams.COST_PER_SEC, (Double)param.get(Constant.COST_SEC)+"");
-		prof.set(DatacenterParams.COST_PER_STORAGE, (Double)param.get(Constant.COST_STORAGE)+"");
+		prof.set(DatacenterParams.COST_PER_BW, (Double)param.get(ConstantMapping.COST_BW)+"");
+		prof.set(DatacenterParams.COST_PER_MEM, (Double)param.get(ConstantMapping.COST_MEM)+"");
+		prof.set(DatacenterParams.COST_PER_SEC, (Double)param.get(ConstantMapping.COST_SEC)+"");
+		prof.set(DatacenterParams.COST_PER_STORAGE, (Double)param.get(ConstantMapping.COST_STORAGE)+"");
 		
 		List<Storage> storageList = new ArrayList<Storage>();
 		return FederationDatacenterProvider.get(prof, hostList, storageList);
@@ -149,15 +149,15 @@ public class TestJgapExampleUtility {
 		double mips =0;
 		for(int i=0; i<hostListParam.size(); i++){
 			HashMap<String, Object> hostParam = hostListParam.get(i);
-			storage += (Long)hostParam.get(Constant.STORE);
-			ram += (Integer)hostParam.get(Constant.RAM);
-			bw += (Long)hostParam.get(Constant.BW);
-			mips += (Double)hostParam.get(Constant.MIPS);
+			storage += (Long)hostParam.get(ConstantMapping.STORE);
+			ram += (Integer)hostParam.get(ConstantMapping.RAM);
+			bw += (Long)hostParam.get(ConstantMapping.BW);
+			mips += (Double)hostParam.get(ConstantMapping.MIPS);
 		}
-		map.put(Constant.STORE, storage);
-		map.put(Constant.MIPS, mips);
-		map.put(Constant.RAM, ram);
-		map.put(Constant.BW, bw);
+		map.put(ConstantMapping.STORE, storage);
+		map.put(ConstantMapping.MIPS, mips);
+		map.put(ConstantMapping.RAM, ram);
+		map.put(ConstantMapping.BW, bw);
 		return map;
 	}
 	
@@ -175,23 +175,23 @@ public class TestJgapExampleUtility {
 		Log.printLine("###################");
 		
 		//computing
-		computingCharacteristic.put(Constant.RAM, aggregateHost.get(Constant.RAM));
-		computingCharacteristic.put(Constant.MIPS, aggregateHost.get(Constant.MIPS));
-		computingCharacteristic.put(Constant.COST_MEM, datacenterParam.get(Constant.COST_MEM) );
+		computingCharacteristic.put(ConstantMapping.RAM, aggregateHost.get(ConstantMapping.RAM));
+		computingCharacteristic.put(ConstantMapping.MIPS, aggregateHost.get(ConstantMapping.MIPS));
+		computingCharacteristic.put(ConstantMapping.COST_MEM, datacenterParam.get(ConstantMapping.COST_MEM) );
 		
 		//network
-		networkCharacteristic.put(Constant.BW, aggregateHost.get(Constant.BW));
-		networkCharacteristic.put(Constant.COST_BW, datacenterParam.get(Constant.COST_BW));
+		networkCharacteristic.put(ConstantMapping.BW, aggregateHost.get(ConstantMapping.BW));
+		networkCharacteristic.put(ConstantMapping.COST_BW, datacenterParam.get(ConstantMapping.COST_BW));
 		
 		//storage
-		storageCharacteristic.put(Constant.STORE, aggregateHost.get(Constant.STORE));
-		storageCharacteristic.put(Constant.COST_STORAGE, datacenterParam.get(Constant.COST_STORAGE));
+		storageCharacteristic.put(ConstantMapping.STORE, aggregateHost.get(ConstantMapping.STORE));
+		storageCharacteristic.put(ConstantMapping.COST_STORAGE, datacenterParam.get(ConstantMapping.COST_STORAGE));
 		
 		//provider
-		providerCharacteristic.put(Constant.COST_SEC, datacenterParam.get(Constant.COST_SEC));
-		providerCharacteristic.put(Constant.PLACE, datacenterParam.get(Constant.PLACE));
+		providerCharacteristic.put(ConstantMapping.COST_SEC, datacenterParam.get(ConstantMapping.COST_SEC));
+		providerCharacteristic.put(ConstantMapping.PLACE, datacenterParam.get(ConstantMapping.PLACE));
 		
-		provider.setID(Integer.parseInt((String)datacenterParam.get(Constant.ID)));
+		provider.setID(Integer.parseInt((String)datacenterParam.get(ConstantMapping.ID)));
 		provider.setCharacteristic(providerCharacteristic);
 		provider.setComputing(new CProviderComputing());
 		provider.setNetwork(new CProviderNetwork());
@@ -230,22 +230,22 @@ public class TestJgapExampleUtility {
 		CApplicationNetwork network = new CApplicationNetwork();
 		CApplicationStorage storage = new CApplicationStorage();
 		
-		compParam.put(Constant.MIPS, vm.getMips());
-		compParam.put(Constant.RAM, vm.getRam());
-		storeParam.put(Constant.STORE, vm.getSize());
+		compParam.put(ConstantMapping.MIPS, vm.getMips());
+		compParam.put(ConstantMapping.RAM, vm.getRam());
+		storeParam.put(ConstantMapping.STORE, vm.getSize());
 		
 		computing.setCharacteristic(compParam);
 		storage.setCharacteristic(storeParam);
 		
-		netParam.put(Constant.BW, aggregateEdgesBW(edges)+"");
+		netParam.put(ConstantMapping.BW, aggregateEdgesBW(edges)+"");
 		network.setCharacteristic(netParam);
 		
 		appNode.setComputing(computing);
 		appNode.setNetwork(network);
 		appNode.setStorage(storage);
 		HashMap<String, Object> nodeCar = new HashMap<>();
-		nodeCar.put(Constant.BUDGET, Double.parseDouble(budger));
-		nodeCar.put(Constant.PLACE,place);
+		nodeCar.put(ConstantMapping.BUDGET, Double.parseDouble(budger));
+		nodeCar.put(ConstantMapping.PLACE,place);
 		appNode.setCharacteristic(nodeCar);
 		return appNode;
 	}
@@ -261,8 +261,8 @@ public class TestJgapExampleUtility {
 			nodeList.add(vmToCApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), budget, place));
 			
 		}
-		appCharacteristic.put(Constant.PLACE, place);
-		appCharacteristic.put(Constant.BUDGET, Double.parseDouble(budget));
+		appCharacteristic.put(ConstantMapping.PLACE, place);
+		appCharacteristic.put(ConstantMapping.BUDGET, Double.parseDouble(budget));
 		
 		newApp.setNodes(nodeList);
 		newApp.setCharacteristic(appCharacteristic);

@@ -2,7 +2,7 @@ package it.cnr.isti;
 
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.application.ApplicationEdge;
-import it.cnr.isti.federation.mapping.Constant;
+import it.cnr.isti.federation.mapping.ConstantMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class ApplicationUtility {
 	public static String toStringCApplication(ICApplication app){
 		HashMap<String, Object> map = app.getCharacteristic();
 		String ret = "";
-		ret += map.get(Constant.PLACE);
+		ret += map.get(ConstantMapping.PLACE);
 		ret += hashToString(map, "   ");
 		List<CApplicationNode> nodes = app.getNodes();
 		for(int i=0; i<nodes.size(); i++){
@@ -78,22 +78,22 @@ public class ApplicationUtility {
 		CApplicationNetwork network = new CApplicationNetwork();
 		CApplicationStorage storage = new CApplicationStorage();
 		
-		compParam.put(Constant.MIPS, vm.getMips());
-		compParam.put(Constant.RAM, vm.getRam());
-		storeParam.put(Constant.STORE, vm.getSize());
+		compParam.put(ConstantMapping.MIPS, vm.getMips());
+		compParam.put(ConstantMapping.RAM, vm.getRam());
+		storeParam.put(ConstantMapping.STORE, vm.getSize());
 		
 		computing.setCharacteristic(compParam);
 		storage.setCharacteristic(storeParam);
 		
-		netParam.put(Constant.BW, aggregateEdgesBW(edges)+"");
+		netParam.put(ConstantMapping.BW, aggregateEdgesBW(edges)+"");
 		network.setCharacteristic(netParam);
 		
 		appNode.setComputing(computing);
 		appNode.setNetwork(network);
 		appNode.setStorage(storage);
 		HashMap<String, Object> nodeCar = new HashMap<>();
-		nodeCar.put(Constant.BUDGET, Double.parseDouble(budger));
-		nodeCar.put(Constant.PLACE,place);
+		nodeCar.put(ConstantMapping.BUDGET, Double.parseDouble(budger));
+		nodeCar.put(ConstantMapping.PLACE,place);
 		appNode.setCharacteristic(nodeCar);
 		return appNode;
 	}
@@ -109,8 +109,8 @@ public class ApplicationUtility {
 			nodeList.add(vmToCApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), budget, place));
 			
 		}
-		appCharacteristic.put(Constant.PLACE, place);
-		appCharacteristic.put(Constant.BUDGET, Double.parseDouble(budget));
+		appCharacteristic.put(ConstantMapping.PLACE, place);
+		appCharacteristic.put(ConstantMapping.BUDGET, Double.parseDouble(budget));
 		
 		newApp.setNodes(nodeList);
 		newApp.setCharacteristic(appCharacteristic);

@@ -1,6 +1,5 @@
-package it.cnr.isti.federation.mapping;
+package metaschedulerJgap;
 
-import it.cnr.isti.TestJgapExampleUtility;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,20 +16,27 @@ import org.jgap.IChromosome;
 
 public class CObjectiveFitness extends FitnessFunction{
 	
-	static private IMSApplication application;
-	static private List<IMSProvider> providerList;
-	static private List<MSPolicy> policy;
+	  static private IMSApplication application;
+	  static private List<IMSProvider> providerList;
+	 static private List<MSPolicy> policy;
 	
-	static private List<String> aggregationParam;
+	  static private String[] aggregationParam;
 	
 	
-	public CObjectiveFitness(ConfigurationFitness conf){
-		application = conf.getApplication();
-		providerList = conf.getProviders();
-		policy = conf.getConstrains();
-		aggregationParam = conf.getAggregationParams();
-		System.out.println("------------------------------- " + policy.size());
-		
+//	public CObjectiveFitness(ConfigurationFitness conf){
+////		application = conf.getApplication();
+////		providerList = conf.getProviders();
+//		policy = conf.getConstrains();
+//		aggregationParam = conf.getAggregationParams();
+//		System.out.println("------------------------------- " + policy.size());
+//		
+//	}
+	
+	public CObjectiveFitness(IMSApplication app, List<IMSProvider> plist, List<MSPolicy> policyList){
+		application = app;
+		providerList = plist;
+		policy = policyList;
+		aggregationParam = Constant.aggregationParam;
 	}
 	
 	@Override
@@ -86,10 +92,10 @@ public class CObjectiveFitness extends FitnessFunction{
 			return;
 		}
 		tempNode = (MSApplicationNode)applicationTab.get(key);
-		for(int i=0; i<aggregationParam.size(); i++){
-			aggregateCharacteristic(aggregationParam.get(i), tempNode.getComputing().getCharacteristic(), node.getComputing().getCharacteristic());
-			aggregateCharacteristic(aggregationParam.get(i), tempNode.getNetwork().getCharacteristic(), node.getNetwork().getCharacteristic());
-			aggregateCharacteristic(aggregationParam.get(i), tempNode.getStorage().getCharacteristic(), node.getStorage().getCharacteristic());
+		for(int i=0; i<aggregationParam.length; i++){
+			aggregateCharacteristic(aggregationParam[i], tempNode.getComputing().getCharacteristic(), node.getComputing().getCharacteristic());
+			aggregateCharacteristic(aggregationParam[i], tempNode.getNetwork().getCharacteristic(), node.getNetwork().getCharacteristic());
+			aggregateCharacteristic(aggregationParam[i], tempNode.getStorage().getCharacteristic(), node.getStorage().getCharacteristic());
 		}
 		applicationTab.put(key, tempNode);
 		
@@ -122,7 +128,7 @@ public class CObjectiveFitness extends FitnessFunction{
 			
 			double val;
 			for( int j =0; j<policy.size(); j++){
-				if(policy.get(j).getGroup() == ConstantMapping.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
+				if(policy.get(j).getGroup() == Constant.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
 					if( (val = policy.get(j).evaluateGlobalPolicy(application, providerList.get(providerId))) > 0){ // violazione
 						param.violation += val;
 					}
@@ -142,9 +148,9 @@ public class CObjectiveFitness extends FitnessFunction{
 	
 	private void updateParameter(char constrainType, double val, CFitParameter param){
 		switch (constrainType) {
-		case ConstantMapping.ASCENDENT_TYPE: param.ascendent += val; break;
-		case ConstantMapping.DESCENDENT_TYPE: param.descendent += val; break;
-		case ConstantMapping.EQUAL_TYPE: param.equal += val; break;
+		case Constant.ASCENDENT_TYPE: param.ascendent += val; break;
+		case Constant.DESCENDENT_TYPE: param.descendent += val; break;
+		case Constant.EQUAL_TYPE: param.equal += val; break;
 		default:
 			break;
 		}
