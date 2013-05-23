@@ -37,6 +37,7 @@ public class CGene extends BaseGene implements Gene, java.io.Serializable {
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
+//		System.out.println("COMPARE TO CGENE " + getAllele());
 		if(o == null)
 			return 1;
 		if(allele == null){
@@ -45,7 +46,7 @@ public class CGene extends BaseGene implements Gene, java.io.Serializable {
 			}
 			return -1;
 		}
-		System.out.println("dffffdasfa"+ (Integer)((CGene)o).getAllele());
+//		System.out.println("dffffdasfa "+ (Integer)((CGene)o).getAllele());
 		return allele.compareTo((Integer)((CGene)o).allele);
 //		return Integer.compare(allele, (Integer)((MyIntegerGene)o).getAllele());
 	}
@@ -74,6 +75,7 @@ public class CGene extends BaseGene implements Gene, java.io.Serializable {
 		// TODO Auto-generated method stub
 //		System.out.println("                                 Mutation odl " 
 //		+ getAllele() + " new: " + arg0);
+//		System.out.println("                                  mutato");
 		setAllele(arg0);
 	}
 

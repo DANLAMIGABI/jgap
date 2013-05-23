@@ -17,6 +17,8 @@ import org.jgap.InvalidConfigurationException;
 import org.jgap.event.EventManager;
 import org.jgap.impl.BestChromosomesSelector;
 import org.jgap.impl.CrossoverOperator;
+import org.jgap.impl.TournamentSelector;
+import org.jgap.impl.WeightedRouletteSelector;
 
 
 
@@ -47,10 +49,12 @@ public class JGAPMapping {
 		Configuration conf = new Configuration();
 		
 			conf.addNaturalSelector(new BestChromosomesSelector(conf),false);
+//			conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
+//			conf.addNaturalSelector(new TournamentSelector(a_config, a_tournament_size, a_probability), false);
 			conf.setEventManager(new EventManager());
 			conf.addGeneticOperator(new CrossoverOperator(conf));
 			/* My mutation Operator */
-			conf.addGeneticOperator(new MymutationOperator(conf));
+			conf.addGeneticOperator(new MymutationOperator(conf,1));
 			conf.setFitnessEvaluator(new DefaultFitnessEvaluator());
 		
 		
@@ -76,16 +80,16 @@ public class JGAPMapping {
 		Genotype.setStaticConfiguration(conf);
 		
 			Genotype population = Genotype.randomInitialGenotype(conf);
-			for(int i=0; i<Constant.EVOLUTION_SIZE; i++){
+			boolean exit = false;
+			while(!exit){
 				population.evolve();
-				//printPop(population, app, provList);
-//				System.out.println("###### best evolve");
-//				IChromosome bestSolutionSoFar = population.getFittestChromosome();
-				//PrintChromosome((Chromosome)bestSolutionSoFar, qosConf.get, provList);
-//				System.out.println("\tfit: " + bestSolutionSoFar.getFitnessValue());
-//				System.out.println("####### end best");
-				//printPop(population, app, provList);
+//				population.getPopulation().
+				if( population.getFittestChromosome().getFitnessValue() > 7000)
+					exit = true;
 			}
+//			for(int i=0; i<Constant.EVOLUTION_SIZE; i++){
+//				population.evolve();
+//			}
 			IChromosome bestSolutionSoFar = population.getFittestChromosome();
 //			System.out.println("###### BEST SOLO JGAP.MAPPING #####");
 //			System.out.println("FIT: " + bestSolutionSoFar.getFitnessValue());
@@ -94,7 +98,7 @@ public class JGAPMapping {
 			
 			sol.setSolution(bestSolutionSoFar);
 			sol.setFit(bestSolutionSoFar.getFitnessValue());
-			
+			Configuration.reset();
 			
 		} catch (InvalidConfigurationException e) {
 			// TODO Auto-generated catch block

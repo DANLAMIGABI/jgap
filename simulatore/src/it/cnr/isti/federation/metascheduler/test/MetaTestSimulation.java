@@ -86,10 +86,10 @@ public class MetaTestSimulation {
          *
          * @param args the args
          */
-        @SuppressWarnings("unused")
-        public static void main(String[] args) {
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
 
-                Log.printLine("Starting CloudSimExample1...");
+		Log.printLine("Starting CloudSimExample1...");
 		try {
 			// First step: Initialize the CloudSim package. It should be called
 			// before creating any entities.
@@ -101,46 +101,57 @@ public class MetaTestSimulation {
 			CloudSim.init(num_user, calendar, trace_flag);
 			broker = createBroker();
 			int brokerId = broker.getId();
-			//make Datacenter
+			// make Datacenter
 			initDatacenter();
 			DatacenterUtility.printFederationDataCenter(dcList);
 
 			VmProvider.userId = brokerId;
-			Application app = ApplicationUtility.getApplication(brokerId, 1);
+//			Application app = ApplicationUtility.getApplication(brokerId, 1);
+			Application app = new BusinessApplication(brokerId, 10);
 			app.setBudget(1000.02);
 			app.setPlace("italia");
-			List<Application> appList = new ArrayList<Application>();
-			appList.add(app);
 			
-//			System.out.println(app.get);
+			IMSApplication msApp = ApplicationUtility.applicationToMSApplication(app);
+			System.out.println(ApplicationUtility.toStringMSApplication(msApp));
 			
-//          //Conversione Applicazione in GAapplication
-          IMSApplication applicationMetaschduler = ApplicationUtility.applicationToMSApplication(app);
-          System.out.println(ApplicationUtility.toStringMSApplication(applicationMetaschduler));
 
-          List<MSPolicy> test = new ArrayList<>();
-//        test.add(MakePolicy.makeCostPolicy(1));
-//        test.add(MakePolicy.makePlacePolicy(2));
-          test.add(MakePolicy.makeStoragePolicy(1));
-	       
-          
-          BestSolution sol = Metascheduler.getMapping(app, test, dcList);
-        HashMap<Integer, Integer> mappString = sol.getBest();
-        System.out.println("Fitness: " + sol.getFit());
-        if(sol.getFit() < 1 )
-        	System.out.println("Soluzione non valida");
-        for(int i=0; i<mappString.size(); i++){
-        	System.out.println("Node: " + i + " -> " + " Prov: "+  dcList.get(mappString.get(i)).getId());
-        }
-          
-			
+			// System.out.println(app.get);
+			List<MSPolicy> test = new ArrayList<>();
+			// test.add(MakePolicy.makeCostPolicy(1));
+			// test.add(MakePolicy.makePlacePolicy(2));
+			test.add(MakePolicy.makeStoragePolicy(1));
+			int count =0;
+			int buone =0;
+			boolean ottimo = false;
+			for(int h=0; h<1; h++){
+				count =0;
+				ottimo = false;
+				System.out.println("#### iterazione: " + h);
+				BestSolution sol = Metascheduler.getMapping(app, test, dcList);
+				HashMap<Integer, Integer> mappString = sol.getBest();
+				System.out.println("                            Fitness: " + sol.getFit());
+				if (sol.getFit() < 1)
+					System.out.println("						SOLUZIONE NON VALIDA");
+				if(sol.getFit() > 3000000){
+					System.out.println("						 					OK");
+					count++;
+				}if(sol.getFit() >= 3670000){
+					ottimo = true;
+				}
+				for (int i = 0; i < mappString.size(); i++) {
+					System.out.println("Node: " + i + " -> " + " Prov: "
+							+ dcList.get(mappString.get(i)).getId());
+				}
+				buone += count;
+			}
+			System.out.println("                                                         FINE: " + buone + "  " + ottimo);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.printLine("Unwanted errors happen");
 		}
 
-        }
+	}
         
         // We strongly encourage users to develop their own broker policies, to
         // submit vms and cloudlets according
@@ -165,11 +176,12 @@ public class MetaTestSimulation {
         	dcList = new ArrayList<>();
 //        	providerList = new ArrayList<>();
         	FederationPowerDatacenter temp;
-        	int bumberDatacenters = 1;
+        	int bumberDatacenters = 100;
     		paramDatacenter = DatacenterUtility.getDatacenterParam();
             for(int i=0; i<bumberDatacenters; i++){
                 paramDatacenter.put(Constant.PLACE, "italia");
-                temp = DatacenterUtility.getDatacenter(paramDatacenter, 1, 10);
+                temp = DatacenterUtility.getDatacenter(paramDatacenter, 1, i*10+1
+                		);
 //                paramDatacenter.put(Constant.ID, temp.getId()+"");
                 dcList.add(temp);
 //                paramDatacenter.put(Constant.ID, temp.getId()+"");
