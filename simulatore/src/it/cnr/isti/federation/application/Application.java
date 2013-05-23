@@ -2,6 +2,7 @@ package it.cnr.isti.federation.application;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -17,7 +18,11 @@ public class Application // extends Multigraph<ApplicationVertex, ApplicationEdg
 	private List<Cloudlet> cloudlets;
 	private Hashtable<Cloudlet, ApplicationVertex> cloudletToVertex;
 	private Hashtable<Vm, ApplicationVertex> vmToVertex;
-
+	
+	//added by Giuseppe
+	private String place;
+	private double budget;
+	
 	public Application() 
 	{
 		graph = new Multigraph<ApplicationVertex, ApplicationEdge>(ApplicationEdge.class);
@@ -26,6 +31,22 @@ public class Application // extends Multigraph<ApplicationVertex, ApplicationEdg
 		vmToVertex = new Hashtable<Vm, ApplicationVertex>();
 	}
 
+	//added by Giuseppe
+	public void setBudget(double budget){
+		this.budget = budget;
+	}
+	//added by Giuseppe
+	public void setPlace(String place){
+		this.place = place;
+	}
+	//added by Giuseppe
+	public String getPlace(){
+		return place;
+	}
+	//added by Giuseppe
+	public double getBudget(){
+		return budget;
+	}
 	
 	public void addVertex(ApplicationVertex av)
 	{
