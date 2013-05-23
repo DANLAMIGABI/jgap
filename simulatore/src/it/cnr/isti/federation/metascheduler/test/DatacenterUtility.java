@@ -53,7 +53,7 @@ public class DatacenterUtility {
 	private static List<HashMap<String, Object>> getHostConfigurations(int numHost, int raiseFactor){
 		List<HashMap<String, Object>> hostParam = new ArrayList<>();
 		for(int i=0; i<numHost; i++){
-			hostParam.add(setHashHostParam(raiseFactor, "100", "1", "1000", "10"));
+			hostParam.add(setHashHostParam(raiseFactor, "491", "1", "1000", "10"));
 		}
         return hostParam;
 	}

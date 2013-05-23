@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 
-public class MSProviderComputing implements IMSProviderComputing {
+public class MSProviderComputing implements IMSProviderComputing, Cloneable {
 
 	private int ID;
 	/*
@@ -38,7 +38,15 @@ public class MSProviderComputing implements IMSProviderComputing {
 	}
 	
 	public Object clone(){
-		return new MSProviderComputing(ID, characteristic);
+		MSProviderComputing pComp = null;
+		try {
+			pComp = (MSProviderComputing) super.clone();
+			pComp.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pComp;
 	}
 	
 	@Override

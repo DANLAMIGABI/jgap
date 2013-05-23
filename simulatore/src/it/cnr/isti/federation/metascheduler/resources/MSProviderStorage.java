@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 
-public class MSProviderStorage implements IMSProviderStorage {
+public class MSProviderStorage implements IMSProviderStorage, Cloneable {
 	
 	private int ID;
 	/*
@@ -43,7 +43,15 @@ public class MSProviderStorage implements IMSProviderStorage {
 	}
 	
 	public Object clone(){
-		return new MSProviderStorage(ID,characteristic);
+		MSProviderStorage pStore = null;
+		try {
+			pStore = (MSProviderStorage) super.clone();
+			pStore.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pStore;
 	}
 	
 	@Override

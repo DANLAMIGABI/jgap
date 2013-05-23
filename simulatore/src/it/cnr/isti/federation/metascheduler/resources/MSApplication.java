@@ -2,12 +2,13 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 
-public class MSApplication implements IMSApplication {
+public class MSApplication implements IMSApplication, Cloneable {
 
 	private int ID;
 	private String place;
@@ -46,7 +47,19 @@ public class MSApplication implements IMSApplication {
 	}
 
 	public Object clone() {
-		return new MSApplication(ID, place, budget, nodes);
+		MSApplication app = null;
+		try {
+			app = (MSApplication) super.clone();
+			app.nodes = new ArrayList<>();
+			for( MSApplicationNode item : nodes){
+				app.nodes.add((MSApplicationNode)item.clone());
+			}
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return app;		
+				
 	}
 
 	

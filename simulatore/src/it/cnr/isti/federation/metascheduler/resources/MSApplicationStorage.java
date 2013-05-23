@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 
-public class MSApplicationStorage implements IMSAppStorage {
+public class MSApplicationStorage implements IMSAppStorage, Cloneable {
 	//private static int NEXT_ID = 1;
 	/* disabled
 	private double budget;
@@ -54,7 +54,14 @@ public class MSApplicationStorage implements IMSAppStorage {
 	}
 	
 	public Object clone(){
-		MSApplicationStorage appStore = new MSApplicationStorage(ID, characteristic);
+		MSApplicationStorage appStore = null;
+		try {
+			appStore = (MSApplicationStorage) super.clone();
+			appStore.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return appStore;
 	}
 

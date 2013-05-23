@@ -45,61 +45,67 @@ public class JGAPMapping {
 //		UtilityJGAP.printICApplication(app);
 		BestSolution sol = new BestSolution();
 
-		try{
-		Configuration conf = new Configuration();
-		
-			conf.addNaturalSelector(new BestChromosomesSelector(conf),false);
-//			conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
-//			conf.addNaturalSelector(new TournamentSelector(a_config, a_tournament_size, a_probability), false);
+		try {
+			Configuration conf = new Configuration();
+
+//			conf.addNaturalSelector(new BestChromosomesSelector(conf), false);
+			 conf.addNaturalSelector(new WeightedRouletteSelector(conf), true);
+			// false);
+			// conf.addNaturalSelector(new TournamentSelector(a_config,
+			// a_tournament_size, a_probability), false);
 			conf.setEventManager(new EventManager());
-			conf.addGeneticOperator(new CrossoverOperator(conf));
+			conf.addGeneticOperator(new MyCrossoverOperator(conf));
 			/* My mutation Operator */
-			conf.addGeneticOperator(new MymutationOperator(conf,1));
+			conf.addGeneticOperator(new MymutationOperator(conf));
 			conf.setFitnessEvaluator(new DefaultFitnessEvaluator());
-		
-		
-		// make gene
-		List<MSApplicationNode> nodes = application.getNodes();
-		Gene[] genes = new Gene[nodes.size()];
-		for(int i =0; i<nodes.size(); i++){
+
+			// make gene
+			List<MSApplicationNode> nodes = application.getNodes();
+			Gene[] genes = new Gene[nodes.size()];
+			for (int i = 0; i < nodes.size(); i++) {
 				genes[i] = new CGene(conf);
-		}
-		Chromosome sampleCh = null;
-		
-		sampleCh = new Chromosome(conf, genes);
-		
-		
-		conf.setSampleChromosome(sampleCh);
-		conf.setPopulationSize(Constant.POP_SIZE);
-		conf.setRandomGenerator(new NewCRandGenerator(providerList.size()));
-		
-		CObjectiveFitness fitness = new CObjectiveFitness(application, providerList, policy);
-		
-		conf.setFitnessFunction(fitness);
-		
-		Genotype.setStaticConfiguration(conf);
-		
-			Genotype population = Genotype.randomInitialGenotype(conf);
-			boolean exit = false;
-			while(!exit){
-				population.evolve();
-//				population.getPopulation().
-				if( population.getFittestChromosome().getFitnessValue() > 7000)
-					exit = true;
 			}
-//			for(int i=0; i<Constant.EVOLUTION_SIZE; i++){
+			Chromosome sampleCh = null;
+
+			sampleCh = new Chromosome(conf, genes);
+
+			conf.setSampleChromosome(sampleCh);
+			conf.setPopulationSize(Constant.POP_SIZE);
+			conf.setRandomGenerator(new NewCRandGenerator(providerList.size()));
+
+			CObjectiveFitness fitness = new CObjectiveFitness(application,
+					providerList, policy);
+
+			conf.setFitnessFunction(fitness);
+
+			Genotype.setStaticConfiguration(conf);
+
+			Genotype population = Genotype.randomInitialGenotype(conf);
+//			boolean exit = false;
+//			while (!exit) {
+//				population.evolve();
+//				// population.getPopulation().
+//				if (population.getPopulation().determineFittestChromosome()
+//						.getFitnessValue() > 7000)
+//					exit = true;
+//			}
+//			for (int i = 0; i < Constant.EVOLUTION_SIZE; i++) {
 //				population.evolve();
 //			}
-			IChromosome bestSolutionSoFar = population.getFittestChromosome();
-//			System.out.println("###### BEST SOLO JGAP.MAPPING #####");
-//			System.out.println("FIT: " + bestSolutionSoFar.getFitnessValue());
-//			System.out.println(UtilityJGAP.printChromosome(bestSolutionSoFar,providers,app));
-//			System.out.println("###################################");
 			
+			population.evolve(new Monitor());
+			IChromosome bestSolutionSoFar = population.getPopulation()
+					.determineFittestChromosome();
+			// System.out.println("###### BEST SOLO JGAP.MAPPING #####");
+			// System.out.println("FIT: " +
+			// bestSolutionSoFar.getFitnessValue());
+			// System.out.println(UtilityJGAP.printChromosome(bestSolutionSoFar,providers,app));
+			// System.out.println("###################################");
+
 			sol.setSolution(bestSolutionSoFar);
 			sol.setFit(bestSolutionSoFar.getFitnessValue());
 			Configuration.reset();
-			
+
 		} catch (InvalidConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

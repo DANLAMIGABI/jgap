@@ -71,6 +71,7 @@ public class CObjectiveFitness extends FitnessFunction{
 //				+ "                          Ascendent: " + param.ascendent
 //				+ " Descendent: " + param.descendent + " Equal: " + param.equal
 //				+ " Count: " + param.tmpCounter);
+//		System.out.println("FITNESS: " + fitness);
 		return Math.abs(fitness);
 	}
 	
@@ -89,7 +90,7 @@ public class CObjectiveFitness extends FitnessFunction{
 //		System.out.println("## LOG: aggregazione nodi fit");
 		MSApplicationNode tempNode;
 		if( !applicationTab.containsKey(key) ){
-			tempNode = node.clone();
+			tempNode = (MSApplicationNode)node.clone();
 			applicationTab.put(key, tempNode);
 			return;
 		}

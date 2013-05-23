@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
-public class MSApplicationNode {
+public class MSApplicationNode implements Cloneable{
 	
 	
 	private int ID;
@@ -29,8 +29,21 @@ public class MSApplicationNode {
 		this.characteristic = characteristic;
 	}
 	
-	public MSApplicationNode clone(){
-		return new MSApplicationNode(ID, characteristic, appComp, appSto, appNet);
+	@Override
+	public Object clone() {
+		MSApplicationNode node = null;
+		try {
+			node = (MSApplicationNode) super.clone();
+			node.appComp = (MSApplicationComputing) appComp.clone();
+			node.appNet = (MSApplicationNetwork) appNet.clone();
+			node.appSto = (MSApplicationStorage) appSto.clone();
+			node.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return node;
+		
 	}
 	
 	public void setID(int id){

@@ -97,7 +97,10 @@ public class MakePolicy {
 				double constrain =  nodeStore - provStore;
 //				System.out.println("                                            node: " + nodeStore + "   prov: " + provStore) ;
 //				System.out.println("                                             " + constrain);
-				return constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
+				double ret = constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
+//				if(ret>=0)
+//					System.out.println("porco dio");
+				return ret;
 				
 			}
 			

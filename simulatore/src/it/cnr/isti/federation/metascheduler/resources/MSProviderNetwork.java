@@ -4,10 +4,12 @@ import it.cnr.isti.federation.metascheduler.resources.iface.IMSProviderNetwork;
 
 import java.util.HashMap;
 
+import sun.net.www.content.image.png;
 
 
 
-public class MSProviderNetwork implements IMSProviderNetwork {
+
+public class MSProviderNetwork implements IMSProviderNetwork, Cloneable {
 	
 	private int ID;
 	/*
@@ -37,7 +39,16 @@ public class MSProviderNetwork implements IMSProviderNetwork {
 	}
 	
 	public Object clone(){
-		return new MSProviderNetwork(ID, characteristic);
+		MSProviderNetwork pNetwork = null;
+		try {
+			pNetwork = (MSProviderNetwork) super.clone();
+			pNetwork.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pNetwork;
+				
 	}
 	@Override
 	public void setCharacteristic(HashMap<String, Object> characteristic) {

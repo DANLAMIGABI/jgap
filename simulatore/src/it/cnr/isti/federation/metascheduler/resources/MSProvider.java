@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 
 
-public class MSProvider implements IMSProvider {
+public class MSProvider implements IMSProvider, Cloneable {
 	//private static int NEXT_ID=1;
 	
 	
@@ -47,7 +47,18 @@ public class MSProvider implements IMSProvider {
 		return ID -  prov.ID;
 	}
 	public Object clone(){
-		return new MSProvider(ID, characteristic, provCom, provSto, provNet);
+		MSProvider prov = null;
+		try {
+			prov = (MSProvider)super.clone();
+			prov.provCom =(MSProviderComputing) provCom.clone();
+			prov.provNet = (MSProviderNetwork) provNet.clone();
+			prov.provSto = (MSProviderStorage) provSto.clone();
+			prov.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return prov;
 	}
 	
 	

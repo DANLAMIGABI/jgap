@@ -12,7 +12,7 @@ import javax.management.InstanceAlreadyExistsException;
 import org.omg.CosNaming.IstringHelper;
 
 
-public class MSApplicationComputing implements IMSAppComuting{
+public class MSApplicationComputing implements IMSAppComuting, Cloneable{
 	/*
 	private String place;
 	private double budget;
@@ -70,8 +70,16 @@ public class MSApplicationComputing implements IMSAppComuting{
 		// TODO Auto-generated method stub
 		return ID;
 	}
+	
 	public Object clone(){
-		MSApplicationComputing appC = new MSApplicationComputing(ID, characteristic);
+		MSApplicationComputing appC = null;
+		try {
+			appC = (MSApplicationComputing) super.clone();
+			appC.characteristic = (HashMap<String, Object>) this.characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return appC ;
 	}
 	@Override

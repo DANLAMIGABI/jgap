@@ -20,11 +20,11 @@ public class Constant {
 	
 	
 	//MAPPING JGAP
-	public static final int POP_SIZE = 800;
+	public static final int POP_SIZE = 500;
 //	public static final int APP_SIZE = 2;
 	//public static final int PROV_SIZE = 6;
 	//public static final int TARGET = 5;
-	public static final int EVOLUTION_SIZE=1;
+	public static final int EVOLUTION_SIZE=15;
 	
 	public static final char ASCENDENT_TYPE = 'A';
 	public static final char DESCENDENT_TYPE = 'D';

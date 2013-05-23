@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 
 
-public class MSApplicationNetwork implements IMSAppNetwork {
+public class MSApplicationNetwork implements IMSAppNetwork, Cloneable {
 
 	//private static int NEXT_ID=0;
 	
@@ -45,7 +45,14 @@ public class MSApplicationNetwork implements IMSAppNetwork {
 	}
 	
 	public Object clone(){
-		MSApplicationNetwork appN = new MSApplicationNetwork(ID,characteristic);
+		MSApplicationNetwork appN = null;
+		try {
+			appN = (MSApplicationNetwork) super.clone();
+			appN.characteristic = (HashMap<String, Object>) characteristic.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return appN;
 	}
 	@Override

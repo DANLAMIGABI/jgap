@@ -57,7 +57,7 @@ public class NewCRandGenerator implements RandomGenerator {
 	@Override
 	public int nextInt(int arg0) {
 		// TODO Auto-generated method stub
-		return nextInt();
+		return Math.abs(random.nextInt()%arg0);
 	}
 
 	@Override
