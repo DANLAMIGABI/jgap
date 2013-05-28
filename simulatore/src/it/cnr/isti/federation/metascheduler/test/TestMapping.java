@@ -1,37 +1,23 @@
 //package it.cnr.isti.federation.metascheduler.test;
 //
 //import it.cnr.isti.federation.application.Application;
-//import it.cnr.isti.federation.mapping.CObjectiveFitness;
-//import it.cnr.isti.federation.mapping.ConfigurationFitness;
-//import it.cnr.isti.federation.mapping.ConstantMapping;
-//import it.cnr.isti.federation.mapping.MakePolicy;
-//import it.cnr.isti.federation.resources.FederationDatacenter;
+//import it.cnr.isti.federation.metascheduler.Constant;
+//import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
+//import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
 //import it.cnr.isti.test.DataSette;
 //
 //import java.text.DecimalFormat;
 //import java.util.ArrayList;
 //import java.util.Calendar;
 //import java.util.HashMap;
-//import java.util.Iterator;
 //import java.util.List;
-//import java.util.Set;
 //
 //import org.cloudbus.cloudsim.Cloudlet;
 //import org.cloudbus.cloudsim.DatacenterBroker;
-//import org.cloudbus.cloudsim.Host;
-//import org.cloudbus.cloudsim.HostDynamicWorkload;
 //import org.cloudbus.cloudsim.Log;
-//import org.cloudbus.cloudsim.UtilizationModel;
-//import org.cloudbus.cloudsim.UtilizationModelFull;
 //import org.cloudbus.cloudsim.Vm;
 //import org.cloudbus.cloudsim.core.CloudSim;
-//import org.cloudbus.cloudsim.power.PowerHost;
 //import org.jgap.InvalidConfigurationException;
-//
-//import msApplication.*;
-//import msApplicationIface.*;
-//import msProvider.*;
-//import msProviderIface.*;
 //
 //public class TestMapping {
 //	
@@ -49,22 +35,22 @@
 //        // Initialize the CloudSim library
 //        CloudSim.init(num_user, calendar, trace_flag);
 //        
-//        int bumberDatacenters = 5;
+////        int bumberDatacenters = 5;
 //        providerList = new ArrayList<>();
 //        String[] places = { "Italia","Spagna","Germania","Francia"};
 //        												// id, place, costSec,  costMem,  costStore,  costBw
 //        HashMap<String , Object> paramDatacenter = DatacenterUtility.getDatacenterParam();
 //        for(int i = 0; i<bumberDatacenters; i++){
-//        	paramDatacenter.put(ConstantMapping.ID, i+101+"");
-//            paramDatacenter.put(ConstantMapping.PLACE, places[i%places.length]);
+//        	paramDatacenter.put(Constant.ID, i+101+"");
+//            paramDatacenter.put(Constant.PLACE, places[i%places.length]);
 //            providerList.add (DatacenterUtility.getProvider(paramDatacenter, 1, i*10000));
 //        }
 //        DatacenterUtility.printProviderList(providerList);
 //        
 //        dcList = new ArrayList<>();
 //        for(int i=0; i<bumberDatacenters; i++){
-//        	paramDatacenter.put(ConstantMapping.ID, i+101+"");
-//            paramDatacenter.put(ConstantMapping.PLACE, places[0]);
+//        	paramDatacenter.put(Constant.ID, i+101+"");
+//            paramDatacenter.put(Constant.PLACE, places[0]);
 //            dcList.add(DatacenterUtility.getDatacenter(paramDatacenter, 1, i*1));
 //        }
 ////        DatacenterUtility.printFederationDataCenter(dcList);

@@ -39,21 +39,21 @@ public class DatacenterUtility {
 	
 	private static HashMap<String, Object> setHashHostParam(int raiseFactor,String storage, String ram, String bw, String mips ){
 		HashMap<String, Object> param = new HashMap<>();
-//		param.put(Constant.BW, (raiseFactor+ Long.parseLong(bw)) * 1024*1024);
-//		param.put(Constant.MIPS,  Double.parseDouble(mips));
-//		param.put(Constant.RAM, (raiseFactor+ Integer.parseInt(ram))*1024);
-//		param.put(Constant.STORE, (raiseFactor+ Long.parseLong(storage))*1024);
-		param.put(Constant.BW, (raiseFactor+ Long.parseLong(bw)));
+		param.put(Constant.BW, (raiseFactor+ Long.parseLong(bw)) * 1024);
 		param.put(Constant.MIPS,  Double.parseDouble(mips));
-		param.put(Constant.RAM, (raiseFactor+ Integer.parseInt(ram)));
-		param.put(Constant.STORE, (raiseFactor+ Long.parseLong(storage)));
+		param.put(Constant.RAM, (raiseFactor+ Integer.parseInt(ram))*1024);
+		param.put(Constant.STORE, (raiseFactor+ Long.parseLong(storage))*1024);
+//		param.put(Constant.BW, (raiseFactor+ Long.parseLong(bw)));
+//		param.put(Constant.MIPS,  Double.parseDouble(mips));
+//		param.put(Constant.RAM, (raiseFactor+ Integer.parseInt(ram)));
+//		param.put(Constant.STORE, (raiseFactor+ Long.parseLong(storage)));
 		return param;
 	}
 	
 	private static List<HashMap<String, Object>> getHostConfigurations(int numHost, int raiseFactor){
 		List<HashMap<String, Object>> hostParam = new ArrayList<>();
 		for(int i=0; i<numHost; i++){
-			hostParam.add(setHashHostParam(raiseFactor, "491", "1", "1000", "10"));
+			hostParam.add(setHashHostParam(raiseFactor, "870", "7", "10", "1000"));
 		}
         return hostParam;
 	}

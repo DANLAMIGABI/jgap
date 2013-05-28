@@ -1,0 +1,84 @@
+ <DataCenterList>	
+	<Datacenter_characteristic>		
+		<HostList>
+			<Host>
+				<PeList>
+					<PE>
+						<Peid> 0 </Peid>
+						<mips> 10000 </mips>
+					</PE>
+				</PeList>
+				<hostId> 0 </hostId>
+				<ram> 2048 </ram>
+				<storage> 1000000 </storage>
+				<bw> 1000 </bw>
+			</Host>
+		</HostList>
+		<arch> Intel </arch>
+		<os> Linux </os>
+		<vmm> Xen </vmm>
+		<time_zone> 1.0</time_zone>
+		<cost> 0.0 </cost>
+		<costPerMem> 0.0 </costPerMem>
+		<costPerStorage> 0.0 </costPerStorage>
+		<costPerBw> 0.0 </costPerBw>
+		<DCBw> 10000 </DCBw>		
+		<DCName> Datacenter_0 </DCName>
+		<reliability> 0.8 </reliability>
+	</Datacenter_characteristic>
+
+	<Datacenter_characteristic>		
+		<HostList>
+			<Host>
+				<PeList>
+					<PE>
+						<Peid> 0 </Peid>
+						<mips> 1000 </mips>
+					</PE>
+					<PE>
+						<Peid> 1 </Peid>
+						<mips> 1000 </mips>
+					</PE>
+				</PeList>
+				<hostId> 0 </hostId>
+				<ram> 2048 </ram>
+				<storage> 1000000 </storage>
+				<bw> 1000 </bw>
+			</Host>
+			<Host>
+				<PeList>
+					<PE>
+						<Peid> 0 </Peid>
+						<mips> 1000 </mips>
+					</PE>
+					<PE>
+						<Peid> 1 </Peid>
+						<mips> 1000 </mips>
+					</PE>
+				</PeList>
+				<hostId> 1 </hostId>
+				<ram> 2048 </ram>
+				<storage> 1000000 </storage>
+				<bw> 1000 </bw>
+			</Host>
+		</HostList>
+		<arch> Intel </arch>
+		<os> Linux </os>
+		<vmm> Xen </vmm>
+		<time_zone> 1.0</time_zone>
+		<cost> 0.0 </cost>
+		<costPerMem> 0.0 </costPerMem>
+		<costPerStorage> 0.0 </costPerStorage>
+		<costPerBw> 0.0 </costPerBw>
+		<DCBw> 10000 </DCBw>		
+		<DCName> Datacenter_1 </DCName>
+		<reliability> 0.8 </reliability>
+	</Datacenter_characteristic>
+ </DataCenterList>
+ <Network>
+	<link> Datacenter_0 Datacenter_1 1000 0.1 RSA MD5 MDS2 </link>	
+	<link> Broker Datacenter_0 1000 0.1 </link> 
+	<link> Broker Datacenter_1 1000 0.1 </link> 
+</Network>
+
+ 

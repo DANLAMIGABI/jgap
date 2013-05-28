@@ -30,8 +30,12 @@ public class Metascheduler {
 		for(int i=0; i<dclist.size(); i++){
 			providerList.add(MSProviderUtility.datacenterToMSProvider(dclist.get(i)));
 		}
+		System.out.println("##### Metascheduler Providers ######");
+		System.out.println(MSProviderUtility.providerListToString(providerList));
 		
 		IMSApplication msApplication = MSApplicationUtility.getMSApplication(application);
+		System.out.println("##### Metascheduler Application ######");
+		System.out.println(MSApplicationUtility.toStringMSApplication(msApplication));
 		
 		return JGAPMapping.startMapping(msApplication, providerList, policy, new ArrayList<String>());
 		

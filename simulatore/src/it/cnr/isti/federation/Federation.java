@@ -31,6 +31,8 @@ public class Federation extends SimEntity
 	private Map<Integer, Vm> idToVm;
 	private Map<Application, Allocation> appToAllocation; 
 	
+	private Map<Integer, Integer> vmToDatacenter;
+	
 	private List<Cloudlet> receivedCloudlet;
 	
 	public Federation(String name)
@@ -44,6 +46,7 @@ public class Federation extends SimEntity
 		idToVm = new HashMap<Integer, Vm>();
 		appToAllocation = new HashMap<Application, Allocation>();
 		datacenters = new ArrayList<FederationDatacenter>();
+		vmToDatacenter = new HashMap<>();
 	}
 	
 	public void setDatacenters(List<FederationDatacenter> dcs)
@@ -169,7 +172,7 @@ public class Federation extends SimEntity
 		{
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": VM #" + vmId
 					+ " has been created in Datacenter #" + datacenterId);
-		
+			vmToDatacenter.put(new Integer(vmId), new Integer(datacenterId));
 			allocation.setRunning(idToVm.get(vmId), datacenterId);
 			
 			if (allocation.isCompleted())
@@ -220,6 +223,9 @@ public class Federation extends SimEntity
 	public Collection<Allocation> getAllocations()
 	{
 		return appToAllocation.values();
+	}
+	public Map<Integer, Integer> getVmToDatacenter(){
+		return vmToDatacenter;
 	}
 	
 	@Override

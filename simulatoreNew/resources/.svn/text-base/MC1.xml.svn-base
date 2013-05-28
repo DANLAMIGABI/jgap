@@ -1,0 +1,22 @@
+<Name> Test </Name>
+<MCList>
+	<MacroCloudlet>	
+	    <ID> 0 </ID>		 
+		<cloudlet>
+			<cloudletLength> 10000 </cloudletLength>
+			<cloudletFileSize> 300 </cloudletFileSize>
+			<cloudletOutputSize> 300 </cloudletOutputSize>
+			<numberOfPes> 2 </numberOfPes>							
+		</cloudlet>					
+		<bottomRange> 2 </bottomRange>
+		<topRange> 2 </topRange>
+		<actualNumber> 2 </actualNumber>
+		<ramSize> 100 </ramSize>
+		<mips> 1000 </mips>
+		<bandwith> 100 </bandwith>
+		<vmBw> 10 </vmBw>
+		<priceConstraint> 2000 </priceConstraint>
+		<cpuType> intel </cpuType>
+		<reliability> 0.8 </reliability>
+	</MacroCloudlet>
+</MCList>

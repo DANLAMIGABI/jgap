@@ -14,6 +14,7 @@ import it.cnr.isti.federation.metascheduler.resources.MSApplicationStorage;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 import it.cnr.isti.federation.resources.VmProvider.VmType;
 import it.cnr.isti.networking.SecuritySupport;
+import it.cnr.isti.test.ThreeTierBusinessApplication;
 
 
 import java.util.ArrayList;
@@ -124,15 +125,28 @@ public class ApplicationUtility {
 		return newApp;
 	}
 	
-	public static Application getApplication(int userID, int numberOfCloudlets)
+//	public static Application getApplication(int userID, int numberOfCloudlets)
+//	{
+//		Double number = new Double(numberOfCloudlets);
+//		if (number < 3)
+//			number = 3d;
+//		
+//		int frontend = 1;//new Double(Math.ceil(number * 20 / 100)).intValue();
+//		int database = 1;//new Double(Math.ceil(number * 20 / 100)).intValue();
+//		int appserver = 1;//number.intValue() - frontend - database;
+//		
+//		return new ThreeTierBusinessApplicationMeta(userID,frontend, appserver, database);
+//	}
+	
+	public static Application getFederationApplication(int userID,int numberOfCloudlets)
 	{
 		Double number = new Double(numberOfCloudlets);
 		if (number < 3)
 			number = 3d;
 		
-		int frontend = 1;//new Double(Math.ceil(number * 20 / 100)).intValue();
-		int database = 1;//new Double(Math.ceil(number * 20 / 100)).intValue();
-		int appserver = 1;//number.intValue() - frontend - database;
+		int frontend = new Double(Math.ceil(number * 20 / 100)).intValue();
+		int database = new Double(Math.ceil(number * 20 / 100)).intValue();
+		int appserver = number.intValue() - frontend - database;
 		
 		return new ThreeTierBusinessApplicationMeta(userID,frontend, appserver, database);
 	}

@@ -12,15 +12,49 @@ import it.cnr.isti.federation.metascheduler.test.FederationPowerDatacenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
 import org.cloudbus.cloudsim.Host;
+import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.power.PowerHost;
 
 
 public class MSProviderUtility {
+	
+	private static String hashToString(HashMap<String, Object> map, String indent){
+		String ret = "";
+		Iterator<String> keys = map.keySet().iterator();
+		while(keys.hasNext()){
+			String next  = keys.next();
+			Object value = map.get(next);
+			next = next.toLowerCase();
+			if( value instanceof Integer )
+				ret += indent + next + ":  " + (Integer) value + "\n";
+			else if( value instanceof Double)
+				ret += indent + next + ":  " + (Double) value + "\n";
+			else if (value instanceof Long)
+				ret += indent + next + ":  " + (Long) value + "\n";
+			else if(next instanceof String)
+				ret += indent + next + ":  " + (String) value + "\n";
+		}
+		return ret;
+	}
+	
+	public static String providerListToString(List<IMSProvider> list){
+		String ret = "";
+		String indent = "    ";
+		for(int i=0; i<list.size(); i++){
+			ret += hashToString(list.get(i).getCharacteristic(), indent);
+			ret += hashToString(list.get(i).getComputing().getCharacteristic(), indent);
+			ret += hashToString(list.get(i).getNetwork().getCharacteristic(), indent);
+			ret += hashToString(list.get(i).getStorage().getCharacteristic(), indent);
+			ret +="\n";
+		}
+		return ret;
+	}
 	
 	private static HashMap<String, Object> aggregateHostInfo(List<Host> hostList){
 //		System.out.println("### AGGREGATE INFO: DATACENTER_UTILITY");
@@ -33,7 +67,7 @@ public class MSProviderUtility {
 			storage += hostList.get(i).getStorage();
 			ram += hostList.get(i).getRam();
 			bw += hostList.get(i).getBw();
-			mips += hostList.get(i).getBw();
+			mips += hostList.get(i).getTotalMips();
 		}
 		map.put(Constant.STORE, storage);
 		map.put(Constant.MIPS, mips);
@@ -54,10 +88,7 @@ public class MSProviderUtility {
 		DatacenterCharacteristicsMS dcCharacterisitc = datacenter.getCharacteristics();
 		//aggregazione della lista degli host
 		HashMap<String, Object> aggregateHost = aggregateHostInfo(hostList);
-//		Log.printLine("## AGGREGAZIONE ##");
-//		Log.printLine(hashToString(aggregateHost, "   "));
-//		Log.printLine("###################");
-		
+	
 		//computing
 		computingCharacteristic.put(Constant.RAM, aggregateHost.get(Constant.RAM));
 		computingCharacteristic.put(Constant.MIPS, aggregateHost.get(Constant.MIPS));

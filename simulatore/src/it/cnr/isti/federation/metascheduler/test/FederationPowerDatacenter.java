@@ -21,26 +21,16 @@ import org.cloudbus.cloudsim.power.PowerDatacenterNonPowerAware;
 
 public class FederationPowerDatacenter extends PowerDatacenterNonPowerAware
 {
-//	//added by Giuseppe
-//	HashMap<String, Object> otherCharacteristics;
-	
+
 	
 	public FederationPowerDatacenter(String name, DatacenterCharacteristicsMS characteristics, 
 			VmAllocationPolicy vmAllocationPolicy, List<Storage> storageList, double schedulingInterval)
 			throws Exception 
 	{
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
-//		otherCharacteristics = new HashMap<>();
 	}
 	
-//	//added by Giuseppe
-//	public void addOtherCharacteristic(String key, Object value){
-//		otherCharacteristics.put(key, value);
-//	}
-//	//added by Giuseppe
-//	public HashMap<String, Object> getOtherCharacteristics(){
-//		return otherCharacteristics;
-//	}
+
 	
 	@Override
 	public String toString() {

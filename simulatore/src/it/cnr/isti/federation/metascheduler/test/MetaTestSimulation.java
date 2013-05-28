@@ -7,6 +7,7 @@ import it.cnr.isti.federation.metascheduler.*;
 import it.cnr.isti.federation.metascheduler.iface.Metascheduler;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
+import it.cnr.isti.test.DataSette;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -102,50 +103,42 @@ public class MetaTestSimulation {
 			broker = createBroker();
 			int brokerId = broker.getId();
 			// make Datacenter
-			initDatacenter();
-			DatacenterUtility.printFederationDataCenter(dcList);
+			initDatacenter(5);
+//			DatacenterUtility.printFederationDataCenter(dcList);
 
 			VmProvider.userId = brokerId;
-//			Application app = ApplicationUtility.getApplication(brokerId, 1);
-			Application app = new BusinessApplication(brokerId, 10);
+//			Application app = DataSette.getApplication(10);
+//			System.out.println(app.getAllVms().size());
+			
+			Application app = new BusinessApplication(brokerId, 5);
 			app.setBudget(1000.02);
 			app.setPlace("italia");
 			
-			IMSApplication msApp = ApplicationUtility.applicationToMSApplication(app);
-			System.out.println(ApplicationUtility.toStringMSApplication(msApp));
-			
-
 			// System.out.println(app.get);
 			List<MSPolicy> test = new ArrayList<>();
 			// test.add(MakePolicy.makeCostPolicy(1));
 			// test.add(MakePolicy.makePlacePolicy(2));
-			test.add(MakePolicy.makeStoragePolicy(1));
+//			test.add(MakePolicy.makeStoragePolicy(1));
+			test.add(MakePolicy.makeStoreCost(1));
+			test.add(MakePolicy.makeTest1(1));
+			test.add(MakePolicy.fedStore(10000));
 			int count =0;
 			int buone =0;
-			boolean ottimo = false;
 			for(int h=0; h<1; h++){
 				count =0;
-				ottimo = false;
 				System.out.println("#### iterazione: " + h);
 				BestSolution sol = Metascheduler.getMapping(app, test, dcList);
 				HashMap<Integer, Integer> mappString = sol.getBest();
 				System.out.println("                            Fitness: " + sol.getFit());
 				if (sol.getFit() < 1)
 					System.out.println("						SOLUZIONE NON VALIDA");
-				if(sol.getFit() > 3000000){
-					System.out.println("						 					OK");
-					count++;
-				}if(sol.getFit() >= 3670000){
-					ottimo = true;
-				}
 				for (int i = 0; i < mappString.size(); i++) {
 					System.out.println("Node: " + i + " -> " + " Prov: "
-							+ dcList.get(mappString.get(i)).getId());
+				+ dcList.get(mappString.get(i)).getId() + "     " );
 				}
-				buone += count;
 			}
-			System.out.println("                                                         FINE: " + buone + "  " + ottimo);
-			
+			System.out.println("                 FINE: ");
+							
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.printLine("Unwanted errors happen");
@@ -172,16 +165,18 @@ public class MetaTestSimulation {
                 return broker;
         }
         
-        private static void initDatacenter(){
+        private static void initDatacenter(int size){
         	dcList = new ArrayList<>();
 //        	providerList = new ArrayList<>();
         	FederationPowerDatacenter temp;
-        	int bumberDatacenters = 100;
+        	
     		paramDatacenter = DatacenterUtility.getDatacenterParam();
-            for(int i=0; i<bumberDatacenters; i++){
+            for(int i=0; i<size; i++){
                 paramDatacenter.put(Constant.PLACE, "italia");
-                temp = DatacenterUtility.getDatacenter(paramDatacenter, 1, i*10+1
-                		);
+                paramDatacenter.put(Constant.COST_STORAGE, i*1.0+1);
+                if(i==size-1)
+                	paramDatacenter.put(Constant.COST_STORAGE, 1.0);
+                temp = DatacenterUtility.getDatacenter(paramDatacenter, 1, i*10+1);
 //                paramDatacenter.put(Constant.ID, temp.getId()+"");
                 dcList.add(temp);
 //                paramDatacenter.put(Constant.ID, temp.getId()+"");

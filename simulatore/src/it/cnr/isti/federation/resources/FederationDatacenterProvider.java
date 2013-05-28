@@ -16,7 +16,7 @@ public class FederationDatacenterProvider
 
 	private static int DC_COUNTER = 0;
 	
-	private static FederationDatacenter createFederationDatacenter(FederationDatacenterProfile profile, List<HostDynamicWorkload> hosts, List<Storage> storages)
+	private static FederationDatacenter createFederationDatacenter(FederationDatacenterProfile profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		// create the datacenter characteristics
 		DatacenterCharacteristics dc = new DatacenterCharacteristics(profile.get(DatacenterParams.ARCHITECTURE),
@@ -62,12 +62,12 @@ public class FederationDatacenterProvider
 	}
 
 
-	public static FederationDatacenter getDefault(List<HostDynamicWorkload> hosts, List<Storage> storages)
+	public static FederationDatacenter getDefault(List<PowerHost> hosts, List<Storage> storages)
 	{
 		return createFederationDatacenter(FederationDatacenterProfile.getDefault(), hosts, storages);
 	}
 	
-	public static FederationDatacenter get(FederationDatacenterProfile profile, List<HostDynamicWorkload> hosts, List<Storage> storages)
+	public static FederationDatacenter get(FederationDatacenterProfile profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		return createFederationDatacenter(profile, hosts, storages);
 	}

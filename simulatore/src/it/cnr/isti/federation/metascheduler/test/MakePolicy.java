@@ -94,12 +94,10 @@ public class MakePolicy {
 				
 				long nodeStore = (long)storageTratis.get(Constant.STORE);
 				long provStore = (long) providerTraits.get(Constant.STORE);
-				double constrain =  nodeStore - provStore;
-//				System.out.println("                                            node: " + nodeStore + "   prov: " + provStore) ;
-//				System.out.println("                                             " + constrain);
+				double constrain =  (nodeStore/1024) - (provStore/1024);
+
 				double ret = constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
-//				if(ret>=0)
-//					System.out.println("porco dio");
+
 				return ret;
 				
 			}
@@ -110,6 +108,99 @@ public class MakePolicy {
 				return 0;
 			}
 		};
+	}
+	
+	public static MSPolicy makeTest1(double weight){
+		if( weight <0)
+			return null;
+		return new MSPolicy(weight, Constant.ASCENDENT_TYPE,Constant.LOCAL_CONSTRAIN) {
+			
+			@Override
+			public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
+				
+				MSApplicationStorage nodeStorage = node.getStorage();
+				MSProviderStorage provStorage = prov.getStorage();
+				HashMap<String ,Object> storageTratis = nodeStorage.getCharacteristic();
+				HashMap<String, Object> providerTraits = provStorage.getCharacteristic();
+				
+				long nodeStore = (long)storageTratis.get(Constant.STORE);
+				long provStore = (long) providerTraits.get(Constant.STORE);
+				double constrain =  (nodeStore/1024) - (provStore/1024);
+
+				double ret = constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
+
+				return ret;
+			}
+			@Override
+			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
+	}
+	public static MSPolicy makeStoreCost(double weight){
+		if( weight <0)
+			return null;
+		return new MSPolicy(weight, Constant.DESCENDENT_TYPE,Constant.LOCAL_CONSTRAIN) {
+			
+			@Override
+			public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
+				
+				MSApplicationStorage nodeStorage = node.getStorage();
+				MSProviderStorage provStorage = prov.getStorage();
+				HashMap<String ,Object> storageTratis = nodeStorage.getCharacteristic();
+				HashMap<String, Object> providerTraits = provStorage.getCharacteristic();
+				
+				long nodeStore = (long)storageTratis.get(Constant.STORE);
+				double nodeBudget = (double) node.getCharacteristic().get(Constant.BUDGET);
+				
+				double provCost = (double) providerTraits.get(Constant.COST_STORAGE);
+				
+				double constrain =  (nodeStore/1024)*provCost - nodeBudget;
+//System.out.println("aaa " + constrain);
+				double ret = constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
+
+				return ret;
+			}
+			@Override
+			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
+	}
+		
+		public static MSPolicy fedStore(double weight){
+			if( weight <0)
+				return null;
+			return new MSPolicy(weight, Constant.ASCENDENT_TYPE,Constant.LOCAL_CONSTRAIN) {
+				
+				@Override
+				public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
+					
+					MSApplicationStorage nodeStorage = node.getStorage();
+					MSProviderStorage provStorage = prov.getStorage();
+					HashMap<String ,Object> storageTratis = nodeStorage.getCharacteristic();
+					HashMap<String, Object> providerTraits = provStorage.getCharacteristic();
+					
+					long nodeStore = (long)storageTratis.get(Constant.STORE);
+					long provStore = (long) providerTraits.get(Constant.STORE);
+					double freeSpace = (provStore/1024) - (nodeStore/1024);
+//					System.out.println("sfajfafj;afjfjdkfjfjfdsjfklfjjf; " + freeSpace);
+					double constrain = (freeSpace/(provStore/1024)) -1;
+					
+					
+					double ret = constrain >0 ? (constrain +1) * getWeight() : (constrain -1)*getWeight();
+					System.out.println("node: " + node.getID() + " prov: " + prov.getID() + " const: " +ret);
+					return ret;
+				}
+				@Override
+				public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+				
+			};
 	}
 
 }

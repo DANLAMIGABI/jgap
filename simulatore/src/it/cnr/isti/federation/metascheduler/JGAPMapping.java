@@ -48,15 +48,15 @@ public class JGAPMapping {
 		try {
 			Configuration conf = new Configuration();
 
-//			conf.addNaturalSelector(new BestChromosomesSelector(conf), false);
-			 conf.addNaturalSelector(new WeightedRouletteSelector(conf), true);
+			conf.addNaturalSelector(new BestChromosomesSelector(conf), false);
+//			 conf.addNaturalSelector(new WeightedRouletteSelector(conf), true);
 			// false);
 			// conf.addNaturalSelector(new TournamentSelector(a_config,
 			// a_tournament_size, a_probability), false);
 			conf.setEventManager(new EventManager());
-			conf.addGeneticOperator(new MyCrossoverOperator(conf));
+			conf.addGeneticOperator(new MyCrossoverOperator(conf,2));
 			/* My mutation Operator */
-			conf.addGeneticOperator(new MymutationOperator(conf));
+			conf.addGeneticOperator(new MymutationOperator(conf,10));
 			conf.setFitnessEvaluator(new DefaultFitnessEvaluator());
 
 			// make gene
@@ -81,28 +81,15 @@ public class JGAPMapping {
 			Genotype.setStaticConfiguration(conf);
 
 			Genotype population = Genotype.randomInitialGenotype(conf);
-//			boolean exit = false;
-//			while (!exit) {
-//				population.evolve();
-//				// population.getPopulation().
-//				if (population.getPopulation().determineFittestChromosome()
-//						.getFitnessValue() > 7000)
-//					exit = true;
-//			}
-//			for (int i = 0; i < Constant.EVOLUTION_SIZE; i++) {
-//				population.evolve();
-//			}
-			
-			population.evolve(new Monitor());
-			IChromosome bestSolutionSoFar = population.getPopulation()
-					.determineFittestChromosome();
-			// System.out.println("###### BEST SOLO JGAP.MAPPING #####");
-			// System.out.println("FIT: " +
-			// bestSolutionSoFar.getFitnessValue());
-			// System.out.println(UtilityJGAP.printChromosome(bestSolutionSoFar,providers,app));
-			// System.out.println("###################################");
-
-			sol.setSolution(bestSolutionSoFar);
+			System.out.println("Startin metascheduler evolution ....");
+			List<String> message = population.evolve(new Monitor(5,50));
+			System.out.println("Stoppin metascheduler evolution ...");
+			for( String s : message){
+				System.out.println(s);
+			}
+			IChromosome bestSolutionSoFar = population.getPopulation().determineFittestChromosome();
+//			System.out.println("asfdfdfdfafdsfds " + bestSolutionSoFar.getGene(0).getAllele());
+			sol.setSolution(bestSolutionSoFar,nodes);
 			sol.setFit(bestSolutionSoFar.getFitnessValue());
 			Configuration.reset();
 
@@ -112,7 +99,6 @@ public class JGAPMapping {
 		}
 		return sol;
 		
-	//	return null;
 	}
 
 }
