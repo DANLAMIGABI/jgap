@@ -40,7 +40,7 @@ public class DatacenterUtility {
 	
 	private static HashMap<String, Object> setHashHostParam(int raiseFactor,String storage, String ram, String bw, String mips ){
 		HashMap<String, Object> param = new HashMap<>();
-		param.put(Constant.BW, (raiseFactor+ Long.parseLong(bw)) * 1024);
+		param.put(Constant.BW, Long.parseLong(bw) * 1024*1024);
 		param.put(Constant.MIPS,  Double.parseDouble(mips));
 		param.put(Constant.RAM, (raiseFactor+ Integer.parseInt(ram))*1024);
 		param.put(Constant.STORE, (raiseFactor+ Long.parseLong(storage))*1024);
@@ -54,7 +54,7 @@ public class DatacenterUtility {
 	private static List<HashMap<String, Object>> getHostConfigurations(int numHost, int raiseFactor){
 		List<HashMap<String, Object>> hostParam = new ArrayList<>();
 		for(int i=0; i<numHost; i++){
-			hostParam.add(setHashHostParam(raiseFactor, "870", "7", "10", "9022"));
+			hostParam.add(setHashHostParam(raiseFactor, "870", "7", "10", "250000"));
 		}
         return hostParam;
 	}
@@ -169,6 +169,9 @@ public class DatacenterUtility {
 			Log.printLine("id: " + fdata.get(j).getId()+ " | name: "+fdata.get(j).getName());
 			List<Host> list = fdata.get(j).getHostList();
 			System.out.println("PLACE: " + fdata.get(j).getMSCharacteristics().getPlace());
+			System.out.println("Cost_storage: " + fdata.get(j).getMSCharacteristics().getCostPerStorage());
+			System.out.println("Cost_mem: " +fdata.get(j).getMSCharacteristics().getCostPerMem());
+			System.err.println("cost_mips: " + fdata.get(j).getMSCharacteristics().getCostPerMi());
 			
 			for(int i=0; i<list.size(); i++){
 				printHostInfo(list.get(i));
