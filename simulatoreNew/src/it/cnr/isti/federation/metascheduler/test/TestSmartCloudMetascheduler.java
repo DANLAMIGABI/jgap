@@ -12,6 +12,8 @@ import it.cnr.isti.federation.metascheduler.*;
 import it.cnr.isti.federation.metascheduler.iface.Metascheduler;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
+import it.cnr.isti.networking.InternetEstimator;
+import it.cnr.isti.networking.SecuritySupport;
 import it.cnr.isti.test.DataSette;
 import it.cnr.isti.test.TestResult;
 
@@ -62,6 +64,8 @@ public class TestSmartCloudMetascheduler {
 		CloudSim.send(brokerId, dcList.get(datacenterId).getId(), delay,
 				CloudSimTags.VM_CREATE, vm);
 	}
+	
+	
 
 	/**
 	 * Creates main() to run this example.
@@ -82,11 +86,11 @@ public class TestSmartCloudMetascheduler {
 
 			// Initialize the CloudSim library
 			CloudSim.init(num_user, calendar, trace_flag);
-			broker = createBroker();
-			int brokerId = broker.getId();
+//			broker = createBroker();
+//			int brokerId = broker.getId();
 
 			// make Datacenter
-			initDatacenter(100);
+			initDatacenter(2);
 			DatacenterUtility.printFederationDataCenter(dcList);
 			// dcList = DataSette.generateDatanceters(10, 10, 4, 8);
 
@@ -98,16 +102,15 @@ public class TestSmartCloudMetascheduler {
 
 			// Applications
 			applications = new ArrayList<>();
-			applications.add(ApplicationUtility.getFederationApplication(
-					fed.getId(), 8));
+			String[] places = { "italia", "spagna", "germania" };
+			double[] budgets = { 1000.0, 5000.0, 3000.0 };
+			applications.add(ApplicationUtility.getFederationApplication(fed.getId(), places,budgets, 3));
 
 //			ApplicationUtility.vmToString(applications.get(0).getAllVms());
 
 			// create the queue
-			FederationQueueProfile queueProfile = FederationQueueProfile
-					.getDefault();
-			FederationQueue queue = FederationQueueProvider.getFederationQueue(
-					queueProfile, fed, applications);
+			FederationQueueProfile queueProfile = FederationQueueProfile.getDefault();
+			FederationQueue queue = FederationQueueProvider.getFederationQueue(	queueProfile, fed, applications);
 			CloudSim.addEntity(queue);
 
 			// Datacenter initial/final Status
@@ -115,14 +118,9 @@ public class TestSmartCloudMetascheduler {
 				CloudSim.send(fed.getId(), dc.getId(), 0, 9000, dc);
 				CloudSim.send(fed.getId(), dc.getId(), 7, 9000, dc);
 			}
-			// CloudSim.send(fed.getId(), dcList.get(0).getId(), 0, 9000, dcList
-			// );
-			// CloudSim.send(fed.getId(), dcList.get(0).getId(), 7, 9000,
-			// dcList.get(0) );
 
 			// SIMULATION
-			System.out
-					.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation CloudSim ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation CloudSim ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			CloudSim.terminateSimulation(1000);
 			CloudSim.startSimulation();
 
@@ -145,7 +143,7 @@ public class TestSmartCloudMetascheduler {
 				else
 					System.out.println("Real duration " + a.getRealDuration());
 
-			}
+			}/*
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation Metascheduler ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			List<MSPolicy> constraint = new ArrayList<>();
@@ -154,13 +152,12 @@ public class TestSmartCloudMetascheduler {
 		
 			BestSolution sol = Metascheduler.getMapping(applications.get(0),
 					constraint, dcList);
-
+*/
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RESULTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			System.out.println("FederationSim Results");
 
-			HashMap<Integer, Integer> allocatedToDatacenter = fed
-					.getVmToDatacenter();
+			HashMap<Integer, Integer> allocatedToDatacenter = fed.getVmToDatacenter();
 			Iterator<Integer> keys = allocatedToDatacenter.keySet().iterator();
 			while (keys.hasNext()) {
 				Integer i = keys.next();
@@ -168,7 +165,7 @@ public class TestSmartCloudMetascheduler {
 						+ allocatedToDatacenter.get(i));
 
 			}
-
+/*
 			System.out.println("Metascheduler Results");
 			HashMap<Integer, Integer> mappString = sol.getBest();
 			System.out.println("Fitness: " + sol.getFit());
@@ -178,7 +175,7 @@ public class TestSmartCloudMetascheduler {
 				System.out.println("Node: " + i + " -> " + " Prov: "
 						+ dcList.get(mappString.get(i)).getId() + "     ");
 			}
-
+*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.printLine("Unwanted errors happen");
@@ -211,21 +208,27 @@ public class TestSmartCloudMetascheduler {
 		FederationDatacenter temp;
 
 		paramDatacenter = DatacenterUtility.getDatacenterParam();
+		
 		for (int i = 0; i < size; i++) {
 			paramDatacenter.put(Constant.PLACE, "italia");
 			paramDatacenter.put(Constant.COST_STORAGE, 70000.0 - i * 2000);
 			paramDatacenter.put(Constant.COST_MEM, 1000.0 + i * 200);
-			// if(i==size-1)
-			// paramDatacenter.put(Constant.COST_STORAGE, 1.0);
-			temp = DatacenterUtility.getDatacenter(paramDatacenter, 1,
-					i * 10 + 1);
-			// paramDatacenter.put(Constant.ID, temp.getId()+"");
+			temp = DatacenterUtility.getDatacenter(paramDatacenter, 1,i * 5 + 1);
 			dcList.add(temp);
-			// paramDatacenter.put(Constant.ID, temp.getId()+"");
-			// providerList.add(DatacenterUtility.getProvider(paramDatacenter,
-			// 1, 1));
-
 		}
+		DataSette.net = setInternetEstimator(dcList, dcList.size());
+	}
+	
+	private static InternetEstimator setInternetEstimator(List<FederationDatacenter> dcList, int numOfDatacenters){
+		InternetEstimator inetEst = new InternetEstimator(numOfDatacenters);
+		for (FederationDatacenter top: dcList)
+		{
+			for (FederationDatacenter bot: dcList)
+			{
+				inetEst.defineDirectLink(top, bot, 1024*1024*10, 100, SecuritySupport.ADVANCED);
+			}
+		}
+		return inetEst;
 	}
 
 	private static void submitApplication(Application application) {

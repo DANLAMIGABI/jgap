@@ -2,12 +2,13 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 
 
 
-public class MSProvider implements IMSProvider, Cloneable {
+public class MSProvider implements IMSProvider, Cloneable, Serializable {
 	//private static int NEXT_ID=1;
 	
 	

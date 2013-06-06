@@ -49,12 +49,12 @@ public class Monitor implements IEvolutionMonitor{
 			arg1.add("ExecutionTime: " + (System.currentTimeMillis()-startMillisec)/1000);
 			return false;
 		}
-//		if(notModifiedCount > maxIteration){
-//			arg1.add("MaxIteration reached. fit: " + fit);
-//			arg1.add("Max Fitness Evaluated:" + maxFit);
-//			arg1.add("ExecutionTime: " + (System.currentTimeMillis()-startMillisec)/1000);
-//			return false;
-//		}
+		if(notModifiedCount > maxIteration){
+			arg1.add("MaxIteration reached. fit: " + fit);
+			arg1.add("Max Fitness Evaluated:" + maxFit);
+			arg1.add("ExecutionTime: " + (System.currentTimeMillis()-startMillisec)/1000);
+			return false;
+		}
 		if( fit > maxFit){
 			maxFit = fit;
 			notModifiedCount=0;

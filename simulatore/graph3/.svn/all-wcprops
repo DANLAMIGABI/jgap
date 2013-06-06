@@ -3,6 +3,18 @@ svn:wc:ra_dav:version-url
 V 70
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/graph3
 END
+100dc.plot
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/graph3/100dc.plot
+END
+10dc.plot
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/graph3/10dc.plot
+END
 noott-nodist.dat
 K 25
 svn:wc:ra_dav:version-url
@@ -38,16 +50,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 79
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/graph3/10dc.pdf
-END
-100dc.plot
-K 25
-svn:wc:ra_dav:version-url
-V 81
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/graph3/100dc.plot
-END
-10dc.plot
-K 25
-svn:wc:ra_dav:version-url
-V 80
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/graph3/10dc.plot
 END

@@ -40,7 +40,6 @@ public class Application // extends Multigraph<ApplicationVertex, ApplicationEdg
 		{
 			vmToVertex.put(vm, av);
 		}
-		
 			
 		graph.addVertex(av);
 	}
@@ -113,5 +112,20 @@ public class Application // extends Multigraph<ApplicationVertex, ApplicationEdg
 		}
 		
 		return list;
+	}
+	
+	public String toString(){
+		String res = new String();
+		Set<ApplicationVertex> set = this.vertexSet();
+		for (ApplicationVertex v: set){
+			res += v;
+			Set<ApplicationEdge> setedge = this.edgesOf(v);
+			for (ApplicationEdge e: setedge){
+				res += e.toString();
+				res += "[" + e.getBandwidth() + "]";
+			}
+			res += "\n";
+		}
+		return res;
 	}
 }

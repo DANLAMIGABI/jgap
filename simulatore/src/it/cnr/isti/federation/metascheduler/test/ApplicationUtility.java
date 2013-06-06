@@ -27,6 +27,20 @@ import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Vm;
 
 public class ApplicationUtility {
+	
+	public static void vmToString(List<Vm> vmList){
+		for( Vm a : vmList){
+			System.out.println("vmID: "+ a.getId());
+			System.out.println("    Size: " +a.getSize());
+			System.out.println("    Ram: "+ a.getRam());
+			System.out.println("    Mips: " +a.getMips());
+			
+		
+		}
+	}
+	
+	
+	
 	public static String hashToString(HashMap<String, Object> map, String indent){
 		String ret = "";
 		Iterator<String> keys = map.keySet().iterator();

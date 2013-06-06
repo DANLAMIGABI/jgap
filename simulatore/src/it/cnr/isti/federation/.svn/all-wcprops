@@ -3,6 +3,30 @@ svn:wc:ra_dav:version-url
 V 90
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/src/it/cnr/isti/federation
 END
+MappingSolution.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/44/trunk/src/it/cnr/isti/federation/MappingSolution.java
+END
+AllocationSession.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/AllocationSession.java
+END
+GreedyRollbackAllocator.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/46/trunk/src/it/cnr/isti/federation/GreedyRollbackAllocator.java
+END
+FederationProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/44/trunk/src/it/cnr/isti/federation/FederationProvider.java
+END
 FederationTags.java
 K 25
 svn:wc:ra_dav:version-url
@@ -33,17 +57,17 @@ svn:wc:ra_dav:version-url
 V 128
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/49/trunk/src/it/cnr/isti/federation/GreedyRollbackAllocatorAppliance.java
 END
-Federation.java
-K 25
-svn:wc:ra_dav:version-url
-V 106
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/Federation.java
-END
 UtilityPrint.java
 K 25
 svn:wc:ra_dav:version-url
 V 108
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/45/trunk/src/it/cnr/isti/federation/UtilityPrint.java
+END
+Federation.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/Federation.java
 END
 RandomAllocator.java
 K 25
@@ -74,28 +98,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 106
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/src/it/cnr/isti/federation/Allocation.java
-END
-MappingSolution.java
-K 25
-svn:wc:ra_dav:version-url
-V 111
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/44/trunk/src/it/cnr/isti/federation/MappingSolution.java
-END
-AllocationSession.java
-K 25
-svn:wc:ra_dav:version-url
-V 113
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/AllocationSession.java
-END
-GreedyRollbackAllocator.java
-K 25
-svn:wc:ra_dav:version-url
-V 119
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/46/trunk/src/it/cnr/isti/federation/GreedyRollbackAllocator.java
-END
-FederationProvider.java
-K 25
-svn:wc:ra_dav:version-url
-V 114
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/44/trunk/src/it/cnr/isti/federation/FederationProvider.java
 END

@@ -3,3 +3,27 @@ svn:wc:ra_dav:version-url
 V 73
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/12/trunk/resources
 END
+DataCenters.xml
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/12/trunk/resources/DataCenters.xml
+END
+MC1.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/12/trunk/resources/MC1.xml
+END
+MacroCloudlets.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/12/trunk/resources/MacroCloudlets.xml
+END
+DC1.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/12/trunk/resources/DC1.xml
+END

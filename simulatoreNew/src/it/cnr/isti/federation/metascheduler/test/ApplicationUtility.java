@@ -29,11 +29,13 @@ import org.cloudbus.cloudsim.Vm;
 public class ApplicationUtility {
 	
 	public static void vmToString(List<Vm> vmList){
+		System.out.println("Application To String");
 		for( Vm a : vmList){
 			System.out.println("vmID: "+ a.getId());
 			System.out.println("    Size: " +a.getSize());
 			System.out.println("    Ram: "+ a.getRam());
 			System.out.println("    Mips: " +a.getMips());
+			System.out.println("    Net: " + a.getBw());
 			
 		
 		}
@@ -120,24 +122,24 @@ public class ApplicationUtility {
 	}
 	
 	
-	public static IMSApplication applicationToMSApplication(Application app){
-		MSApplication newApp = new MSApplication();
-		HashMap<String, Object> appCharacteristic = new HashMap<>();
-		List<Vm> vmList = app.getAllVms();
-		
-		List<MSApplicationNode> nodeList = new ArrayList<>();
-		for(int i=0; i<vmList.size(); i++){
-			nodeList.add(vmToMSApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), app.getBudget(), app.getPlace()));
-			
-		}
-		appCharacteristic.put(Constant.PLACE, app.getPlace());
-		appCharacteristic.put(Constant.BUDGET, app.getBudget());
-		
-		newApp.setNodes(nodeList);
-		newApp.setCharacteristic(appCharacteristic);
-		
-		return newApp;
-	}
+//	public static IMSApplication applicationToMSApplication(Application app){
+//		MSApplication newApp = new MSApplication();
+//		HashMap<String, Object> appCharacteristic = new HashMap<>();
+//		List<Vm> vmList = app.getAllVms();
+//		
+//		List<MSApplicationNode> nodeList = new ArrayList<>();
+//		for(int i=0; i<vmList.size(); i++){
+//			nodeList.add(vmToMSApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), app.getBudget(), app.getPlace()));
+//			
+//		}
+//		appCharacteristic.put(Constant.PLACE, app.getPlace());
+//		appCharacteristic.put(Constant.BUDGET, app.getBudget());
+//		
+//		newApp.setNodes(nodeList);
+//		newApp.setCharacteristic(appCharacteristic);
+//		
+//		return newApp;
+//	}
 	
 //	public static Application getApplication(int userID, int numberOfCloudlets)
 //	{
@@ -152,7 +154,7 @@ public class ApplicationUtility {
 //		return new ThreeTierBusinessApplicationMeta(userID,frontend, appserver, database);
 //	}
 	
-	public static Application getFederationApplication(int userID,int numberOfCloudlets)
+	public static Application getFederationApplication(int userID, String[] places, double[] budgets,int numberOfCloudlets)
 	{
 		Double number = new Double(numberOfCloudlets);
 		if (number < 3)
@@ -162,7 +164,7 @@ public class ApplicationUtility {
 		int database = new Double(Math.ceil(number * 20 / 100)).intValue();
 		int appserver = number.intValue() - frontend - database;
 		
-		return new ThreeTierBusinessApplicationMeta(userID,frontend, appserver, database);
+		return new ThreeTierBusinessApplicationMeta(userID,places, budgets,frontend, appserver, database);
 	}
 	
 	

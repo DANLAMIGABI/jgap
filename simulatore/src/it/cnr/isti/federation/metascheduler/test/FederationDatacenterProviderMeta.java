@@ -2,6 +2,7 @@ package it.cnr.isti.federation.metascheduler.test;
 
 
 import it.cnr.isti.federation.metascheduler.test.FederationDatacenterProfileMeta.DatacenterParams;
+import it.cnr.isti.federation.resources.FederationDatacenter;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class FederationDatacenterProviderMeta
 //	//added by Giuseppe
 //	private static DatacenterCharacteristics datacenterCh;
 	
-	private static FederationPowerDatacenter createFederationDatacenter(FederationDatacenterProfileMeta profile, List<PowerHost> hosts, List<Storage> storages)
+	private static FederationDatacenter createFederationDatacenter(FederationDatacenterProfileMeta profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		// create the datacenter characteristics
 		DatacenterCharacteristicsMS datacenterCh = new DatacenterCharacteristicsMS(profile.get(DatacenterParams.PLACE),
@@ -48,10 +49,10 @@ public class FederationDatacenterProviderMeta
 		}
 		
 		// creating the federation datacenter
-		FederationPowerDatacenter fc = null;
+		FederationDatacenter fc = null;
 		try
 		{
-			fc = new FederationPowerDatacenter("datacenter_"+DC_COUNTER++, datacenterCh, vmAllocationPolicy, storages, 
+			fc = new FederationDatacenter("datacenter_"+DC_COUNTER++, datacenterCh, vmAllocationPolicy, storages, 
 					Double.parseDouble(profile.get(DatacenterParams.SCHEDULING_INTERNAL)));
 		}
 		catch (Exception e)
@@ -65,12 +66,12 @@ public class FederationDatacenterProviderMeta
 	}
 
 
-	public static FederationPowerDatacenter getDefault(List<PowerHost> hosts, List<Storage> storages)
+	public static FederationDatacenter getDefault(List<PowerHost> hosts, List<Storage> storages)
 	{
 		return createFederationDatacenter(FederationDatacenterProfileMeta.getDefault(), hosts, storages);
 	}
 	
-	public static FederationPowerDatacenter get(FederationDatacenterProfileMeta profile, List<PowerHost> hosts, List<Storage> storages)
+	public static FederationDatacenter get(FederationDatacenterProfileMeta profile, List<PowerHost> hosts, List<Storage> storages)
 	{
 		return createFederationDatacenter(profile, hosts, storages);
 	}

@@ -21,3 +21,21 @@ svn:wc:ra_dav:version-url
 V 89
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/lib/commons-math3-3.0.jar
 END
+jgrapht-jdk1.6.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/11/trunk/lib/jgrapht-jdk1.6.jar
+END
+cloudsim-3.0.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/11/trunk/lib/cloudsim-3.0.2.jar
+END
+cloudsim-3.0.2-sources.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/11/trunk/lib/cloudsim-3.0.2-sources.jar
+END

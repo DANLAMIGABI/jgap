@@ -12,11 +12,36 @@ import java.util.HashMap;
 
 import org.jgap.xml.ImproperXMLException;
 
-import com.sun.org.apache.xpath.internal.axes.HasPositionalPredChecker;
 
 
 
 public class MakePolicy {
+	
+	public static MSPolicy makeCostRam(double weight){
+		return new MSPolicy(weight,Constant.DESCENDENT_TYPE,Constant.LOCAL_CONSTRAIN){
+
+			@Override
+			public double evaluateGlobalPolicy(IMSApplication app,
+					IMSProvider prov) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public double evaluateLocalPolicy(MSApplicationNode node,
+					IMSProvider prov) {
+				// TODO Auto-generated method stub
+				HashMap<String, Object> providerTraits = prov.getComputing().getCharacteristic();
+				Double cost = (Double) providerTraits.get(Constant.COST_MEM);
+				
+				double constrain = cost - getWeight();
+				return (constrain >0) ? (constrain +1) : (constrain -1);
+			}
+			
+		};
+		
+	}
+	
 	
 	public static MSPolicy makeCostPolicy(double weight){
 		if( weight < 0 )
@@ -34,13 +59,11 @@ public class MakePolicy {
 			public double evaluateLocalPolicy(MSApplicationNode node,
 					IMSProvider prov) {
 				// TODO Auto-generated method stub
-				HashMap<String ,Object> nodeTratis = node.getCharacteristic();
-				HashMap<String, Object> providerTraits = prov.getCharacteristic();
-				Double budget = (Double) nodeTratis.get(Constant.BUDGET);
-				Double cost = (Double) providerTraits.get(Constant.COST_SEC);
-
-				double constrain = cost - budget;
-				return (constrain >0) ? (constrain +1)*getWeight() : (constrain -1)*getWeight();
+				HashMap<String, Object> providerTraits = prov.getStorage().getCharacteristic();
+				Double cost = (Double) providerTraits.get(Constant.COST_STORAGE);
+				
+				double constrain = cost - getWeight();
+				return (constrain >0) ? (constrain +1) : (constrain -1);
 			}
 		};
 	}

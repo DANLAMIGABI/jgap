@@ -8,7 +8,7 @@ import it.cnr.isti.federation.metascheduler.JGAPMapping;
 import it.cnr.isti.federation.metascheduler.MSPolicy;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
-import it.cnr.isti.federation.metascheduler.test.FederationPowerDatacenter;
+import it.cnr.isti.federation.resources.FederationDatacenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import org.cloudbus.cloudsim.power.PowerHost;
 public class Metascheduler {
 	
 	
-	public static BestSolution getMapping(Application application, List<MSPolicy> policy, List<FederationPowerDatacenter> dclist){
+	public static BestSolution getMapping(Application application, List<MSPolicy> policy, List<FederationDatacenter> dclist){
 		List<IMSProvider> providerList = new ArrayList<>();
 		
 		for(int i=0; i<dclist.size(); i++){
@@ -34,8 +34,8 @@ public class Metascheduler {
 		System.out.println(MSProviderUtility.providerListToString(providerList));
 		
 		IMSApplication msApplication = MSApplicationUtility.getMSApplication(application);
-		System.out.println("##### Metascheduler Application ######");
-		System.out.println(MSApplicationUtility.toStringMSApplication(msApplication));
+//		System.out.println("##### Metascheduler Application ######");
+//		System.out.println(MSApplicationUtility.toStringMSApplication(msApplication));
 		
 		return JGAPMapping.startMapping(msApplication, providerList, policy, new ArrayList<String>());
 		

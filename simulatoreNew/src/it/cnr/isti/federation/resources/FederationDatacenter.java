@@ -61,23 +61,24 @@ public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAw
 	protected void processOtherEvent(SimEvent ev){
 		long ram = 0;
 		long net = 0;
+		long netTot =0;
 		long mips = 0;
 		long storage = 0;
 		List<HostDynamicWorkload> hostlist = getHostList();
 		for (int i = 0; i < hostlist.size(); i++) {
-			ram += hostlist.get(i).getRam()
-					- hostlist.get(i).getUtilizationOfRam();
-			net += hostlist.get(i).getBw()
-					- hostlist.get(i).getUtilizationOfBw();
+			ram += hostlist.get(i).getRam()- hostlist.get(i).getUtilizationOfRam();
+			//net += hostlist.get(i).getBw()- hostlist.get(i).getUtilizationOfBw();
+			net += hostlist.get(i).getUtilizationOfBw();
+			netTot = hostlist.get(i).getBw();
 			storage += hostlist.get(i).getStorage();
-			mips += hostlist.get(i).getTotalMips()
-					- hostlist.get(i).getUtilizationMips();
+			mips += hostlist.get(i).getTotalMips()- hostlist.get(i).getUtilizationMips();
 
 		}
 		System.out.println("########################## Stato Datacenter: "
 				+ getId() + " ##################");
 		System.out.println("RAM: " + ram);
-		System.out.println("NET: " + net);
+		System.out.println("NET used: " + net);
+		System.out.println("NET tot: " + netTot);
 		System.out.println("STORAGE: " + storage);
 		System.out.println("MIPS: " + mips);
 }

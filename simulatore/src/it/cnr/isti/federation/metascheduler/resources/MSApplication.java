@@ -2,13 +2,14 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 
-public class MSApplication implements IMSApplication, Cloneable {
+public class MSApplication implements IMSApplication, Cloneable, Serializable {
 
 	private int ID;
 	private String place;

@@ -21,6 +21,8 @@ public class ApplicationVertex
 	private Map<Vm, Cloudlet> vmMap;
 	private String name = null;
 	
+	private String place = "";
+	private double budget =1.0;
 	public ApplicationVertex(List<Cloudlet> cloudlets, VmType vmtype)
 	{
 		this.cloudlets = cloudlets;
@@ -35,6 +37,19 @@ public class ApplicationVertex
 			this.cloudletMap.put(c, cloned);
 			this.vmMap.put(cloned, c);
 		}
+	}
+	
+	public void setPlace(String place){
+		this.place = place;
+	}
+	public void setBudget(double budget){
+		this.budget = budget;
+	}
+	public String getPlace(){
+		return this.place;
+	}
+	public double getBudget(){
+		return this.budget;
 	}
 	
 	public void setName(String n)

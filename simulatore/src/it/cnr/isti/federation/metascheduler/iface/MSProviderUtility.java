@@ -8,7 +8,7 @@ import it.cnr.isti.federation.metascheduler.resources.MSProviderNetwork;
 import it.cnr.isti.federation.metascheduler.resources.MSProviderStorage;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
 import it.cnr.isti.federation.metascheduler.test.DatacenterCharacteristicsMS;
-import it.cnr.isti.federation.metascheduler.test.FederationPowerDatacenter;
+import it.cnr.isti.federation.resources.FederationDatacenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +77,7 @@ public class MSProviderUtility {
 		return map;
 	}
 	
-	public static IMSProvider datacenterToMSProvider(FederationPowerDatacenter datacenter ){
+	public static IMSProvider datacenterToMSProvider(FederationDatacenter datacenter ){
 		MSProvider provider = new MSProvider();
 		HashMap<String, Object> providerCharacteristic = new HashMap<String, Object>();
 		HashMap<String, Object> networkCharacteristic = new HashMap<String, Object>();
@@ -85,7 +85,7 @@ public class MSProviderUtility {
 		HashMap<String, Object> storageCharacteristic = new HashMap<String, Object>();
 		
 		List<Host> hostList = datacenter.getHostList();
-		DatacenterCharacteristicsMS dcCharacterisitc = datacenter.getCharacteristics();
+		DatacenterCharacteristicsMS dcCharacterisitc = datacenter.getMSCharacteristics();
 		//aggregazione della lista degli host
 		HashMap<String, Object> aggregateHost = aggregateHostInfo(hostList);
 	

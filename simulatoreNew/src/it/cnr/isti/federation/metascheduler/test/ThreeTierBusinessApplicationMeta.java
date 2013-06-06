@@ -24,7 +24,7 @@ import org.cloudbus.cloudsim.Cloudlet;
 public class ThreeTierBusinessApplicationMeta extends Application
 {
 	
-	public ThreeTierBusinessApplicationMeta(int userID,  int frontendNumber, int backendNumber, int databaseNumber)
+	public ThreeTierBusinessApplicationMeta(int userID, String[] places, double[] budgets, int frontendNumber, int backendNumber, int databaseNumber)
 	{
 		
 		// cloudlet profiles definition
@@ -42,7 +42,8 @@ public class ThreeTierBusinessApplicationMeta extends Application
 			frontendList.add(c);
 		}
 		ApplicationVertex vertexFrontend = new ApplicationVertex(frontendList, VmType.SMALL);
-		
+		vertexFrontend.setPlace(places[0]);
+		vertexFrontend.setBudget(budgets[0]);
 		
 		// Backend tier
 		ArrayList<Cloudlet> backendList = new ArrayList<Cloudlet>();
@@ -53,7 +54,8 @@ public class ThreeTierBusinessApplicationMeta extends Application
 			backendList.add(c);
 		}	
 		ApplicationVertex vertexBackend = new ApplicationVertex(backendList, VmType.MEDIUM);
-		
+		vertexBackend.setPlace(places[1]);
+		vertexBackend.setBudget(budgets[1]);
 			
 		// Database tier
 		ArrayList<Cloudlet> databaseList = new ArrayList<Cloudlet>();
@@ -64,6 +66,8 @@ public class ThreeTierBusinessApplicationMeta extends Application
 			databaseList.add(c);
 		}	
 		ApplicationVertex vertexDatabase = new ApplicationVertex(databaseList, VmType.LARGE);
+		vertexDatabase.setPlace(places[2]);
+		vertexDatabase.setBudget(budgets[2]);
 		
 		// Add the vertexes to the graph
 		this.addVertex(vertexFrontend);
@@ -71,8 +75,8 @@ public class ThreeTierBusinessApplicationMeta extends Application
 		this.addVertex(vertexDatabase);
 	
 		// Network
-		ApplicationEdge frontToBack = new ApplicationEdge(1024, SecuritySupport.BASE, 1000);
-		ApplicationEdge backToDB = new ApplicationEdge(512, SecuritySupport.BASE, 1000);
+		ApplicationEdge frontToBack = new ApplicationEdge(1024, SecuritySupport.BASE, 10);
+		ApplicationEdge backToDB = new ApplicationEdge(512, SecuritySupport.BASE, 10);
 		
 		this.addEdge(frontToBack, vertexFrontend, vertexBackend);
 		this.addEdge(backToDB, vertexBackend, vertexDatabase);

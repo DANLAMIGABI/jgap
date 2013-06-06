@@ -2,6 +2,7 @@ package it.cnr.isti.federation.metascheduler.iface;
 
 import it.cnr.isti.federation.application.Application;
 import it.cnr.isti.federation.application.ApplicationEdge;
+import it.cnr.isti.federation.application.ApplicationVertex;
 import it.cnr.isti.federation.metascheduler.Constant;
 import it.cnr.isti.federation.metascheduler.resources.MSApplication;
 import it.cnr.isti.federation.metascheduler.resources.MSApplicationComputing;
@@ -107,19 +108,21 @@ public class MSApplicationUtility {
 	
 	public static IMSApplication getMSApplication(Application app){
 		MSApplication newApp = new MSApplication();
-		HashMap<String, Object> appCharacteristic = new HashMap<String, Object>();
+//		HashMap<String, Object> appCharacteristic = new HashMap<String, Object>();
+		ApplicationVertex vertex ;
 		List<Vm> vmList = app.getAllVms();
 		
 		List<MSApplicationNode> nodeList = new ArrayList<MSApplicationNode>();
 		for(int i=0; i<vmList.size(); i++){
-			nodeList.add(vmToMSApplicationNode(vmList.get(i), app.edgesOf(app.getVertexForVm(vmList.get(i))), app.getPlace(), app.getBudget()));
+			vertex = app.getVertexForVm(vmList.get(i));
+			nodeList.add(vmToMSApplicationNode(vmList.get(i), app.edgesOf(vertex), vertex.getPlace(), vertex.getBudget()));
 			
 		}
-		appCharacteristic.put(Constant.PLACE, app.getPlace());
-		appCharacteristic.put(Constant.BUDGET, app.getBudget());
+//		appCharacteristic.put(Constant.PLACE, .getPlace());
+//		appCharacteristic.put(Constant.BUDGET, app.getBudget());
 		
 		newApp.setNodes(nodeList);
-		newApp.setCharacteristic(appCharacteristic);
+//		newApp.setCharacteristic(appCharacteristic);
 		
 		return newApp;
 	}

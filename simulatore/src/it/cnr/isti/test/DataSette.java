@@ -23,7 +23,7 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 
 public class DataSette 
 {
-	private static InternetEstimator net;
+	public static InternetEstimator net;
 	
 	public static Application getApplication(int numberOfCloudlets)
 	{
@@ -79,6 +79,7 @@ public class DataSette
 		}
 		
 		
+		
 		net = new InternetEstimator(numOfDatacenters);
 		for (FederationDatacenter top: list)
 		{
@@ -90,6 +91,8 @@ public class DataSette
 		
 		return list;
 	}
+	
+	
 	
 	public static List<FederationDatacenter> generateDatanceters2(int numOfDatacenters, int numHost, int minNumOfCores, int maxNumOfCores)
 	{

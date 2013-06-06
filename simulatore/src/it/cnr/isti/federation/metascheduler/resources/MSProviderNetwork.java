@@ -2,14 +2,14 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProviderNetwork;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-import sun.net.www.content.image.png;
 
 
 
 
-public class MSProviderNetwork implements IMSProviderNetwork, Cloneable {
+public class MSProviderNetwork implements IMSProviderNetwork, Cloneable, Serializable {
 	
 	private int ID;
 	/*

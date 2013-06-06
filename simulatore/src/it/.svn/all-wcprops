@@ -3,3 +3,9 @@ svn:wc:ra_dav:version-url
 V 70
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/54/trunk/src/it
 END
+.directory
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/11/trunk/src/it/.directory
+END

@@ -2,6 +2,7 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSAppComuting;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import javax.management.InstanceAlreadyExistsException;
 import org.omg.CosNaming.IstringHelper;
 
 
-public class MSApplicationComputing implements IMSAppComuting, Cloneable{
+public class MSApplicationComputing implements IMSAppComuting, Cloneable, Serializable{
 	/*
 	private String place;
 	private double budget;

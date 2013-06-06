@@ -20,7 +20,7 @@ public class Constant {
 	
 	
 	//MAPPING JGAP
-	public static final int POP_SIZE = 5;
+	public static final int POP_SIZE = 2;
 //	public static final int APP_SIZE = 2;
 	//public static final int PROV_SIZE = 6;
 	//public static final int TARGET = 5;

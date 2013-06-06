@@ -2,11 +2,12 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSAppNetwork;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 
 
-public class MSApplicationNetwork implements IMSAppNetwork, Cloneable {
+public class MSApplicationNetwork implements IMSAppNetwork, Cloneable, Serializable {
 
 	//private static int NEXT_ID=0;
 	

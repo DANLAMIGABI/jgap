@@ -1,7 +1,9 @@
 package it.cnr.isti.federation.application;
 
+import it.cnr.isti.federation.UtilityPrint;
 import it.cnr.isti.networking.SecuritySupport;
 
+import org.cloudbus.cloudsim.Cloudlet;
 import org.jgrapht.graph.DefaultEdge;
 
 public class ApplicationEdge extends DefaultEdge
@@ -34,5 +36,6 @@ public class ApplicationEdge extends DefaultEdge
 	{
 		return this.latency;
 	}
+	
 	
 }

@@ -30,8 +30,8 @@ public class Federation extends SimEntity
 	private Map<Integer, Application> vmToApp; 
 	private Map<Integer, Vm> idToVm;
 	private Map<Application, Allocation> appToAllocation; 
-	
-	private Map<Integer, Integer> vmToDatacenter;
+	//Association between allocated vm and Datacenter
+	private HashMap<Integer, Integer> vmToDatacenter;
 	
 	private List<Cloudlet> receivedCloudlet;
 	
@@ -186,8 +186,9 @@ public class Federation extends SimEntity
 		} 
 		else 
 		{
+			
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": VM #" + vmId
-					+ " creation failed in Datacenter #" + datacenterId);
+					+ " creation failed in Datacenter #" + datacenterId + " TAG: " + result);
 			
 			allocation.failedMapping(idToVm.get(vmId), datacenterId);
 			continueAllocation(allocation);
@@ -224,7 +225,7 @@ public class Federation extends SimEntity
 	{
 		return appToAllocation.values();
 	}
-	public Map<Integer, Integer> getVmToDatacenter(){
+	public HashMap<Integer, Integer> getVmToDatacenter(){
 		return vmToDatacenter;
 	}
 	

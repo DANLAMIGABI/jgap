@@ -141,7 +141,7 @@ public class MainExample
 			if (a.isCompleted() == false)
 				System.out.println("Failed");
 			else
-				System.out.println(a.getRealDuration());
+				// System.out.println(a.getRealDuration());
 			
 			return res;
 		}

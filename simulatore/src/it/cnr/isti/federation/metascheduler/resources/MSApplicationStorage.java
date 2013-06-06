@@ -2,12 +2,13 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSAppStorage;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 
 
 
-public class MSApplicationStorage implements IMSAppStorage, Cloneable {
+public class MSApplicationStorage implements IMSAppStorage, Cloneable, Serializable {
 	//private static int NEXT_ID = 1;
 	/* disabled
 	private double budget;

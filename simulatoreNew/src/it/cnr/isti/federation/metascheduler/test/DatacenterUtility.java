@@ -34,11 +34,12 @@ public class DatacenterUtility {
 		Log.printLine("  host ram:         " + host.getRam());
 		Log.printLine("  host store:       " + host.getStorage());
 		Log.printLine("  host mips:        " + host.getTotalMips());
+		Log.printLine("  host net:         " + host.getBw());
 		Log.printLine("  host pelist size: " + host.getPeList().size());
 		Log.printLine();
 	}
 	
-	private static HashMap<String, Object> setHashHostParam(int raiseFactor,String storage, String ram, String bw, String mips ){
+	public static HashMap<String, Object> setHashHostParam(int raiseFactor,String storage, String ram, String bw, String mips ){
 		HashMap<String, Object> param = new HashMap<>();
 		param.put(Constant.BW, Long.parseLong(bw) * 1024*1024);
 		param.put(Constant.MIPS,  Double.parseDouble(mips));
@@ -200,8 +201,8 @@ public class DatacenterUtility {
 		param.put(Constant.COST_MEM, 1.0);
 		param.put(Constant.COST_SEC, 1.0);
 		param.put(Constant.COST_STORAGE, 1.0);
-		param.put(Constant.PLACE, null);
-		param.put(Constant.ID, null);
+		param.put(Constant.PLACE, "");
+		param.put(Constant.ID, "");
 		return param;
 	}
 	

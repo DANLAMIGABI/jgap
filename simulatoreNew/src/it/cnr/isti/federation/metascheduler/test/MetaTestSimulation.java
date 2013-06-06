@@ -112,8 +112,7 @@ public class MetaTestSimulation {
 //			System.out.println(app.getAllVms().size());
 			
 			Application app = new BusinessApplication(brokerId, 1);
-			app.setBudget(1000.02);
-			app.setPlace("italia");
+			
 			
 			// System.out.println(app.get);
 			List<MSPolicy> test = new ArrayList<>();

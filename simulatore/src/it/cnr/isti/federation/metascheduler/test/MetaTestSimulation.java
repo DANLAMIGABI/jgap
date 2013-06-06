@@ -2,6 +2,7 @@ package it.cnr.isti.federation.metascheduler.test;
 
 
 import it.cnr.isti.federation.application.Application;
+import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.VmProvider;
 import it.cnr.isti.federation.metascheduler.*;
 import it.cnr.isti.federation.metascheduler.iface.Metascheduler;
@@ -29,7 +30,7 @@ public class MetaTestSimulation {
 	
         /** The cloudlet list. */
         private static List<Cloudlet> cloudletList;
-        private static List<FederationPowerDatacenter> dcList;
+        private static List<FederationDatacenter> dcList;
         private static List<IMSProvider> providerList;
         private static DatacenterBroker broker;
         private static HashMap<String , Object> paramDatacenter;
@@ -103,14 +104,14 @@ public class MetaTestSimulation {
 			broker = createBroker();
 			int brokerId = broker.getId();
 			// make Datacenter
-			initDatacenter(5);
+			initDatacenter(1);
 //			DatacenterUtility.printFederationDataCenter(dcList);
 
 			VmProvider.userId = brokerId;
 //			Application app = DataSette.getApplication(10);
 //			System.out.println(app.getAllVms().size());
 			
-			Application app = new BusinessApplication(brokerId, 5);
+			Application app = new BusinessApplication(brokerId, 1);
 			app.setBudget(1000.02);
 			app.setPlace("italia");
 			
@@ -118,10 +119,10 @@ public class MetaTestSimulation {
 			List<MSPolicy> test = new ArrayList<>();
 			// test.add(MakePolicy.makeCostPolicy(1));
 			// test.add(MakePolicy.makePlacePolicy(2));
-//			test.add(MakePolicy.makeStoragePolicy(1));
-			test.add(MakePolicy.makeStoreCost(1));
-			test.add(MakePolicy.makeTest1(1));
-			test.add(MakePolicy.fedStore(10000));
+			test.add(MakePolicy.makeStoragePolicy(1));
+//			test.add(MakePolicy.makeStoreCost(1));
+//			test.add(MakePolicy.makeTest1(1));
+//			test.add(MakePolicy.fedStore(10000));
 			int count =0;
 			int buone =0;
 			for(int h=0; h<1; h++){
@@ -168,7 +169,7 @@ public class MetaTestSimulation {
         private static void initDatacenter(int size){
         	dcList = new ArrayList<>();
 //        	providerList = new ArrayList<>();
-        	FederationPowerDatacenter temp;
+        	FederationDatacenter temp;
         	
     		paramDatacenter = DatacenterUtility.getDatacenterParam();
             for(int i=0; i<size; i++){

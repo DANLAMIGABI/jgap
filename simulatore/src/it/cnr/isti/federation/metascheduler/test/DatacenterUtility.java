@@ -8,6 +8,7 @@ import it.cnr.isti.federation.metascheduler.resources.MSProviderNetwork;
 import it.cnr.isti.federation.metascheduler.resources.MSProviderStorage;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
 import it.cnr.isti.federation.metascheduler.test.FederationDatacenterProfileMeta.DatacenterParams;
+import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.HostProfile;
 import it.cnr.isti.federation.resources.HostProfile.HostParams;
 import it.cnr.isti.federation.resources.HostProviderMetaScheduler;
@@ -39,7 +40,7 @@ public class DatacenterUtility {
 	
 	private static HashMap<String, Object> setHashHostParam(int raiseFactor,String storage, String ram, String bw, String mips ){
 		HashMap<String, Object> param = new HashMap<>();
-		param.put(Constant.BW, (raiseFactor+ Long.parseLong(bw)) * 1024);
+		param.put(Constant.BW, Long.parseLong(bw) * 1024*1024);
 		param.put(Constant.MIPS,  Double.parseDouble(mips));
 		param.put(Constant.RAM, (raiseFactor+ Integer.parseInt(ram))*1024);
 		param.put(Constant.STORE, (raiseFactor+ Long.parseLong(storage))*1024);
@@ -53,7 +54,7 @@ public class DatacenterUtility {
 	private static List<HashMap<String, Object>> getHostConfigurations(int numHost, int raiseFactor){
 		List<HashMap<String, Object>> hostParam = new ArrayList<>();
 		for(int i=0; i<numHost; i++){
-			hostParam.add(setHashHostParam(raiseFactor, "870", "7", "10", "1000"));
+			hostParam.add(setHashHostParam(raiseFactor, "870", "7", "10", "250000"));
 		}
         return hostParam;
 	}
@@ -163,11 +164,14 @@ public class DatacenterUtility {
 		}
 		return ret;
 	}
-	public static void printFederationDataCenter(List<FederationPowerDatacenter> fdata){
+	public static void printFederationDataCenter(List<FederationDatacenter> fdata){
 		for(int j=0; j<fdata.size(); j++){
 			Log.printLine("id: " + fdata.get(j).getId()+ " | name: "+fdata.get(j).getName());
 			List<Host> list = fdata.get(j).getHostList();
-			System.out.println("PLACE: " + fdata.get(j).getCharacteristics().getPlace());
+			System.out.println("PLACE: " + fdata.get(j).getMSCharacteristics().getPlace());
+			System.out.println("Cost_storage: " + fdata.get(j).getMSCharacteristics().getCostPerStorage());
+			System.out.println("Cost_mem: " +fdata.get(j).getMSCharacteristics().getCostPerMem());
+			System.err.println("cost_mips: " + fdata.get(j).getMSCharacteristics().getCostPerMi());
 			
 			for(int i=0; i<list.size(); i++){
 				printHostInfo(list.get(i));
@@ -208,7 +212,7 @@ public class DatacenterUtility {
 //	}
 	
 	
-	public static FederationPowerDatacenter getDatacenter(HashMap<String, Object> param, int datacenterSize, int raiseFactor){
+	public static FederationDatacenter getDatacenter(HashMap<String, Object> param, int datacenterSize, int raiseFactor){
 		FederationDatacenterProfileMeta prof = FederationDatacenterProfileMeta.getDefault();
 		prof.set(DatacenterParams.COST_PER_BW, (Double)param.get(Constant.COST_BW)+"");
 		prof.set(DatacenterParams.COST_PER_MEM, (Double)param.get(Constant.COST_MEM)+"");
@@ -223,6 +227,8 @@ public class DatacenterUtility {
 		List<Storage> storageList = new ArrayList<Storage>();
 		return FederationDatacenterProviderMeta.get(prof, hostList, storageList);
 	}
+	
+	
 	
 
 }

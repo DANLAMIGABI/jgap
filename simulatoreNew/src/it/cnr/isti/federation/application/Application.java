@@ -20,8 +20,8 @@ public class Application // extends Multigraph<ApplicationVertex, ApplicationEdg
 	private Hashtable<Vm, ApplicationVertex> vmToVertex;
 	
 	//added by Giuseppe
-	private String place;
-	private double budget;
+//	private String place;
+//	private double budget;
 	
 	public Application() 
 	{
@@ -31,22 +31,22 @@ public class Application // extends Multigraph<ApplicationVertex, ApplicationEdg
 		vmToVertex = new Hashtable<Vm, ApplicationVertex>();
 	}
 
-	//added by Giuseppe
-	public void setBudget(double budget){
-		this.budget = budget;
-	}
-	//added by Giuseppe
-	public void setPlace(String place){
-		this.place = place;
-	}
-	//added by Giuseppe
-	public String getPlace(){
-		return place;
-	}
-	//added by Giuseppe
-	public double getBudget(){
-		return budget;
-	}
+//	//added by Giuseppe
+//	public void setBudget(double budget){
+//		this.budget = budget;
+//	}
+//	//added by Giuseppe
+//	public void setPlace(String place){
+//		this.place = place;
+//	}
+//	//added by Giuseppe
+//	public String getPlace(){
+//		return place;
+//	}
+//	//added by Giuseppe
+//	public double getBudget(){
+//		return budget;
+//	}
 	
 	public void addVertex(ApplicationVertex av)
 	{

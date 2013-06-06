@@ -19,6 +19,7 @@ public class ApplicationVertex
 	private List<Vm> vms;
 	private Map<Cloudlet, Vm> cloudletMap;
 	private Map<Vm, Cloudlet> vmMap;
+	private String name = null;
 	
 	public ApplicationVertex(List<Cloudlet> cloudlets, VmType vmtype)
 	{
@@ -30,11 +31,20 @@ public class ApplicationVertex
 		for (Cloudlet c : cloudlets)
 		{
 			Vm cloned = VmProvider.getVm(vmtype);
-			c.setVmId(cloned.getId());
 			this.vms.add(cloned);
 			this.cloudletMap.put(c, cloned);
 			this.vmMap.put(cloned, c);
 		}
+	}
+	
+	public void setName(String n)
+	{
+		this.name = n;
+	}
+	
+	public String getName()
+	{
+		return this.name;
 	}
 	
 	public List<Cloudlet> getCloudlets()
@@ -59,6 +69,11 @@ public class ApplicationVertex
 
 	@Override
 	public String toString()
+	{
+		return this.name;
+	}
+	
+	public String toCompleteString()
 	{
 		StringBuilder sb = new StringBuilder();
 		

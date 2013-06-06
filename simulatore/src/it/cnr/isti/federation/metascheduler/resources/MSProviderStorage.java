@@ -2,12 +2,13 @@ package it.cnr.isti.federation.metascheduler.resources;
 
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProviderStorage;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 
 
 
-public class MSProviderStorage implements IMSProviderStorage, Cloneable {
+public class MSProviderStorage implements IMSProviderStorage, Cloneable, Serializable {
 	
 	private int ID;
 	/*

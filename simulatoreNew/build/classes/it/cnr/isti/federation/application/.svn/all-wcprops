@@ -3,17 +3,23 @@ svn:wc:ra_dav:version-url
 V 102
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/51/trunk/src/it/cnr/isti/federation/application
 END
+CloudletProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/11/trunk/src/it/cnr/isti/federation/application/CloudletProfile.java
+END
 ApplicationVertex.java
 K 25
 svn:wc:ra_dav:version-url
 V 125
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/51/trunk/src/it/cnr/isti/federation/application/ApplicationVertex.java
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/55/trunk/src/it/cnr/isti/federation/application/ApplicationVertex.java
 END
 Application.java
 K 25
 svn:wc:ra_dav:version-url
 V 119
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/51/trunk/src/it/cnr/isti/federation/application/Application.java
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/55/trunk/src/it/cnr/isti/federation/application/Application.java
 END
 CloudletProvider.java
 K 25
@@ -25,11 +31,5 @@ ApplicationEdge.java
 K 25
 svn:wc:ra_dav:version-url
 V 123
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/34/trunk/src/it/cnr/isti/federation/application/ApplicationEdge.java
-END
-CloudletProfile.java
-K 25
-svn:wc:ra_dav:version-url
-V 123
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/11/trunk/src/it/cnr/isti/federation/application/CloudletProfile.java
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/55/trunk/src/it/cnr/isti/federation/application/ApplicationEdge.java
 END

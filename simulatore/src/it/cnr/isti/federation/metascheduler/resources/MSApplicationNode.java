@@ -1,10 +1,11 @@
 package it.cnr.isti.federation.metascheduler.resources;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
-public class MSApplicationNode implements Cloneable{
+public class MSApplicationNode implements Cloneable, Serializable{
 	
 	
 	private int ID;

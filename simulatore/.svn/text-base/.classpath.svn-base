@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry excluding="it/cnr/isti/federation/StorageProfile.java|it/cnr/isti/federation/StorageProvider.java|it/cnr/isti/federation/resources/StorageProfile.java|it/cnr/isti/federation/resources/StorageProvider.java|it/cnr/isti/federation/FederationProvider.java" kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/cloudsim-3.0.2.jar" sourcepath="lib/cloudsim-3.0.2-sources.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
 	<classpathentry kind="lib" path="lib/cloudsim-3.0.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/cloning-1.8.5.jar"/>

@@ -3,6 +3,18 @@ svn:wc:ra_dav:version-url
 V 100
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/52/trunk/src/it/cnr/isti/federation/resources
 END
+StorageProfile.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/StorageProfile.java
+END
+FederationDatacenterProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/FederationDatacenterProvider.java
+END
 HostProvider.java
 K 25
 svn:wc:ra_dav:version-url
@@ -38,16 +50,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 121
 /versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/StorageProvider.java
-END
-StorageProfile.java
-K 25
-svn:wc:ra_dav:version-url
-V 120
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/StorageProfile.java
-END
-FederationDatacenterProvider.java
-K 25
-svn:wc:ra_dav:version-url
-V 134
-/versioned_projects/ContrailCloudSimExtension/!svn/ver/23/trunk/src/it/cnr/isti/federation/resources/FederationDatacenterProvider.java
 END

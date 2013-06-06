@@ -1,22 +1,25 @@
 package it.cnr.isti.federation.metascheduler;
 
 public class Constant {
-	public static final String BW = "BW_AMOUNT";
-	public static final String STORE = "STORAGE_MB";
-	public static final String RAM = "RAM_AMOUNT_MB";
-	public static final String MIPS = "MIPS";
+	public static final String BW = "bw_amount";
+	public static final String STORE = "storage_mb";
+	public static final String RAM = "ram_amount_mb";
+	public static final String MIPS = "mips";
 	
-	public static final String BUDGET = "BUDGET";
+	public static final String BUDGET = "budget";
 	
-	public static final String COST_SEC = "COST_PER_SEC";
-	public static final String COST_MEM = "COST_PER_MEM";
-	public static final String COST_STORAGE = "COST_PER_STORAGE";
-	public static final String COST_BW = "COST_PER_BW";
+	public static final String COST_SEC = "cost_per_sec";
+	public static final String COST_MEM = "cost_per_mem";
+	public static final String COST_STORAGE = "cost_per_storage";
+	public static final String COST_BW = "cost_per_bw";
 
-	public static final String PLACE = "PLACE";
+	public static final String PLACE = "place";
 	public static final String ID = "ID";
 	
-	public static final String[] aggregationParam = {"RAM_AMOUNT_MB", "BW_AMOUNT", "STORAGE_MB"};
+	public static final String[] aggregationParam = {"ram_amount_mb", "bw_amount", "storage_mb"};
+	
+	public static final String DATACENTER_SIZE = "host_list_size";
+	public static final String DATACENTER_LIST_SIZE = "dc_list_size";
 	
 	
 	//MAPPING JGAP
