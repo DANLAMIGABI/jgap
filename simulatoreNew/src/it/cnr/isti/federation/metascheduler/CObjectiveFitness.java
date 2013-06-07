@@ -92,6 +92,7 @@ public class CObjectiveFitness extends FitnessFunction{
 		MSApplicationNode tempNode;
 		if( !applicationTab.containsKey(key) ){
 			tempNode = (MSApplicationNode)node.clone();
+			System.out.println("                    inserted node: " + key + " -- node: " + tempNode.getID());
 //			Integer instances = (Integer) tempNode.getCharacteristic().get(Constant.VM_INSTANCES);
 //			tempNode.getCharacteristic().put(Constant.VM_INSTANCES, instances+1);
 			applicationTab.put(key, tempNode);
@@ -104,6 +105,10 @@ public class CObjectiveFitness extends FitnessFunction{
 	}
 	
 
+	
+	
+	
+	
 	private CFitParameter evaluatePolicy(HashMap<Integer, MSApplicationNode> applicationMap){
 		CFitParameter param = new CFitParameter();
 		Iterator<Integer> keys = applicationMap.keySet().iterator();
@@ -127,8 +132,9 @@ public class CObjectiveFitness extends FitnessFunction{
 					}
 				}
 				
-				if(val <0 )
+				if(val <0 ){
 					updateParameter(policy.get(j).getType(), val, param);
+				}
 			}
 		}
 		return param;

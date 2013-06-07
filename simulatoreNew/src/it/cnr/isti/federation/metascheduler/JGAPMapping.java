@@ -73,8 +73,8 @@ public class JGAPMapping {
 			conf.setPopulationSize(Constant.POP_SIZE);
 			conf.setRandomGenerator(new NewCRandGenerator(providerList.size()));
 
-			CObjectiveFitness fitness = new CObjectiveFitness(application,
-					providerList, policy);
+//			CObjectiveFitness fitness = new CObjectiveFitness(application,providerList, policy);
+			MSFitnessFunticion fitness = new MSFitnessFunticion(application, providerList, policy);
 
 			conf.setFitnessFunction(fitness);
 

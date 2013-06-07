@@ -16,7 +16,7 @@ import resources.TestObjA;
 public class Test {
 	
 	public static void main(String args[]) throws IOException{
-		
+		/*
 		Properties prop = new Properties();
 		prop.load(new FileInputStream("testProperties"));
 		
@@ -31,7 +31,8 @@ public class Test {
 		strlist.add("hello");
 		
 		System.out.println(strlist);
-		
+		*/
+		System.out.println(Math.log(2));
 		
 		
 	}

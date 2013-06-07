@@ -88,7 +88,6 @@ public class DefinitiveTest {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation Metascheduler ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 		List<MSPolicy> constraint = new ArrayList<>();
-		constraint.add(MakePolicy.makeInstancesLimit(1));
 		constraint.add(MakePolicy.ramConstrain(1));
 		BestSolution sol = Metascheduler.getMapping(applications.get(0),constraint, dcList);
 		

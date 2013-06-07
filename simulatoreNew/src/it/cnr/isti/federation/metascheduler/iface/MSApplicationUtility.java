@@ -92,7 +92,7 @@ public class MSApplicationUtility {
 		HashMap<String, Object> nodeCharacteristic = new HashMap<String, Object>();
 		nodeCharacteristic.put(Constant.BUDGET, budget);
 		nodeCharacteristic.put(Constant.PLACE,place);
-		nodeCharacteristic.put(Constant.VM_INSTANCES, new Integer(1));
+//		nodeCharacteristic.put(Constant.VM_INSTANCES, new Integer(1));
 		appNode.setCharacteristic(nodeCharacteristic);
 		appNode.setID(vm.getId());
 		return appNode;
