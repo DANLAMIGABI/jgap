@@ -87,8 +87,13 @@ public class MSProviderUtility {
 		List<Host> hostList = datacenter.getHostList();
 		DatacenterCharacteristicsMS dcCharacterisitc = datacenter.getMSCharacteristics();
 		//aggregazione della lista degli host
-		HashMap<String, Object> aggregateHost = aggregateHostInfo(hostList);
-	
+		HashMap<String, Object> aggregateHost = new HashMap<>(); //aggregateHostInfo(hostList);
+		aggregateHost.put(Constant.STORE, hostList.get(0).getStorage());
+		aggregateHost.put(Constant.MIPS, hostList.get(0).getAvailableMips());
+		aggregateHost.put(Constant.RAM, hostList.get(0).getRam());
+		aggregateHost.put(Constant.BW, hostList.get(0).getBw());
+		
+		
 		//computing
 		computingCharacteristic.put(Constant.RAM, aggregateHost.get(Constant.RAM));
 		computingCharacteristic.put(Constant.MIPS, aggregateHost.get(Constant.MIPS));
@@ -106,6 +111,7 @@ public class MSProviderUtility {
 		providerCharacteristic.put(Constant.ID, dcCharacterisitc.getId() );
 		providerCharacteristic.put(Constant.COST_SEC, dcCharacterisitc.getCostPerSecond());
 		providerCharacteristic.put(Constant.PLACE, dcCharacterisitc.getPlace());
+		providerCharacteristic.put(Constant.VM_INSTANCES, hostList.size());
 		
 		provider.setID(dcCharacterisitc.getId());
 		provider.setCharacteristic(providerCharacteristic);

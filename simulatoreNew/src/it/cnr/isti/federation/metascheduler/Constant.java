@@ -7,6 +7,7 @@ public class Constant {
 	public static final String MIPS = "mips";
 	
 	public static final String BUDGET = "budget";
+	public static final String VM_INSTANCES= "vm_instances";
 	
 	public static final String COST_SEC = "cost_per_sec";
 	public static final String COST_MEM = "cost_per_mem";
@@ -18,16 +19,16 @@ public class Constant {
 	
 	public static final String[] aggregationParam = {"ram_amount_mb", "bw_amount", "storage_mb"};
 	
-	public static final String DATACENTER_SIZE = "host_list_size";
-	public static final String DATACENTER_LIST_SIZE = "dc_list_size";
+	public static final String DATACENTER_SIZES = "dc_sizes";
+	public static final String DATACENTER_NUMEBER = "dc_number";
 	
 	
 	//MAPPING JGAP
-	public static final int POP_SIZE = 2;
+	public static final int POP_SIZE = 10;
 //	public static final int APP_SIZE = 2;
 	//public static final int PROV_SIZE = 6;
 	//public static final int TARGET = 5;
-	public static final int EVOLUTION_SIZE=15;
+	public static final int EVOLUTION_SIZE=1;
 	
 	public static final char ASCENDENT_TYPE = 'A';
 	public static final char DESCENDENT_TYPE = 'D';

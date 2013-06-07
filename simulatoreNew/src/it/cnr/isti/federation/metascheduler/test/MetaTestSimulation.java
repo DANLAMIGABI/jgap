@@ -118,7 +118,7 @@ public class MetaTestSimulation {
 			List<MSPolicy> test = new ArrayList<>();
 			// test.add(MakePolicy.makeCostPolicy(1));
 			// test.add(MakePolicy.makePlacePolicy(2));
-			test.add(MakePolicy.makeStoragePolicy(1));
+//			test.add(MakePolicy.makeStoragePolicy(1));
 //			test.add(MakePolicy.makeStoreCost(1));
 //			test.add(MakePolicy.makeTest1(1));
 //			test.add(MakePolicy.fedStore(10000));

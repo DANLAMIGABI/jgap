@@ -34,11 +34,10 @@ public class Metascheduler {
 		System.out.println(MSProviderUtility.providerListToString(providerList));
 		
 		IMSApplication msApplication = MSApplicationUtility.getMSApplication(application);
-//		System.out.println("##### Metascheduler Application ######");
-//		System.out.println(MSApplicationUtility.toStringMSApplication(msApplication));
-		
+		System.out.println("##### Metascheduler Application ######");
+		System.out.println(MSApplicationUtility.toStringMSApplication(msApplication));
+//		
 		return JGAPMapping.startMapping(msApplication, providerList, policy, new ArrayList<String>());
-		
 		
 	}
 	

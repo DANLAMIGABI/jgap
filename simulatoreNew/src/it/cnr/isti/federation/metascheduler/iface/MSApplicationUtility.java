@@ -21,6 +21,7 @@ import java.util.Set;
 
 
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.network.datacenter.AppCloudlet;
 
 public class MSApplicationUtility {
 	public static String hashToString(HashMap<String, Object> map, String indent){
@@ -50,9 +51,10 @@ public class MSApplicationUtility {
 		List<MSApplicationNode> nodes = app.getNodes();
 		for(int i=0; i<nodes.size(); i++){
 			ret += " Node." + nodes.get(i).getID() + "\n";
-			ret += hashToString(map, indent);
+//			ret += hashToString(map, indent);
 //			ret += indent + "Place: " + nodes.get(i).getCharacteristic().get(Constant.PLACE) + "\n";
 //			ret += indent + "Budget: " + nodes.get(i).getCharacteristic().get(Constant.BUDGET) + "\n";
+			ret += hashToString(nodes.get(i).getCharacteristic(), indent);
 			ret += hashToString(nodes.get(i).getComputing().getCharacteristic(), indent);
 			ret += hashToString(nodes.get(i).getNetwork().getCharacteristic(), indent);
 			ret += hashToString(nodes.get(i).getStorage().getCharacteristic(), indent);
@@ -90,6 +92,7 @@ public class MSApplicationUtility {
 		HashMap<String, Object> nodeCharacteristic = new HashMap<String, Object>();
 		nodeCharacteristic.put(Constant.BUDGET, budget);
 		nodeCharacteristic.put(Constant.PLACE,place);
+		nodeCharacteristic.put(Constant.VM_INSTANCES, new Integer(1));
 		appNode.setCharacteristic(nodeCharacteristic);
 		appNode.setID(vm.getId());
 		return appNode;
@@ -120,6 +123,7 @@ public class MSApplicationUtility {
 		}
 //		appCharacteristic.put(Constant.PLACE, .getPlace());
 //		appCharacteristic.put(Constant.BUDGET, app.getBudget());
+//		appCharacteristic.put("count", new Integer(0));
 		
 		newApp.setNodes(nodeList);
 //		newApp.setCharacteristic(appCharacteristic);

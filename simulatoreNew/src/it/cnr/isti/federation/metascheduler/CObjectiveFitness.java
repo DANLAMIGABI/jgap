@@ -2,6 +2,7 @@ package it.cnr.isti.federation.metascheduler;
 
 
 import it.cnr.isti.federation.metascheduler.MSPolicy;
+import it.cnr.isti.federation.metascheduler.iface.MSApplicationUtility;
 import it.cnr.isti.federation.metascheduler.resources.MSApplicationNode;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
@@ -50,7 +51,7 @@ public class CObjectiveFitness extends FitnessFunction{
 		CFitParameter param = evaluatePolicy(applicationMap);
 
 		if (param.violation != 0) {
-			double ret = 1 / param.violation;
+			double ret = 1 / (param.violation);
 //			 System.out.println("PENALITY " +ret + " param.violation: " + param.violation);
 //			 if(ret <1 )
 //				 System.out.println("kfjdkffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
@@ -91,35 +92,18 @@ public class CObjectiveFitness extends FitnessFunction{
 		MSApplicationNode tempNode;
 		if( !applicationTab.containsKey(key) ){
 			tempNode = (MSApplicationNode)node.clone();
+//			Integer instances = (Integer) tempNode.getCharacteristic().get(Constant.VM_INSTANCES);
+//			tempNode.getCharacteristic().put(Constant.VM_INSTANCES, instances+1);
 			applicationTab.put(key, tempNode);
 			return;
 		}
+		
 		tempNode = (MSApplicationNode)applicationTab.get(key);
-		for(int i=0; i<aggregationParam.length; i++){
-			aggregateCharacteristic(aggregationParam[i], tempNode.getComputing().getCharacteristic(), node.getComputing().getCharacteristic());
-			aggregateCharacteristic(aggregationParam[i], tempNode.getNetwork().getCharacteristic(), node.getNetwork().getCharacteristic());
-			aggregateCharacteristic(aggregationParam[i], tempNode.getStorage().getCharacteristic(), node.getStorage().getCharacteristic());
-		}
-		applicationTab.put(key, tempNode);
-		
+		Integer count = (Integer) tempNode.getCharacteristic().get(Constant.VM_INSTANCES);
+		tempNode.getCharacteristic().put(Constant.VM_INSTANCES, count+1);
 	}
 	
-	private void aggregateCharacteristic(String aggregationKey, HashMap<String, Object> map1, HashMap<String, Object> map2){
-		
-		Object obj1 = map1.get(aggregationKey);
-		Object obj2 = map2.get(aggregationKey);
-		
-		if(obj1 instanceof Integer){
-			obj1 = (Integer) obj1 + (Integer) obj2;
-		}else if( obj1 instanceof Long ){
-			obj1 = (Long) obj1 + (Long) obj2;
-		}else if( obj1 instanceof Double){
-			obj1 = (Double)obj1 + (Double) obj2;
-		}
-		map1.put(aggregationKey, obj1);
-		
-	}
-	
+
 	private CFitParameter evaluatePolicy(HashMap<Integer, MSApplicationNode> applicationMap){
 		CFitParameter param = new CFitParameter();
 		Iterator<Integer> keys = applicationMap.keySet().iterator();
@@ -129,7 +113,7 @@ public class CObjectiveFitness extends FitnessFunction{
 			node = applicationMap.get(providerId);
 			// valutazione policy per ogni nodo
 			
-			double val;
+			double val;			
 			for( int j =0; j<policy.size(); j++){
 				if(policy.get(j).getGroup() == Constant.GLOBAL_CONSTRAIN ){	// GLOBAL CONSTRAIN
 					if( (val = policy.get(j).evaluateGlobalPolicy(application, providerList.get(providerId))) > 0){ // violazione
@@ -142,6 +126,7 @@ public class CObjectiveFitness extends FitnessFunction{
 						param.violation += val;
 					}
 				}
+				
 				if(val <0 )
 					updateParameter(policy.get(j).getType(), val, param);
 			}

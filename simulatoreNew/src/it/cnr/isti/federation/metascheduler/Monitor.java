@@ -2,7 +2,9 @@ package it.cnr.isti.federation.metascheduler;
 
 import java.util.List;
 
+import org.jgap.Chromosome;
 import org.jgap.Configuration;
+import org.jgap.IChromosome;
 import org.jgap.Population;
 import org.jgap.audit.IEvolutionMonitor;
 import org.jgap.eval.PopulationHistoryIndexed;
@@ -20,6 +22,8 @@ public class Monitor implements IEvolutionMonitor{
 	
 	private int checkIntervalSeconds;
 	private int firstCheckIntervalSeconds;
+	
+	private boolean test = false;
 	
 	public Monitor(int maxIteration, int checkIntervalSeconds){
 		this.maxIteration = maxIteration;
@@ -42,6 +46,24 @@ public class Monitor implements IEvolutionMonitor{
 	@Override
 	public boolean nextCycle(Population arg0, List<String> arg1) {
 		// TODO Auto-generated method stub
+		
+//		List<IChromosome> chlist = arg0.getChromosomes();
+//		for(IChromosome ch : chlist){
+//			for(int i=0;i<ch.size();i++){
+//				System.out.println( i + " -> " +ch.getGene(i).getAllele());
+//			}
+//		}
+//		
+//		
+//		System.out.println(arg0.determineFittestChromosome().getFitnessValue());
+//		if(test == true)
+//			return false;
+//		else {
+//			test = true;
+//			return true;
+//		}
+		
+		
 		double fit = arg0.determineFittestChromosome().getFitnessValue();
 		if(System.currentTimeMillis() - startMillisec > checkIntervalSeconds*1000){
 			arg1.add("MaxTimeExecution reached " + fit );
@@ -63,6 +85,7 @@ public class Monitor implements IEvolutionMonitor{
 			notModifiedCount++;
 		System.out.println("         fit monitor: " + fit);
 		return true;
+		
 	}
 
 	@Override

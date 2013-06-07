@@ -23,7 +23,10 @@ import it.cnr.isti.federation.FederationQueue;
 import it.cnr.isti.federation.FederationQueueProfile;
 import it.cnr.isti.federation.FederationQueueProvider;
 import it.cnr.isti.federation.application.Application;
+import it.cnr.isti.federation.metascheduler.BestSolution;
 import it.cnr.isti.federation.metascheduler.Constant;
+import it.cnr.isti.federation.metascheduler.MSPolicy;
+import it.cnr.isti.federation.metascheduler.iface.Metascheduler;
 import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.VmProvider;
 import it.cnr.isti.networking.InternetEstimator;
@@ -60,19 +63,39 @@ public class DefinitiveTest {
 		
 		//Make Datacenter List
 		dcList = new ArrayList<>();
-		Integer dc_sise = Integer.parseInt(dc_prop.getProperty(Constant.DATACENTER_LIST_SIZE));
-		for(int i=0;i<dc_sise;i++)
-			dcList.add(MakeTestUtils.getDatacenter(dc_prop));
+		Integer dc_number = Integer.parseInt(dc_prop.getProperty(Constant.DATACENTER_NUMEBER));
+		String[] dc_size = dc_prop.getProperty(Constant.DATACENTER_SIZES).toString().split(",");
+		String a;
+		for(int i=0;i<dc_number;i++)
+			dcList.add(MakeTestUtils.getDatacenter(dc_prop, Integer.parseInt(dc_size[i]), i));
 		DataSette.net = setInternetEstimator(dcList, dcList.size());
-//		for(FederationDatacenter dc: dcList){
-//			List<Host> hlist = dc.getHostList();
-//			for( Host h : hlist)
-//				MakeTestUtils.printHostInfo(h);
-//			System.out.println();
-//		}
-		for(FederationDatacenter dc : dcList)
-			MakeTestUtils.printDatacenter(dc);
+		for(FederationDatacenter dc: dcList){
+			List<Host> hlist = dc.getHostList();
+			System.out.println("Datac Size: " + hlist.size());
+			for( Host h : hlist)
+				MakeTestUtils.printHostInfo(h);
+			System.out.println();
+		}
 		
+		// Make application
+		applications = new ArrayList<>();
+		String[] places = { "italia", "spagna", "germania" };
+		double[] budguts = { 1000.0, 5000.0, 3000.0 };
+
+		applications.add(MakeTestUtils.getFederationApplication(0,places, budguts, 3));
+		
+		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation Metascheduler ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+		List<MSPolicy> constraint = new ArrayList<>();
+		constraint.add(MakePolicy.makeInstancesLimit(1));
+		constraint.add(MakePolicy.ramConstrain(1));
+		BestSolution sol = Metascheduler.getMapping(applications.get(0),constraint, dcList);
+		
+		
+//		for(FederationDatacenter dc : dcList)
+//			MakeTestUtils.printDatacenter(dc);
+/*		
 		// Make Federation
 		Federation fed = new Federation("Federation");
 		fed.setDatacenters(dcList);
@@ -85,6 +108,7 @@ public class DefinitiveTest {
 		double[] budguts = { 1000.0, 5000.0, 3000.0 };
 		
 		applications.add(MakeTestUtils.getFederationApplication(fed.getId(),places, budguts, 3));
+		*/
 		/*
 		ApplicationUtility.vmToString(applications.get(0).getAllVms());
 		// create the queue
@@ -122,27 +146,17 @@ public class DefinitiveTest {
 		}
 		*/
 		
-/*
-		paramDatacenter = DatacenterUtility.getDatacenterParam();
-		for (int i = 0; i < dcSize; i++) {
-			paramDatacenter.put(Constant.PLACE, "italia");
-			paramDatacenter.put(Constant.COST_STORAGE, 70000.0 - i * 2000);
-			paramDatacenter.put(Constant.COST_MEM, 1000.0 + i * 200);
-			temp = DatacenterUtility.getDatacenter(paramDatacenter, 1,i * 10 + 1);
-			dcList.add(temp);
+		System.out.println("Metascheduler Results");
+		HashMap<Integer, Integer> mappString = sol.getBest();
+		System.out.println("Fitness: " + sol.getFit());
+		if (sol.getFit() < 1)
+			System.out.println("SOLUZIONE NON VALIDA");
+		for (int i = 0; i < mappString.size(); i++) {
+			System.out.println("Node: " + i + " -> " + " Prov: "
+					+ dcList.get(mappString.get(i)).getId() + "     ");
 		}
-		DataSette.net = setInternetEstimator(dcList, dcList.size());
 		
-		//Save Federation
-		MakeTestUtils.saveFederationToFile("Federation.save", dcList);
-		System.out.println(" dclist To String");
-		MakeTestUtils.printDatacenter(dcList.get(0));
-		
-		
-		System.out.println("Test lettura");
-		List<FederationDatacenter> testRead = MakeTestUtils.readFederationFromFile("Federation.save");
-		MakeTestUtils.printDatacenter(testRead.get(0));
-*/
+
 	}
 	
 	

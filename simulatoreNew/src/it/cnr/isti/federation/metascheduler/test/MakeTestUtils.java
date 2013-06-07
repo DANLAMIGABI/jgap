@@ -48,19 +48,22 @@ public class MakeTestUtils {
 		return new ThreeTierBusinessApplicationMeta(userID,places, budgets,frontend, appserver, database);
 	}
 	
-	private static PowerHostUtilizationHistory createHost(Properties prop){
+	private static PowerHostUtilizationHistory createHost(Properties prop,  int index){
+		String[] ram_increments = prop.getProperty("ram_increments").toString().split(",");
+		Double ram_inc =  new Double(ram_increments[index]);
+		System.out.println("ram_increments " + ram_inc + " -- " +	(new Double(prop.getProperty(Constant.RAM))+ram_inc));
 		
 		List<Pe> peList = new ArrayList<Pe>();
 		peList.add(new Pe(0, new PeProvisionerSimple(Double.parseDouble(prop.getProperty(Constant.MIPS)))));
 		HostProfile prof = HostProfile.getDefault();
 		prof.set(HostParams.STORAGE_MB, (new Long(prop.getProperty(Constant.STORE))*1024)+"");
-		prof.set(HostParams.RAM_AMOUNT_MB,(new Long(prop.getProperty(Constant.RAM))*1024)+"");
+		prof.set(HostParams.RAM_AMOUNT_MB,  (new Double((new Double(prop.getProperty(Constant.RAM))+ram_inc)*1024)).intValue()+"")  ;   //(new Double(prop.getProperty(Constant.RAM)+ram_inc)*1024).intValue()+"");
 		prof.set(HostParams.BW_AMOUNT, (new Long(prop.getProperty(Constant.BW))*1024*1024)+"");
 
 		return  HostProviderMetaScheduler.get(prof, peList);
 	}
 
-	public static FederationDatacenter getDatacenter(Properties prop){
+	public static FederationDatacenter getDatacenter(Properties prop, int size, int index){
 		FederationDatacenterProfileMeta prof = FederationDatacenterProfileMeta.getDefault();
 		prof.set(DatacenterParams.COST_PER_BW, prop.getProperty(Constant.COST_BW));
 		prof.set(DatacenterParams.COST_PER_MEM, prop.getProperty(Constant.COST_MEM));
@@ -68,12 +71,11 @@ public class MakeTestUtils {
 		prof.set(DatacenterParams.COST_PER_STORAGE, prop.getProperty(Constant.COST_STORAGE));
 		prof.set(DatacenterParams.PLACE, prop.getProperty(Constant.PLACE));
 		
+		
 		//make datacenter
 		List<PowerHost> hostList = new ArrayList<>();
-		Integer hostListSize = Integer.parseInt(prop.getProperty(Constant.DATACENTER_SIZE)); 
-		for(int i=0;i<hostListSize;i++)
-			hostList.add(createHost(prop));
-		System.out.println("                                          " + hostList.size());
+		for(int i=0;i<size;i++)
+			hostList.add(createHost(prop, index));
 		List<Storage> storageList = new ArrayList<Storage>();
 		return FederationDatacenterProviderMeta.get(prof, hostList, storageList);
 	}
