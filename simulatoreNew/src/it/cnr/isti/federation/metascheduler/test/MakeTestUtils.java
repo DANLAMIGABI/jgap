@@ -35,6 +35,27 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 
 
 public class MakeTestUtils {
+	public static String datacenterStateToString(FederationDatacenter dc ){
+		String str ="";
+		List<HostDynamicWorkload> hostList = dc.getHostList();
+		HostDynamicWorkload host = hostList.get(0) ;
+
+		
+		str += "dc_ID :          " + dc.getId()+ "\n";
+		str += "dc_Size:         " + hostList.size() +"\n";
+		str += "cost_mem:        " + dc.getMSCharacteristics().getCostPerMem()+ "\n";
+		str += "cost_storage:    " + dc.getMSCharacteristics().getCostPerStorage()+ "\n";
+		str += "cost_sec:        " + dc.getMSCharacteristics().getCostPerSecond()+ "\n";
+		str += "   host_id:      " + host.getId()+ "\n";
+		str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
+		str += "   host_store:   " + (host.getStorage())+ "\n";
+		str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
+		str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
+		str += "   host_net_tot: " + host.getBw()+ "\n";
+		
+		return str;
+		
+	}
 	
 	
 	public static Application geCustomFederationApplication(int userID, String[] places, String[] budgets,int numberOfCloudlets)
@@ -50,10 +71,10 @@ public class MakeTestUtils {
 		return new ThreeTierBusinessApplicationMeta(userID,places, budgets,frontend, appserver, database);
 	}
 	
-	public static Application getFederationApplication(int userID, int numberOfCloudlets)
+	public static Application getFederationApplication(int userID, int numberOfCloudlets, Properties app_prop)
 	{
-		String[] places = DefinitiveTest.app_prop.getProperty(Constant.APPLICATION_PLACES).toString().split(",");
-		String[] budgets = DefinitiveTest.app_prop.getProperty(Constant.APPLICATION_BUDGET).toString().split(",");
+		String[] places = app_prop.getProperty(Constant.APPLICATION_PLACES).toString().split(",");
+		String[] budgets = app_prop.getProperty(Constant.APPLICATION_BUDGET).toString().split(",");
 		Double number = new Double(numberOfCloudlets);
 		if (number < 3)
 			number = 3d;

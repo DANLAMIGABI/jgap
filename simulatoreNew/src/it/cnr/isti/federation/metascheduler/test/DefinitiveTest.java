@@ -38,9 +38,7 @@ import it.cnr.isti.test.DataSette;
 public class DefinitiveTest {
 
 	private static List<FederationDatacenter> dcList;
-	private static HashMap<String, Object> paramDatacenter;
 	private static List<Application> applications;
-	private static DatacenterBroker broker;
 	protected static Properties dc_prop;
 	protected static Properties app_prop;
 	private static Random rand;
@@ -76,23 +74,20 @@ public class DefinitiveTest {
 		//Make Datacenter
 		dcList = new ArrayList<>();
 		for(int i=0;i<dc_number;i++)
-			dcList.add(MakeTestUtils.getDatacenter(dc_prop, Integer.parseInt(dc_size[i]), dc_places[i%dc_places.length], i));
+			dcList.add(MakeTestUtils.getDatacenter(dc_prop, Integer.parseInt(dc_size[0]), dc_places[i%dc_places.length], 0));
 		DataSette.net = setInternetEstimator(dcList, dcList.size());
 		
 		//SHUFFLE
-		Collections.shuffle(dcList, rand);
-		Collections.shuffle(dcList,rand);
+//		Collections.shuffle(dcList, rand);
+//		Collections.shuffle(dcList,rand);
 		
-		for(FederationDatacenter dc: dcList){
-			List<Host> hlist = dc.getHostList();
-			System.out.println("Datac Size: " + hlist.size());
-			for( Host h : hlist)
-				MakeTestUtils.printHostInfo(h);
-			System.out.println();
-		}
-		
-		
-		
+//		for(FederationDatacenter dc: dcList){
+//			List<Host> hlist = dc.getHostList();
+//			System.out.println("Datac Size: " + hlist.size());
+//			for( Host h : hlist)
+//				MakeTestUtils.printHostInfo(h);
+//			System.out.println();
+//		}
 		
 //		for(FederationDatacenter dc : dcList)
 //			MakeTestUtils.printDatacenter(dc);
@@ -106,7 +101,7 @@ public class DefinitiveTest {
 		// Make application
 		applications = new ArrayList<>();
 		String cloudlets = app_prop.getProperty(Constant.APPLICATION_CLOUDLETS);
-		applications.add(MakeTestUtils.getFederationApplication(fed.getId(),Integer.parseInt(cloudlets)));
+		applications.add(MakeTestUtils.getFederationApplication(fed.getId(),Integer.parseInt(cloudlets),app_prop));
 		
 //		ApplicationUtility.vmToString(applications.get(0).getAllVms());
 		// create the queue
@@ -115,41 +110,41 @@ public class DefinitiveTest {
 		CloudSim.addEntity(queue);
 		
 		// Datacenter initial/final Status
-		for (FederationDatacenter dc : dcList) {
-			CloudSim.send(fed.getId(), dc.getId(), 0, 9000, dc);
-			CloudSim.send(fed.getId(), dc.getId(), 7, 9000, dc);
-		}
-
+//		for (FederationDatacenter dc : dcList) {
+//			CloudSim.send(fed.getId(), dc.getId(), 0, 9000, dc);
+//			CloudSim.send(fed.getId(), dc.getId(), 7, 9000, dc);
+//		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ START SIMULATIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		printInitialState();
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation Metascheduler ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
+		/*
 		List<MSPolicy> constraint = new ArrayList<>();
 		constraint.add(MakePolicy.ramConstrain(1));
-		constraint.add(MakePolicy.locationConstrain(1));
+//		constraint.add(MakePolicy.locationConstrain(1));
 		BestSolution sol = Metascheduler.getMapping(applications.get(0),constraint, dcList);
-		
+		*/
 		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation CloudSim ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		CloudSim.terminateSimulation(1000);
 		CloudSim.startSimulation();
 
 		CloudSim.stopSimulation();
+		fed.deleteHostFromDatacenter();
 		List<Cloudlet> newList = fed.getReceivedCloudlet();
 		MakeTestUtils.printCloudletList(newList);
 		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RESULTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
+		printFinalState();
 		System.out.println("FederationSim Results");
-
 		HashMap<Integer, Integer> allocatedToDatacenter = fed.getVmToDatacenter();
 		Iterator<Integer> keys = allocatedToDatacenter.keySet().iterator();
 		while (keys.hasNext()) {
 			Integer i = keys.next();
 			System.out.println("VM #" + i + " Allocated in datacenter #"
 					+ allocatedToDatacenter.get(i));
-
 		}
 		
-		
+		/*
 		System.out.println("Metascheduler Results");
 		HashMap<Integer, Integer> mappString = sol.getBest();
 		System.out.println("Fitness: " + sol.getFit());
@@ -159,6 +154,7 @@ public class DefinitiveTest {
 			System.out.println("Node: " + i + " -> " + " Prov: "
 					+ dcList.get(mappString.get(i)).getId() + "     " + mappString.get(i));
 		}
+		*/
 		
 
 	}
@@ -189,6 +185,21 @@ public class DefinitiveTest {
 			}
 		}
 		return inetEst;
+	}
+	
+	private static void printInitialState(){
+		System.out.println("##################### Federation Datacenter Initial State #############################");
+		for(FederationDatacenter dc : dcList){
+			System.out.println(MakeTestUtils.datacenterStateToString(dc));
+		}
+		System.out.println("#######################################################################################");
+	}
+	private static void printFinalState(){
+		System.out.println("##################### Federation Datacenter Final State #############################");
+		for(FederationDatacenter dc : dcList){
+			System.out.println(MakeTestUtils.datacenterStateToString(dc));
+		}
+		System.out.println("#######################################################################################");
 	}
 	
 //	paramDatacenter = DatacenterUtility.getDatacenterParam();

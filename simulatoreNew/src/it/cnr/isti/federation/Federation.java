@@ -10,11 +10,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
+import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
@@ -80,8 +83,9 @@ public class Federation extends SimEntity
 				processApplicationSubmit(ev);
 				break;
 			// VM Creation answer
-			case CloudSimTags.VM_CREATE_ACK:
-				processVmCreate(ev);
+			case CloudSimTags.VM_CREATE_ACK:{
+				processVmCreate(ev);				
+			}
 				break;
 			// A finished cloudlet returned
 			case CloudSimTags.CLOUDLET_RETURN:
@@ -173,8 +177,7 @@ public class Federation extends SimEntity
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": VM #" + vmId
 					+ " has been created in Datacenter #" + datacenterId);
 			vmToDatacenter.put(new Integer(vmId), new Integer(datacenterId));
-			allocation.setRunning(idToVm.get(vmId), datacenterId);
-			
+			allocation.setRunning(idToVm.get(vmId), datacenterId);			
 			if (allocation.isCompleted())
 			{
 				startCloudlets(allocation);
@@ -233,5 +236,17 @@ public class Federation extends SimEntity
 	public void shutdownEntity() 
 	{
 		Log.printLine(getName() + " is shutting down...");	
+	}
+	
+	public void deleteHostFromDatacenter(){
+		Set<Integer> keyset = vmToDatacenter.keySet();
+		for(Integer vm : keyset){
+			for(FederationDatacenter fdc : datacenters){
+				VmAllocationPolicy vmAllocationPolicy = fdc.getVmAllocationPolicy();
+				Host host = vmAllocationPolicy.getHost(idToVm.get(vm));
+				fdc.getHostList().remove(host.getId());
+				System.out.println("shutdownEntity: remove host " + host.getId() + " from dc: " +fdc.getId() );
+			}
+		}
 	}
 }

@@ -41,6 +41,7 @@ public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAw
 		String str ="";
 		List<HostDynamicWorkload> hlist = getHostList();
 		HostDynamicWorkload host = hlist.get(0) ;
+	
 		
 		str += "dc_ID :          " + getId()+ "\n";
 		str += "dc_Size:         " + hlist.size() +"\n";
