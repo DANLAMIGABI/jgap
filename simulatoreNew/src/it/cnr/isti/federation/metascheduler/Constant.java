@@ -19,12 +19,17 @@ public class Constant {
 	
 	public static final String[] aggregationParam = {"ram_amount_mb", "bw_amount", "storage_mb"};
 	
-	public static final String DATACENTER_SIZES = "dc_sizes";
-	public static final String DATACENTER_NUMEBER = "dc_number";
+	public static final String DATACENTER_SIZES = "datacenter_sizes";
+	public static final String DATACENTER_NUMEBER = "datacenter_number";
+	public static final String DATACENTER_PLACES = "datacenter_places";
+	public static final String APPLICATION_PLACES = "application_places";
+	public static final String APPLICATION_BUDGET ="application_budget";
+	public static final String APPLICATION_CLOUDLETS = "application_cloudlets";
+	
 	
 	
 	//MAPPING JGAP
-	public static final int POP_SIZE = 1;
+	public static final int POP_SIZE = 50;
 //	public static final int APP_SIZE = 2;
 	//public static final int PROV_SIZE = 6;
 	//public static final int TARGET = 5;

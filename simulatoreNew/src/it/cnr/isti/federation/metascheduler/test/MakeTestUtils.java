@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import javax.crypto.spec.DESedeKeySpec;
 
+import org.apache.commons.math3.transform.DctNormalization;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.HostDynamicWorkload;
@@ -35,8 +36,24 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 
 public class MakeTestUtils {
 	
-	public static Application getFederationApplication(int userID, String[] places, double[] budgets,int numberOfCloudlets)
+	
+	public static Application geCustomFederationApplication(int userID, String[] places, String[] budgets,int numberOfCloudlets)
 	{
+		Double number = new Double(numberOfCloudlets);
+		if (number < 3)
+			number = 3d;
+		
+		int frontend = new Double(Math.ceil(number * 20 / 100)).intValue();
+		int database = new Double(Math.ceil(number * 20 / 100)).intValue();
+		int appserver = number.intValue() - frontend - database;
+		
+		return new ThreeTierBusinessApplicationMeta(userID,places, budgets,frontend, appserver, database);
+	}
+	
+	public static Application getFederationApplication(int userID, int numberOfCloudlets)
+	{
+		String[] places = DefinitiveTest.app_prop.getProperty(Constant.APPLICATION_PLACES).toString().split(",");
+		String[] budgets = DefinitiveTest.app_prop.getProperty(Constant.APPLICATION_BUDGET).toString().split(",");
 		Double number = new Double(numberOfCloudlets);
 		if (number < 3)
 			number = 3d;
@@ -63,13 +80,13 @@ public class MakeTestUtils {
 		return  HostProviderMetaScheduler.get(prof, peList);
 	}
 
-	public static FederationDatacenter getDatacenter(Properties prop, int size, int index){
+	public static FederationDatacenter getDatacenter(Properties prop, int size, String place, int index){
 		FederationDatacenterProfileMeta prof = FederationDatacenterProfileMeta.getDefault();
 		prof.set(DatacenterParams.COST_PER_BW, prop.getProperty(Constant.COST_BW));
 		prof.set(DatacenterParams.COST_PER_MEM, prop.getProperty(Constant.COST_MEM));
 		prof.set(DatacenterParams.COST_PER_SEC, prop.getProperty(Constant.COST_SEC));
 		prof.set(DatacenterParams.COST_PER_STORAGE, prop.getProperty(Constant.COST_STORAGE));
-		prof.set(DatacenterParams.PLACE, prop.getProperty(Constant.PLACE));
+		prof.set(DatacenterParams.PLACE, place);
 		
 		
 		//make datacenter
@@ -158,8 +175,6 @@ public class MakeTestUtils {
 	}
 	
 	public static List<FederationDatacenter> readFederationFromFile(String path){
-		
-		
 		List<FederationDatacenter> dclist = null;
 		try{
 			FileInputStream fin = new FileInputStream(path);

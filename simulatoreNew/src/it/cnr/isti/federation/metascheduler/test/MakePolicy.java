@@ -59,6 +59,28 @@ public class MakePolicy {
 		};
 	}
 	
+	public static MSPolicy locationConstrain(double weight){
+		return new MSPolicy(weight, Constant.EQUAL_TYPE, Constant.LOCAL_CONSTRAIN) {
+			
+			@Override
+			public double evaluateLocalPolicy(MSApplicationNode node, IMSProvider prov) {
+				// TODO Auto-generated method stub
+				String nodePlace = (String) node.getCharacteristic().get(Constant.PLACE);
+				String provPlace = (String)prov.getCharacteristic().get(Constant.PLACE);
+				
+				double ret = (nodePlace.toLowerCase().compareTo(provPlace.toLowerCase()) ==0 ) ? -1*getWeight() : 1*getWeight();
+//				System.out.println(" makePolicy location:  app: " + nodePlace + " -- prov: " + provPlace + " ~~ " + ret);
+				return ret;
+			}
+			
+			@Override
+			public double evaluateGlobalPolicy(IMSApplication app, IMSProvider prov) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
+	}
+	
 	
 
 }

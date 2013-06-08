@@ -34,64 +34,29 @@ public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAw
 		return "FederationDatacenter ["+this.getName()+"]";
 	}
 	
-//	@Override
-//	protected void processOtherEvent(SimEvent ev){
-//		long ram=0, net=0, mips=0, storage =0;
-//		List<FederationDatacenter> dcList = (List<FederationDatacenter>)ev.getData();
-//		for(FederationDatacenter dc : dcList){
-//			ram=0; net=0; mips=0; storage =0;
-//			List<HostDynamicWorkload> hostlist = getHostList();
-//			for(int i = 0; i<hostlist.size(); i++){
-//				ram += hostlist.get(i).getRam() - hostlist.get(i).getUtilizationOfRam();
-//				net += hostlist.get(i).getBw() - hostlist.get(i).getUtilizationOfBw();
-//				storage += hostlist.get(i).getStorage() ;
-//				mips += hostlist.get(i).getTotalMips() - hostlist.get(i).getUtilizationMips();
-//			}
-//			System.out.println("########################## Stato Datacenter: " + dc.getId() + " ##################");
-//			System.out.println("RAM: " + ram);
-//			System.out.println("NET: " + net);
-//			System.out.println("STORAGE: " + storage);
-//			System.out.println("MIPS: " + mips);
-//			System.out.println("##################################################################################");
-//		}
-//	}
-	
 	
 	@Override
 	protected void processOtherEvent(SimEvent ev){
-		long ram = 0;
-		long net = 0;
-		long netTot =0;
-		long mips = 0;
-		long storage = 0;
-		List<HostDynamicWorkload> hostlist = getHostList();
-		for (int i = 0; i < hostlist.size(); i++) {
-			ram += hostlist.get(i).getRam()- hostlist.get(i).getUtilizationOfRam();
-			//net += hostlist.get(i).getBw()- hostlist.get(i).getUtilizationOfBw();
-			net += hostlist.get(i).getUtilizationOfBw();
-			netTot = hostlist.get(i).getBw();
-			storage += hostlist.get(i).getStorage();
-			mips += hostlist.get(i).getTotalMips()- hostlist.get(i).getUtilizationMips();
-
-		}
-		System.out.println("########################## Stato Datacenter: "
-				+ getId() + " ##################");
-		System.out.println("RAM: " + ram);
-		System.out.println("NET used: " + net);
-		System.out.println("NET tot: " + netTot);
-		System.out.println("STORAGE: " + storage);
-		System.out.println("MIPS: " + mips);
+		
+		String str ="";
+		List<HostDynamicWorkload> hlist = getHostList();
+		HostDynamicWorkload host = hlist.get(0) ;
+		
+		str += "dc_ID :          " + getId()+ "\n";
+		str += "dc_Size:         " + hlist.size() +"\n";
+		str += "cost_mem:        " + getMSCharacteristics().getCostPerMem()+ "\n";
+		str += "cost_storage:    " + getMSCharacteristics().getCostPerStorage()+ "\n";
+		str += "cost_sec:        " + getMSCharacteristics().getCostPerSecond()+ "\n";
+		str += "   host_id:      " + host.getId()+ "\n";
+		str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
+		str += "   host_store:   " + (host.getStorage())+ "\n";
+		str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
+		str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
+		str += "   host_net_tot: " + host.getBw()+ "\n";
+		System.out.println(str);
+		
+	
 }
-//
-//@Override
-// protected void processOtherEvent(SimEvent ev) {
-//	if(ev.getTag() == 1)
-//		processVmCreate(ev);
-//	else
-//		processStats(ev);
-//	
-//}
-//
 
 	public DatacenterCharacteristicsMS getMSCharacteristics(){
 		return (DatacenterCharacteristicsMS)super.getCharacteristics();

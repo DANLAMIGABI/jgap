@@ -1,6 +1,7 @@
 package it.cnr.isti.federation.metascheduler;
 
 import it.cnr.isti.federation.metascheduler.resources.MSApplicationNode;
+import it.cnr.isti.federation.metascheduler.resources.MSProvider;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSApplication;
 import it.cnr.isti.federation.metascheduler.resources.iface.IMSProvider;
 
@@ -29,17 +30,18 @@ public class MSFitnessFunticion extends FitnessFunction {
 		application = app;
 		providerList = plist;
 		policy = policyList;
-		association = null;
+//		association = null;
 	}
 	
 	@Override
 	protected double evaluate(IChromosome arg0) {
 		// TODO Auto-generated method stub
 		double fitness = 0;
+		
 		CFitParameter param = checkCompability(arg0);
 		double count;
 		if(param.violation == 0){
-			if((count = checkValidity())==0){
+			if((count = checkValidity(association))==0){
 				// Respect Equal
 				fitness += param.equal;
 				// Maximize ascendent
@@ -50,21 +52,27 @@ public class MSFitnessFunticion extends FitnessFunction {
 				fitness += param.descendent;
 				return Math.abs(fitness);
 			}
+//			System.out.println("********************************************* evaluate " + count);
 			return 1/count;
 		}
-		return 1 / (Math.log(param.violation)+1);
+		//System.out.println("fitness:             " + (Math.log(param.violation)+1) + " ######################################## " + param.violation);
+		//return 1 / (Math.log(param.violation)+1);
+		return 1/(param.violation+1);
 	}
 	
-	private double checkValidity(){
+	private double checkValidity(HashMap<Integer, Integer> association){
 		Set<Integer> keyset = association.keySet();
 		double count =0;
+//		System.out.println("############### checkValidity ###########");
 		for(Integer providerId: keyset ){
 			Integer vmNumbers = (Integer) providerList.get(providerId).getCharacteristic().get(Constant.VM_INSTANCES);
+//			System.out.println("prov: " + providerId  + " -- ass: " +association.get(providerId) + " --  vmNumbers: " + vmNumbers);
 			double validity = association.get(providerId) - vmNumbers;
 			if(validity >0){
-				count = validity+1;
+				count += validity+1;
 			}
 		}
+//		System.out.println("############### END ###########");
 		return count;
 	}
 	
@@ -74,27 +82,47 @@ public class MSFitnessFunticion extends FitnessFunction {
 		List<MSApplicationNode> nodes = application.getNodes();
 		
 		Gene[] genes = ch.getGenes();
-		for(int i=0; i<genes.length; i++){
+//		System.out.println("_________________ CROMOSOMA");
+		for (int i = 0; i < genes.length; i++) {
 			Integer providerID = (Integer) genes[i].getAllele();
-			double val;			
-			for( int j =0; j<policy.size(); j++){
-				if ((val = policy.get(j).evaluateLocalPolicy(nodes.get(i),providerList.get(providerID))) > 0) { // violazione
-					
-					param.violation += val;
-				}else {
-					updateParameter(policy.get(j).getType(), val, param);
-					Integer count = association.get(providerID);
-					
-					if( count != null)
-						association.put(providerID, count+1 );
-					else 
-						association.put(providerID, 1);
-					System.out.println("$$ checkCompability: count: " + association.get(providerID));
+//			 System.out.println(" " + i + " -- " + providerID);
+			if( checkConstraints(nodes.get(i), providerList.get(providerID), param)){
+				Integer count = association.get(providerID);
+				if( count != null){
+					count +=1;
+					association.put(providerID, count );
+//					System.out.println("checkCompability:  provID: " + providerID + " --- count " + count);
 				}
+				else {
+					association.put(providerID, new Integer(1));
+//					System.out.println("checkCompability: ELSE  provID" + providerID + " -- count 1");
+				}
+//				System.out.println("$$ checkCompability: count: " + association.get(providerID));
 			}
+				
 		}
+//		System.out.println("_________________END CROMOSOMA");
 		return param;
 	}
+	private boolean checkConstraints(MSApplicationNode node, IMSProvider provider, CFitParameter param){
+		boolean status =  true;
+		double val;
+		for (int j = 0; j < policy.size(); j++) {
+			if ((val = policy.get(j).evaluateLocalPolicy(node,provider)) > 0) { // violazione
+				param.violation += val;
+				status = false;
+				continue;
+			}
+			updateParameter(policy.get(j).getType(), val, param);
+		}
+		return status;
+	}
+		
+	
+
+		
+	
+//	private boolean checkConstraints()
 	
 	private void updateParameter(char constrainType, double val, CFitParameter param){
 		switch (constrainType) {

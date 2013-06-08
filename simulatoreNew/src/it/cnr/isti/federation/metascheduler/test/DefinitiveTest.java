@@ -6,10 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.imageio.stream.FileImageInputStream;
 
@@ -39,7 +41,9 @@ public class DefinitiveTest {
 	private static HashMap<String, Object> paramDatacenter;
 	private static List<Application> applications;
 	private static DatacenterBroker broker;
-	private static Properties dc_prop;
+	protected static Properties dc_prop;
+	protected static Properties app_prop;
+	private static Random rand;
 	
 	/**
 	 * @param args
@@ -60,15 +64,25 @@ public class DefinitiveTest {
 		
 		dc_prop = new  Properties();
 		dc_prop.load(new FileInputStream("datacenter.config"));
+		app_prop = new Properties();
+		app_prop.load(new FileInputStream("application.config"));
+		rand = new Random(Long.parseLong(dc_prop.getProperty("seed")));
 		
-		//Make Datacenter List
-		dcList = new ArrayList<>();
+		//Datacenter Properties
 		Integer dc_number = Integer.parseInt(dc_prop.getProperty(Constant.DATACENTER_NUMEBER));
 		String[] dc_size = dc_prop.getProperty(Constant.DATACENTER_SIZES).toString().split(",");
-		String a;
+		String[] dc_places = dc_prop.get(Constant.DATACENTER_PLACES).toString().split(",");
+		
+		//Make Datacenter
+		dcList = new ArrayList<>();
 		for(int i=0;i<dc_number;i++)
-			dcList.add(MakeTestUtils.getDatacenter(dc_prop, Integer.parseInt(dc_size[i]), i));
+			dcList.add(MakeTestUtils.getDatacenter(dc_prop, Integer.parseInt(dc_size[i]), dc_places[i%dc_places.length], i));
 		DataSette.net = setInternetEstimator(dcList, dcList.size());
+		
+		//SHUFFLE
+		Collections.shuffle(dcList, rand);
+		Collections.shuffle(dcList,rand);
+		
 		for(FederationDatacenter dc: dcList){
 			List<Host> hlist = dc.getHostList();
 			System.out.println("Datac Size: " + hlist.size());
@@ -77,24 +91,12 @@ public class DefinitiveTest {
 			System.out.println();
 		}
 		
-		// Make application
-		applications = new ArrayList<>();
-		String[] places = { "italia", "spagna", "germania" };
-		double[] budguts = { 1000.0, 5000.0, 3000.0 };
-
-		applications.add(MakeTestUtils.getFederationApplication(0,places, budguts, 3));
 		
-		
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation Metascheduler ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-		List<MSPolicy> constraint = new ArrayList<>();
-		constraint.add(MakePolicy.ramConstrain(1));
-		BestSolution sol = Metascheduler.getMapping(applications.get(0),constraint, dcList);
 		
 		
 //		for(FederationDatacenter dc : dcList)
 //			MakeTestUtils.printDatacenter(dc);
-/*		
+		
 		// Make Federation
 		Federation fed = new Federation("Federation");
 		fed.setDatacenters(dcList);
@@ -103,13 +105,10 @@ public class DefinitiveTest {
 		
 		// Make application
 		applications = new ArrayList<>();
-		String[] places = { "italia", "spagna", "germania" };
-		double[] budguts = { 1000.0, 5000.0, 3000.0 };
+		String cloudlets = app_prop.getProperty(Constant.APPLICATION_CLOUDLETS);
+		applications.add(MakeTestUtils.getFederationApplication(fed.getId(),Integer.parseInt(cloudlets)));
 		
-		applications.add(MakeTestUtils.getFederationApplication(fed.getId(),places, budguts, 3));
-		*/
-		/*
-		ApplicationUtility.vmToString(applications.get(0).getAllVms());
+//		ApplicationUtility.vmToString(applications.get(0).getAllVms());
 		// create the queue
 		FederationQueueProfile queueProfile = FederationQueueProfile.getDefault();
 		FederationQueue queue = FederationQueueProvider.getFederationQueue(queueProfile, fed, applications);
@@ -121,6 +120,12 @@ public class DefinitiveTest {
 			CloudSim.send(fed.getId(), dc.getId(), 7, 9000, dc);
 		}
 
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation Metascheduler ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		List<MSPolicy> constraint = new ArrayList<>();
+		constraint.add(MakePolicy.ramConstrain(1));
+		constraint.add(MakePolicy.locationConstrain(1));
+		BestSolution sol = Metascheduler.getMapping(applications.get(0),constraint, dcList);
 		
 		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation CloudSim ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -143,7 +148,7 @@ public class DefinitiveTest {
 					+ allocatedToDatacenter.get(i));
 
 		}
-		*/
+		
 		
 		System.out.println("Metascheduler Results");
 		HashMap<Integer, Integer> mappString = sol.getBest();
@@ -152,7 +157,7 @@ public class DefinitiveTest {
 			System.out.println("SOLUZIONE NON VALIDA");
 		for (int i = 0; i < mappString.size(); i++) {
 			System.out.println("Node: " + i + " -> " + " Prov: "
-					+ dcList.get(mappString.get(i)).getId() + "     ");
+					+ dcList.get(mappString.get(i)).getId() + "     " + mappString.get(i));
 		}
 		
 

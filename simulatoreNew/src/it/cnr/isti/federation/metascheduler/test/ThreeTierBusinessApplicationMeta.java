@@ -24,7 +24,7 @@ import org.cloudbus.cloudsim.Cloudlet;
 public class ThreeTierBusinessApplicationMeta extends Application
 {
 	
-	public ThreeTierBusinessApplicationMeta(int userID, String[] places, double[] budgets, int frontendNumber, int backendNumber, int databaseNumber)
+	public ThreeTierBusinessApplicationMeta(int userID, String[] places, String[] budgets, int frontendNumber, int backendNumber, int databaseNumber)
 	{
 		
 		// cloudlet profiles definition
@@ -43,7 +43,7 @@ public class ThreeTierBusinessApplicationMeta extends Application
 		}
 		ApplicationVertex vertexFrontend = new ApplicationVertex(frontendList, VmType.SMALL);
 		vertexFrontend.setPlace(places[0]);
-		vertexFrontend.setBudget(budgets[0]);
+		vertexFrontend.setBudget(Double.parseDouble(budgets[0]));
 		
 		// Backend tier
 		ArrayList<Cloudlet> backendList = new ArrayList<Cloudlet>();
@@ -55,7 +55,7 @@ public class ThreeTierBusinessApplicationMeta extends Application
 		}	
 		ApplicationVertex vertexBackend = new ApplicationVertex(backendList, VmType.MEDIUM);
 		vertexBackend.setPlace(places[1]);
-		vertexBackend.setBudget(budgets[1]);
+		vertexBackend.setBudget(Double.parseDouble(budgets[1]));
 			
 		// Database tier
 		ArrayList<Cloudlet> databaseList = new ArrayList<Cloudlet>();
@@ -67,7 +67,7 @@ public class ThreeTierBusinessApplicationMeta extends Application
 		}	
 		ApplicationVertex vertexDatabase = new ApplicationVertex(databaseList, VmType.LARGE);
 		vertexDatabase.setPlace(places[2]);
-		vertexDatabase.setBudget(budgets[2]);
+		vertexDatabase.setBudget(Double.parseDouble(budgets[2]));
 		
 		// Add the vertexes to the graph
 		this.addVertex(vertexFrontend);
