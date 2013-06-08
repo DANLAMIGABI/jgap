@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cloudbus.cloudsim.Cloudlet;
+import org.cloudbus.cloudsim.DatacenterBroker;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
 import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
@@ -23,7 +24,7 @@ import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
 import org.cloudbus.cloudsim.core.SimEvent;
 
-public class Federation extends SimEntity
+public class FederationTestBroker extends DatacenterBroker
 {
 
 	private List<Integer> datacenterIds;
@@ -38,7 +39,7 @@ public class Federation extends SimEntity
 	
 	private List<Cloudlet> receivedCloudlet;
 	
-	public Federation(String name)
+	public FederationTestBroker(String name) throws Exception
 	{
 		super(name);
 		
@@ -179,15 +180,15 @@ public class Federation extends SimEntity
 			vmToDatacenter.put(new Integer(vmId), new Integer(datacenterId));
 			allocation.setRunning(idToVm.get(vmId), datacenterId);	
 			
-//			for(FederationDatacenter fdc : datacenters){
-//				VmAllocationPolicy vmAllocationPolicy = fdc.getVmAllocationPolicy();
-//				Host host = vmAllocationPolicy.getHost(idToVm.get(vmId));
-//				if(host != null){
-//					System.out.println("                                                  shutdownEntity: remove host " + host.getId() + " from dc: " +fdc.getId() );
-//					fdc.getHostList().remove(host);
-//				}
-//				
-//			}
+			for(FederationDatacenter fdc : datacenters){
+				VmAllocationPolicy vmAllocationPolicy = fdc.getVmAllocationPolicy();
+				Host host = vmAllocationPolicy.getHost(idToVm.get(vmId));
+				if(host != null){
+					System.out.println("                                                  shutdownEntity: remove host " + host.getId() + " from dc: " +fdc.getId() );
+					fdc.getHostList().remove(host);
+				}
+				
+			}
 			
 			
 			if (allocation.isCompleted())
@@ -250,15 +251,15 @@ public class Federation extends SimEntity
 		Log.printLine(getName() + " is shutting down...");	
 	}
 	
-//	public void deleteHostFromDatacenter(){
-//		Set<Integer> keyset = vmToDatacenter.keySet();
-//		for(Integer vm : keyset){
-//			for(FederationDatacenter fdc : datacenters){
-//				VmAllocationPolicy vmAllocationPolicy = fdc.getVmAllocationPolicy();
-//				Host host = vmAllocationPolicy.getHost(idToVm.get(vm));
-//				fdc.getHostList().remove(host);
-//				System.out.println("shutdownEntity: remove host " + host.getId() + " from dc: " +fdc.getId() );
-//			}
-//		}
-//	}
+	public void deleteHostFromDatacenter(){
+		Set<Integer> keyset = vmToDatacenter.keySet();
+		for(Integer vm : keyset){
+			for(FederationDatacenter fdc : datacenters){
+				VmAllocationPolicy vmAllocationPolicy = fdc.getVmAllocationPolicy();
+				Host host = vmAllocationPolicy.getHost(idToVm.get(vm));
+				fdc.getHostList().remove(host);
+				System.out.println("shutdownEntity: remove host " + host.getId() + " from dc: " +fdc.getId() );
+			}
+		}
+	}
 }

@@ -56,7 +56,7 @@ public class JGAPMapping {
 			conf.setEventManager(new EventManager());
 			conf.addGeneticOperator(new MyCrossoverOperator(conf,2));
 			/* My mutation Operator */
-			conf.addGeneticOperator(new MymutationOperator(conf,10));
+			conf.addGeneticOperator(new MymutationOperator(conf,20));
 			conf.setFitnessEvaluator(new DefaultFitnessEvaluator());
 
 			// make gene
@@ -82,7 +82,7 @@ public class JGAPMapping {
 
 			Genotype population = Genotype.randomInitialGenotype(conf);
 			System.out.println("Startin metascheduler evolution ....");
-			List<String> message = population.evolve(new Monitor(100,100));
+			List<String> message = population.evolve(new Monitor(30,2));
 			System.out.println("Stoppin metascheduler evolution ...");
 			for( String s : message){
 				System.out.println(s);
@@ -91,6 +91,7 @@ public class JGAPMapping {
 //			System.out.println("asfdfdfdfafdsfds " + bestSolutionSoFar.getGene(0).getAllele());
 			sol.setSolution(bestSolutionSoFar,nodes);
 			sol.setFit(bestSolutionSoFar.getFitnessValue());
+			sol.setMessages(message);
 			Configuration.reset();
 
 		} catch (InvalidConfigurationException e) {

@@ -15,18 +15,13 @@ public class BestSolution {
 //	private ICApplication application;
 //	private List<ICProvider> providers;
 	private HashMap<Integer, Integer> associationMap;
+	List<String> messages;
 	private double fit;
 	
 	public BestSolution(){
 		associationMap = new HashMap<Integer, Integer>();
 	}
-	
-//	public BestSolution(HashMap<Integer, Integer> associationMap){
-////		this.application = application;
-////		this.providers = providers;
-//		this.associationMap = associationMap;
-//	}
-	
+
 	public HashMap<Integer, Integer> getMapping(IChromosome chromosome, List<MSApplicationNode>nodes){
 		HashMap<Integer, Integer> mapping = new HashMap<Integer, Integer>();
 		for(int i=0; i<chromosome.size(); i++){
@@ -47,6 +42,12 @@ public class BestSolution {
 	}
 	public double getFit(){
 		return this.fit;
+	}
+	public void setMessages(List<String> messages){
+		this.messages = messages;
+	}
+	public List<String> getMessages(){
+		return this.messages;
 	}
 	
 	

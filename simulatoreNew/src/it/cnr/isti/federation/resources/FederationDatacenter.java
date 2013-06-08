@@ -9,6 +9,7 @@ import java.util.List;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
+import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Storage;
@@ -38,23 +39,29 @@ public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAw
 	@Override
 	protected void processOtherEvent(SimEvent ev){
 		
-		String str ="";
-		List<HostDynamicWorkload> hlist = getHostList();
-		HostDynamicWorkload host = hlist.get(0) ;
-	
+		String str ="processOtherEvent";
 		
-		str += "dc_ID :          " + getId()+ "\n";
-		str += "dc_Size:         " + hlist.size() +"\n";
-		str += "cost_mem:        " + getMSCharacteristics().getCostPerMem()+ "\n";
-		str += "cost_storage:    " + getMSCharacteristics().getCostPerStorage()+ "\n";
-		str += "cost_sec:        " + getMSCharacteristics().getCostPerSecond()+ "\n";
-		str += "   host_id:      " + host.getId()+ "\n";
-		str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
-		str += "   host_store:   " + (host.getStorage())+ "\n";
-		str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
-		str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
-		str += "   host_net_tot: " + host.getBw()+ "\n";
-		System.out.println(str);
+		
+		Vm vm = (Vm) ev.getData();
+		Host host = getVmAllocationPolicy().getHost(vm);
+		getHostList().remove(host);
+		
+//		List<HostDynamicWorkload> hlist = getHostList();
+//		HostDynamicWorkload host = hlist.get(0) ;
+//	
+//		
+//		str += "dc_ID :          " + getId()+ "\n";
+//		str += "dc_Size:         " + hlist.size() +"\n";
+//		str += "cost_mem:        " + getMSCharacteristics().getCostPerMem()+ "\n";
+//		str += "cost_storage:    " + getMSCharacteristics().getCostPerStorage()+ "\n";
+//		str += "cost_sec:        " + getMSCharacteristics().getCostPerSecond()+ "\n";
+//		str += "   host_id:      " + host.getId()+ "\n";
+//		str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
+//		str += "   host_store:   " + (host.getStorage())+ "\n";
+//		str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
+//		str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
+//		str += "   host_net_tot: " + host.getBw()+ "\n";
+//		System.out.println(str);
 		
 	
 }

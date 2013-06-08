@@ -1,8 +1,10 @@
 package it.cnr.isti.federation.metascheduler.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import it.cnr.isti.federation.Federation;
 import it.cnr.isti.federation.FederationQueue;
@@ -21,6 +23,8 @@ public class CloudSimTest {
 	
 	public static Federation startCloudSimSimulation(List<FederationDatacenter> dcList, List<Application> applications, Properties app_prop){
 		
+		
+		
 		// Make Federation
 		Federation fed = new Federation("Federation");
 		fed.setDatacenters(dcList);
@@ -36,13 +40,14 @@ public class CloudSimTest {
 		FederationQueueProfile queueProfile = FederationQueueProfile.getDefault();
 		FederationQueue queue = FederationQueueProvider.getFederationQueue(queueProfile, fed, applications);
 		CloudSim.addEntity(queue);
-		
+		long start = System.currentTimeMillis();
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start simulation CloudSim ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		CloudSim.terminateSimulation(1000);
 		CloudSim.startSimulation();
 		
 		CloudSim.stopSimulation();
-		fed.deleteHostFromDatacenter();
+		System.out.println("TEMPO ESECUZIONE " + (System.currentTimeMillis()-start)/new Double(1000));
+//		fed.deleteHostFromDatacenter();
 		List<Cloudlet> newList = fed.getReceivedCloudlet();
 		MakeTestUtils.printCloudletList(newList);
 		return fed;

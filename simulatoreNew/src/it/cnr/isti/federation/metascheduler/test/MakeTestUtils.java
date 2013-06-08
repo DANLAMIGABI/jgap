@@ -38,20 +38,24 @@ public class MakeTestUtils {
 	public static String datacenterStateToString(FederationDatacenter dc ){
 		String str ="";
 		List<HostDynamicWorkload> hostList = dc.getHostList();
-		HostDynamicWorkload host = hostList.get(0) ;
+		
 
 		
 		str += "dc_ID :          " + dc.getId()+ "\n";
+		str += "dc_place:       " + dc.getMSCharacteristics().getPlace()+"\n";
 		str += "dc_Size:         " + hostList.size() +"\n";
 		str += "cost_mem:        " + dc.getMSCharacteristics().getCostPerMem()+ "\n";
 		str += "cost_storage:    " + dc.getMSCharacteristics().getCostPerStorage()+ "\n";
 		str += "cost_sec:        " + dc.getMSCharacteristics().getCostPerSecond()+ "\n";
-		str += "   host_id:      " + host.getId()+ "\n";
-		str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
-		str += "   host_store:   " + (host.getStorage())+ "\n";
-		str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
-		str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
-		str += "   host_net_tot: " + host.getBw()+ "\n";
+		if(hostList.size()>0){
+			HostDynamicWorkload host = hostList.get(0) ;
+			str += "   host_id:      " + host.getId()+ "\n";
+			str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
+			str += "   host_store:   " + (host.getStorage())+ "\n";
+			str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
+			str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
+			str += "   host_net_tot: " + host.getBw()+ "\n";
+		}
 		
 		return str;
 		
@@ -86,11 +90,8 @@ public class MakeTestUtils {
 		return new ThreeTierBusinessApplicationMeta(userID,places, budgets,frontend, appserver, database);
 	}
 	
-	private static PowerHostUtilizationHistory createHost(Properties prop,  int index){
-		String[] ram_increments = prop.getProperty("ram_increments").toString().split(",");
-		Double ram_inc =  new Double(ram_increments[index]);
-		System.out.println("ram_increments " + ram_inc + " -- " +	(new Double(prop.getProperty(Constant.RAM))+ram_inc));
-		
+	private static PowerHostUtilizationHistory createHost(int dc_id,Properties prop){
+		Double  ram_inc =  (new Double(prop.getProperty("ram_increment")))*dc_id;
 		List<Pe> peList = new ArrayList<Pe>();
 		peList.add(new Pe(0, new PeProvisionerSimple(Double.parseDouble(prop.getProperty(Constant.MIPS)))));
 		HostProfile prof = HostProfile.getDefault();
@@ -101,7 +102,7 @@ public class MakeTestUtils {
 		return  HostProviderMetaScheduler.get(prof, peList);
 	}
 
-	public static FederationDatacenter getDatacenter(Properties prop, int size, String place, int index){
+	private static FederationDatacenter getDatacenter(int dc_id,Properties prop, String place){
 		FederationDatacenterProfileMeta prof = FederationDatacenterProfileMeta.getDefault();
 		prof.set(DatacenterParams.COST_PER_BW, prop.getProperty(Constant.COST_BW));
 		prof.set(DatacenterParams.COST_PER_MEM, prop.getProperty(Constant.COST_MEM));
@@ -109,14 +110,25 @@ public class MakeTestUtils {
 		prof.set(DatacenterParams.COST_PER_STORAGE, prop.getProperty(Constant.COST_STORAGE));
 		prof.set(DatacenterParams.PLACE, place);
 		
-		
+		int hostListSize = Integer.parseInt(prop.getProperty(Constant.DATACENTER_SIZE));
 		//make datacenter
 		List<PowerHost> hostList = new ArrayList<>();
-		for(int i=0;i<size;i++)
-			hostList.add(createHost(prop, index));
+		for(int i=0;i<hostListSize;i++)
+			hostList.add(createHost(dc_id,prop));
 		List<Storage> storageList = new ArrayList<Storage>();
 		return FederationDatacenterProviderMeta.get(prof, hostList, storageList);
 	}
+	
+	public static List<FederationDatacenter> getDatacenterList(Properties prop){
+		List<FederationDatacenter> list = new ArrayList<>();
+		String[] dc_places = prop.get(Constant.DATACENTER_PLACES).toString().split(",");
+		int size = Integer.parseInt(prop.getProperty(Constant.DATACENTER_NUMEBER));
+		for(int i=0;i<size;i++){
+			list.add(getDatacenter(i,prop, dc_places[i%dc_places.length]));			
+		}
+		return list;
+	}
+	
 	
 	public static void printCloudletList(List<Cloudlet> list) {
 		int size = list.size();

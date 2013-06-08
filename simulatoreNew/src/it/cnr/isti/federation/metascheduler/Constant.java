@@ -19,7 +19,8 @@ public class Constant {
 	
 	public static final String[] aggregationParam = {"ram_amount_mb", "bw_amount", "storage_mb"};
 	
-	public static final String DATACENTER_SIZES = "datacenter_sizes";
+	public static final String DATACENTER_RAM_INC = "ram_increment";
+	public static final String DATACENTER_SIZE = "datacenter_size";
 	public static final String DATACENTER_NUMEBER = "datacenter_number";
 	public static final String DATACENTER_PLACES = "datacenter_places";
 	public static final String APPLICATION_PLACES = "application_places";
@@ -29,7 +30,7 @@ public class Constant {
 	
 	
 	//MAPPING JGAP
-	public static final int POP_SIZE = 50;
+	public static final int POP_SIZE = 10;
 //	public static final int APP_SIZE = 2;
 	//public static final int PROV_SIZE = 6;
 	//public static final int TARGET = 5;
