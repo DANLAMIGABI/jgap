@@ -82,7 +82,7 @@ public class JGAPMapping {
 
 			Genotype population = Genotype.randomInitialGenotype(conf);
 			System.out.println("Startin metascheduler evolution ....");
-			List<String> message = population.evolve(new Monitor(30,2));
+			List<String> message = population.evolve(new Monitor(30,50));
 			System.out.println("Stoppin metascheduler evolution ...");
 			for( String s : message){
 				System.out.println(s);

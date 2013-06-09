@@ -24,7 +24,7 @@ import java.util.Random;
 import org.cloudbus.cloudsim.core.CloudSim;
 
 public class MainTest {
-	private static Federation clodSim_fed;
+	private static Federation cloudSim_fed;
 	private static FederationTestBroker metascheduler_fed;
 	private static List<FederationDatacenter> cloudSim_dcList;
 	private static List<Application> clouSim_applications;
@@ -55,47 +55,62 @@ public class MainTest {
 		dc_prop.load(new FileInputStream("datacenter.config"));
 		app_prop = new Properties();
 		app_prop.load(new FileInputStream("application.config"));
-		
-/*				
-		// Make Datacenter cloudSim
-		cloudSim_dcList = MakeTestUtils.getDatacenterList(dc_prop);
-//		for(FederationDatacenter dc : cloudSim_dcList)
-//			System.out.println(MakeTestUtils.datacenterStateToString(dc));
-		DataSette.net = setInternetEstimator(cloudSim_dcList, cloudSim_dcList.size());
-		
-	*/
-		//Make Datacenter Metascheduler
-		metascheduler_dcList = MakeTestUtils.getDatacenterList(dc_prop);
-//		for(FederationDatacenter dc : metascheduler_dcList)
-//			System.out.println(MakeTestUtils.datacenterStateToString(dc));
 
-		DataSette.net = setInternetEstimator(metascheduler_dcList, metascheduler_dcList.size());
+		cloudSim_dcList = getDatacenterForCloudSim();
+		
+//		metascheduler_dcList = getDatacenterForMetascheduler();
+		
+		/*
+		 //Test form OVF 
+		 
+		clouSim_applications = new ArrayList<>();
+		clouSim_applications.add(ApplicationFromOVF.getApplicationFromOVF("ovf-MultipleVM-cnr-ubntServer.ovf"));
+		*/
+		
 	/*	
 		// SHUFFLE
 		long seed = Long.parseLong(dc_prop.getProperty("seed"));
 		Random rand = new Random(seed);
 		Collections.shuffle(cloudSim_dcList, rand);
 		*/
-/*
+
 		// CloudSim Simulation
-		clodSim_fed = CloudSimTest.startCloudSimSimulation(cloudSim_dcList, clouSim_applications, app_prop);
-//		printCloudSimResults(cloudSim_dcList, clodSim_fed);
-	*/	
+		cloudSim_fed = CloudSimTest.startCloudSimSimulation(cloudSim_dcList, clouSim_applications, app_prop);
+		printCloudSimResults(cloudSim_dcList, cloudSim_fed);
+		
 		//Metascheduler Simulation
-		metascheduler_fed =MetaschedulerSimulationTest.startMetaschedulerSimulation(metascheduler_dcList, metascheduler_applications, app_prop);
-//		printSimulationResults(metascheduler_dcList, metascheduler_fed);
+//		metascheduler_fed =MetaschedulerSimulationTest.startMetaschedulerSimulation(metascheduler_dcList, metascheduler_applications, app_prop);
+//		printCloudSimResults(metascheduler_dcList, metascheduler_fed);
 		
 		
 	}
 
 	
-	
-	
-	
-	
 //	###############################################################################################################
 	
-	private static void printSimulationResults(List<FederationDatacenter> dcList, FederationTestBroker fed){
+	
+	
+	
+	private static List<FederationDatacenter> getDatacenterForMetascheduler(){
+		// Make Datacenter Metascheduler
+		List<FederationDatacenter> dc = MakeTestUtils.getDatacenterList(dc_prop);
+		// for(FederationDatacenter dc : metascheduler_dcList)
+		// System.out.println(MakeTestUtils.datacenterStateToString(dc));
+
+		DataSette.net = setInternetEstimator(metascheduler_dcList,metascheduler_dcList.size());
+		return dc;
+	}
+	
+	private static List<FederationDatacenter> getDatacenterForCloudSim(){
+		// Make Datacenter cloudSim
+		List<FederationDatacenter> dc = MakeTestUtils.getDatacenterList(dc_prop);
+		// for(FederationDatacenter dc : cloudSim_dcList)
+		// System.out.println(MakeTestUtils.datacenterStateToString(dc));
+		DataSette.net = setInternetEstimator(dc,dc.size());
+		return dc;
+	}
+	
+	private static void printCloudSimResults(List<FederationDatacenter> dcList, FederationTestBroker fed){
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RESULTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		printFinalState(dcList);
 		System.out.println("FederationSim Results");
@@ -106,6 +121,21 @@ public class MainTest {
 			System.out.println("VM #" + i + " Allocated in datacenter #"+ allocatedToDatacenter.get(i));
 		}
 	}
+	
+	
+	private static void printCloudSimResults(List<FederationDatacenter> dcList, Federation fed){
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RESULTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		printFinalState(dcList);
+		System.out.println("FederationSim Results");
+		HashMap<Integer, Integer> allocatedToDatacenter = fed.getVmToDatacenter();
+		Iterator<Integer> keys = allocatedToDatacenter.keySet().iterator();
+		while (keys.hasNext()) {
+			Integer i = keys.next();
+			System.out.println("VM #" + i + " Allocated in datacenter #"+ allocatedToDatacenter.get(i));
+		}
+	}
+	
+	
 	private static void printInitialState(List<FederationDatacenter> dcList){
 		System.out.println("##################### Federation Datacenter Initial State #############################");
 		for(FederationDatacenter dc : dcList){
