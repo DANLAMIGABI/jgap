@@ -1,7 +1,9 @@
 package it.cnr.isti.federation.metascheduler.test;
 
 import it.cnr.isti.federation.application.Application;
+import it.cnr.isti.federation.application.ApplicationVertex;
 import it.cnr.isti.federation.metascheduler.Constant;
+import it.cnr.isti.federation.metascheduler.resources.MSApplicationNode;
 import it.cnr.isti.federation.metascheduler.test.FederationDatacenterProfileMeta.DatacenterParams;
 import it.cnr.isti.federation.resources.FederationDatacenter;
 import it.cnr.isti.federation.resources.HostProfile;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.crypto.spec.DESedeKeySpec;
 
@@ -28,37 +31,73 @@ import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.Storage;
+import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
+import org.codehaus.stax2.validation.Validatable;
 
 
 
 public class MakeTestUtils {
+	
+	protected static Random rand;
+	
+	public static void printVmlist(Application app){
+		String str = "Application To String \n";
+		List<Vm> vmList = app.getAllVms();
+		for( Vm a : vmList){
+			
+			str += "vmID:"+ a.getId() + "\t" +app.getVertexForVm(a).getPlace()+"\n";
+			str += "    Size GB: " +a.getSize()/(1024*1024)+"\n";
+			str += "    Ram GB: "+ a.getRam()/(1024*1024)+"\n";
+			str += "    Mips: " +a.getMips()+"\n";
+			str += "    Net: " + a.getBw()+"\n";
+			
+		
+		}
+		System.out.println(str);
+	}
+	
+	
 	public static String datacenterStateToString(FederationDatacenter dc ){
 		String str ="";
+		String separatore = "\n";
 		List<HostDynamicWorkload> hostList = dc.getHostList();
-		
-
-		
-		str += "dc_ID :          " + dc.getId()+ "\n";
-		str += "dc_place:       " + dc.getMSCharacteristics().getPlace()+"\n";
-		str += "dc_Size:         " + hostList.size() +"\n";
-		str += "cost_mem:        " + dc.getMSCharacteristics().getCostPerMem()+ "\n";
-		str += "cost_storage:    " + dc.getMSCharacteristics().getCostPerStorage()+ "\n";
-		str += "cost_sec:        " + dc.getMSCharacteristics().getCostPerSecond()+ "\n";
+		str += "dc_ID :          " + dc.getId()+ separatore;
+		str += "dc_place:       " + dc.getMSCharacteristics().getPlace()+separatore;
+		str += "dc_Size:         " + hostList.size() +separatore;
+		str += "cost_mem:        " + dc.getMSCharacteristics().getCostPerMem()+ separatore;
+		str += "cost_storage:    " + dc.getMSCharacteristics().getCostPerStorage()+ separatore;
+		str += "cost_sec:        " + dc.getMSCharacteristics().getCostPerSecond()+ separatore;
 		if(hostList.size()>0){
 			HostDynamicWorkload host = hostList.get(0) ;
-			str += "   host_id:      " + host.getId()+ "\n";
-			str += "   host_ram:     " + (host.getRam() - host.getUtilizationOfRam())+ "\n";
-			str += "   host_store:   " + (host.getStorage())+ "\n";
-			str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ "\n";
-			str += "   host_net:     " + host.getUtilizationOfBw()+ "\n";
-			str += "   host_net_tot: " + host.getBw()+ "\n";
+			str += "   host_id:      " + host.getId()+ separatore;
+			str += "   host_ram GB:     " + ((host.getRam() - host.getUtilizationOfRam())/(1024*1024))+ separatore;
+			str += "   host_store GB:   " + (host.getStorage()/(1024*1024))+ separatore;
+			str += "   host_mips:    " + (host.getTotalMips() - host.getUtilizationMips())+ separatore;
+			str += "   host_net:     " + host.getUtilizationOfBw()+ separatore;
+			str += "   host_net_tot: " + host.getBw()+ separatore;
 		}
 		
-		return str;
+		return str+"\n";
 		
+	}
+	
+	public static double getSolutionCost(HashMap<Integer, Integer> map, List<FederationDatacenter> dclist, Application app){
+		List<Vm> vmlist = app.getAllVms();
+		double solutionCost=0;
+		for(Vm v : vmlist){
+			FederationDatacenter dc = dclist.get(map.get(v.getId()));
+			double providerRamPrice = dc.getMSCharacteristics().getCostPerMem();
+			int vmRam =v.getRam()/(1024*1024);
+			solutionCost+= providerRamPrice * vmRam;
+			
+//			System.out.println("vm id: "+v.getId() + " -> prov id" + dclist.get(map.get(v.getId())).getId() + 
+//					"\tvmRam: " + vmRam + "\tPcost: " + providerRamPrice + "\tcost" + cost );
+		}
+		System.out.println("COSTO SOLUZIONE:\t" + solutionCost );
+		return solutionCost;
 	}
 	
 	
@@ -78,7 +117,7 @@ public class MakeTestUtils {
 	public static Application getFederationApplication(int userID, int numberOfCloudlets, Properties app_prop)
 	{
 		String[] places = app_prop.getProperty(Constant.APPLICATION_PLACES).toString().split(",");
-		String[] budgets = app_prop.getProperty(Constant.APPLICATION_BUDGET).toString().split(",");
+		String[] budgets =app_prop.getProperty(Constant.APPLICATION_BUDGET).toString().split(",");
 		Double number = new Double(numberOfCloudlets);
 		if (number < 3)
 			number = 3d;
@@ -90,13 +129,14 @@ public class MakeTestUtils {
 		return new ThreeTierBusinessApplicationMeta(userID,places, budgets,frontend, appserver, database);
 	}
 	
-	private static PowerHostUtilizationHistory createHost(int dc_id,Properties prop){
-		Double  ram_inc =  (new Double(prop.getProperty("ram_increment")))*dc_id;
+	private static PowerHostUtilizationHistory createHost(int factor,Properties prop){
+		double ram = Double.parseDouble(prop.getProperty(Constant.RAM))*factor;
+		long store = Long.parseLong(prop.getProperty(Constant.STORE))*factor;
 		List<Pe> peList = new ArrayList<Pe>();
 		peList.add(new Pe(0, new PeProvisionerSimple(Double.parseDouble(prop.getProperty(Constant.MIPS)))));
 		HostProfile prof = HostProfile.getDefault();
-		prof.set(HostParams.STORAGE_MB, (new Long(prop.getProperty(Constant.STORE))*1024)+"");
-		prof.set(HostParams.RAM_AMOUNT_MB,  (new Double((new Double(prop.getProperty(Constant.RAM))+ram_inc)*1024)).intValue()+"")  ;   //(new Double(prop.getProperty(Constant.RAM)+ram_inc)*1024).intValue()+"");
+		prof.set(HostParams.STORAGE_MB, (new Long(store)*1024*1024)+"");
+		prof.set(HostParams.RAM_AMOUNT_MB,  new Double(ram*1024*1024).intValue()+"")  ;  
 		prof.set(HostParams.BW_AMOUNT, (new Long(prop.getProperty(Constant.BW))*1024*1024)+"");
 
 		return  HostProviderMetaScheduler.get(prof, peList);
@@ -105,7 +145,7 @@ public class MakeTestUtils {
 	private static FederationDatacenter getDatacenter(int dc_id,Properties prop, String place){
 		FederationDatacenterProfileMeta prof = FederationDatacenterProfileMeta.getDefault();
 		prof.set(DatacenterParams.COST_PER_BW, prop.getProperty(Constant.COST_BW));
-		prof.set(DatacenterParams.COST_PER_MEM, prop.getProperty(Constant.COST_MEM));
+		prof.set(DatacenterParams.COST_PER_MEM, rand.nextDouble()+"");
 		prof.set(DatacenterParams.COST_PER_SEC, prop.getProperty(Constant.COST_SEC));
 		prof.set(DatacenterParams.COST_PER_STORAGE, prop.getProperty(Constant.COST_STORAGE));
 		prof.set(DatacenterParams.PLACE, place);
@@ -113,8 +153,10 @@ public class MakeTestUtils {
 		int hostListSize = Integer.parseInt(prop.getProperty(Constant.DATACENTER_SIZE));
 		//make datacenter
 		List<PowerHost> hostList = new ArrayList<>();
-		for(int i=0;i<hostListSize;i++)
-			hostList.add(createHost(dc_id,prop));
+		int increment = new Double(Math.pow(2, (dc_id%10))).intValue();
+		for(int i=0;i<hostListSize;i++){
+			hostList.add(createHost(increment,prop));
+		}
 		List<Storage> storageList = new ArrayList<Storage>();
 		return FederationDatacenterProviderMeta.get(prof, hostList, storageList);
 	}

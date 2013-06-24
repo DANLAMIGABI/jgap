@@ -20,7 +20,7 @@ import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.power.PowerDatacenterNonPowerAware;
 
-public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAware
+public class FederationDatacenter extends  Datacenter implements Comparable<FederationDatacenter>//PowerDatacenterNonPowerAware
 {
 
 	public FederationDatacenter(String name, DatacenterCharacteristics characteristics, 
@@ -30,6 +30,22 @@ public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAw
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
 	}
 
+	@Override
+	public int compareTo(FederationDatacenter o) {
+		// TODO Auto-generated method stub
+		double thiscost = this.getCharacteristics().getCostPerMem();
+		double ocost = o.getCharacteristics().getCostPerMem();
+		if(thiscost > ocost)
+			return 1;
+		if(thiscost == ocost)
+			return 0;
+		return -1;
+	
+//		return new Double(this.getCharacteristics().getCostPerMem() - o.getCharacteristics().getCostPerMem()).intValue();
+		
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "FederationDatacenter ["+this.getName()+"]";
@@ -125,4 +141,6 @@ public class FederationDatacenter extends  Datacenter//PowerDatacenterNonPowerAw
 //			sendNow(allocation.getAllocatedDatacenter(vm), CloudSimTags.CLOUDLET_SUBMIT, cloudlet);
 //		}
 //	}
+
+	
 }

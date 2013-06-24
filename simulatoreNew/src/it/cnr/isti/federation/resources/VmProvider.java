@@ -59,9 +59,9 @@ public class VmProvider
 				userId, 
 				6502.18, 
 				1, 
-				new Double(1.7 * 1024 ).intValue(), // RAM: 1.7 GB
+				new Double(4 * 1024 *1024 ).intValue(), // RAM: 4 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
-				new Long(160 * 1024), // DISK: 160 GB
+				new Long(128 * 1024*1024), // DISK: 128 GB
 				"Xen", 
 				new CloudletSchedulerTimeShared());
 		
@@ -74,9 +74,9 @@ public class VmProvider
 				userId, 
 				6502.18, // data not available, i assume as small instances
 				1, 
-				new Double(3.75 * 1024).intValue(), // 3.75 GB
+				new Double(8 * 1024*1024).intValue(), // 8 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
-				new Long(410 * 1024), // 410 GB
+				new Long(256 * 1024*1024), // 256 GB
 				"Xen", 
 				new CloudletSchedulerTimeShared());
 		
@@ -89,9 +89,9 @@ public class VmProvider
 				userId, 
 				8022, 
 				2, 
-				new Double(7.5 * 1024).intValue(), // 7.5 GB
+				new Double(16 * 1024*1024).intValue(), // 16 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
-				new Long(850 * 1024), // 850 GB
+				new Long(512 * 1024*1024), // 500GB
 				"Xen", 
 				new CloudletSchedulerTimeShared());
 		
@@ -104,9 +104,9 @@ public class VmProvider
 				userId, 
 				5202.15 * 4, 
 				4, 
-				new Double(15 * 1024 * 1024 * 1024).intValue(), // 15 GB
+				new Double(32 * 1024 * 1024).intValue(), // 32 GB
 				new Long(1 * 1024 * 1024), // i assume at least 1MB p/s  
-				new Long(1690 * 1024 * 1024 * 10249), // 1690 GB
+				new Long(1000 * 1024 * 1024), // 1TB
 				"Xen", 
 				new CloudletSchedulerTimeShared());
 		

@@ -163,7 +163,7 @@ public class CGene extends BaseGene implements Gene, java.io.Serializable {
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override

@@ -26,13 +26,12 @@ public class ThreeTierBusinessApplicationMeta extends Application
 	
 	public ThreeTierBusinessApplicationMeta(int userID, String[] places, String[] budgets, int frontendNumber, int backendNumber, int databaseNumber)
 	{
-		
+	
 		// cloudlet profiles definition
 		CloudletProfile profileDatabase = CloudletProfile.getDefault();
 		CloudletProfile profileFronted = CloudletProfile.getDefault();
 		CloudletProfile profileBackend = CloudletProfile.getDefault();
-
-		
+		Double bud = new Double(16763516.241994841);
 		// Web-fronted tier
 		ArrayList<Cloudlet> frontendList = new ArrayList<Cloudlet>();
 		for (int i=0; i<frontendNumber; i++)
@@ -43,7 +42,7 @@ public class ThreeTierBusinessApplicationMeta extends Application
 		}
 		ApplicationVertex vertexFrontend = new ApplicationVertex(frontendList, VmType.SMALL);
 		vertexFrontend.setPlace(places[0]);
-		vertexFrontend.setBudget(Double.parseDouble(budgets[0]));
+		vertexFrontend.setBudget(bud);
 		
 		// Backend tier
 		ArrayList<Cloudlet> backendList = new ArrayList<Cloudlet>();
@@ -53,9 +52,9 @@ public class ThreeTierBusinessApplicationMeta extends Application
 			c.setUserId(userID);
 			backendList.add(c);
 		}	
-		ApplicationVertex vertexBackend = new ApplicationVertex(backendList, VmType.MEDIUM);
+		ApplicationVertex vertexBackend = new ApplicationVertex(backendList, VmType.LARGE);
 		vertexBackend.setPlace(places[1]);
-		vertexBackend.setBudget(Double.parseDouble(budgets[1]));
+		vertexBackend.setBudget(bud);
 			
 		// Database tier
 		ArrayList<Cloudlet> databaseList = new ArrayList<Cloudlet>();
@@ -65,9 +64,9 @@ public class ThreeTierBusinessApplicationMeta extends Application
 			c.setUserId(userID);
 			databaseList.add(c);
 		}	
-		ApplicationVertex vertexDatabase = new ApplicationVertex(databaseList, VmType.LARGE);
+		ApplicationVertex vertexDatabase = new ApplicationVertex(databaseList, VmType.MEDIUM);
 		vertexDatabase.setPlace(places[2]);
-		vertexDatabase.setBudget(Double.parseDouble(budgets[2]));
+		vertexDatabase.setBudget(bud);
 		
 		// Add the vertexes to the graph
 		this.addVertex(vertexFrontend);

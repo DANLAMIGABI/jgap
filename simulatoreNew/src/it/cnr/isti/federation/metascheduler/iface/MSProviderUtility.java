@@ -97,7 +97,7 @@ public class MSProviderUtility {
 		//computing
 		computingCharacteristic.put(Constant.RAM, aggregateHost.get(Constant.RAM));
 		computingCharacteristic.put(Constant.MIPS, aggregateHost.get(Constant.MIPS));
-		computingCharacteristic.put(Constant.COST_MEM, dcCharacterisitc.getCostPerMem() );
+		
 		
 		//network
 		networkCharacteristic.put(Constant.BW, aggregateHost.get(Constant.BW));
@@ -110,6 +110,7 @@ public class MSProviderUtility {
 		//provider
 		providerCharacteristic.put(Constant.ID, dcCharacterisitc.getId() );
 		providerCharacteristic.put(Constant.COST_SEC, dcCharacterisitc.getCostPerSecond());
+		providerCharacteristic.put(Constant.COST_MEM, dcCharacterisitc.getCostPerMem() );
 		providerCharacteristic.put(Constant.PLACE, dcCharacterisitc.getPlace());
 		providerCharacteristic.put(Constant.VM_INSTANCES, hostList.size());
 		

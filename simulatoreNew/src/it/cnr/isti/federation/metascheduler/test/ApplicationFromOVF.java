@@ -70,16 +70,19 @@ public class ApplicationFromOVF {
 		Collection<ApplianceDescriptor> appl =  appGraphDesc.getAppliances();
 		
 		for (ApplianceDescriptor a : appl){
+			System.out.println("                                     required memory: " + a.getRequiredMemory().getAllocationUnits());
 			ApplicationVertex av = null;
-			if(a.getRequiredMemory().getVirtualQuantity() <= 1740){
+			long ram = a.getRequiredMemory().getVirtualQuantity()/1024;
+			if((ram) <= 1740){
 				 av = createSimulationVertex(3, VmType.SMALL);
-			}else if( a.getRequiredMemory().getVirtualQuantity() <= 3840){
+			}else if( ram <= 3840){
 				 av = createSimulationVertex(3, VmType.MEDIUM);
-			}else if (a.getRequiredMemory().getVirtualQuantity() <= 7680) {
+			}else if (ram <= 7680) {
 				 av = createSimulationVertex(3, VmType.LARGE);
 			}else{
 				 av = createSimulationVertex(3, VmType.XLARGE);
 			}
+			av = createSimulationVertex(3, VmType.XLARGE);
 			av.setName(a.getID());
 			simApp.addVertex(av);
 		}
